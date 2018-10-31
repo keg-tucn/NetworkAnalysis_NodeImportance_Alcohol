@@ -14,37 +14,26 @@ def genearetGraph(gradeList,nrNodes):
     if(degreesSum % 2!=0  ):
         print("Wrong sequence")
         return;
-    for k in range (0,nrNodes):
+    for k in range (1,nrNodes+1):
         sumPeaks=0
         minSum=0
-        for j in range(0,k+1):
-            sumPeaks+=gradeList[j]
-        for j in range(k,nrNodes):
-            minSum+=min(gradeList[j],k+1)
-        if(sumPeaks>(k+1)*(k)+minSum):
+        for j in range(1,k+1):
+            sumPeaks+=gradeList[j-1]
+        for j in range(k+1,nrNodes+1):
+            minSum+=min(gradeList[j-1],k)
+        print("sum", sumPeaks, " minsum ", minSum, " k", k)
+        if(sumPeaks>((k)*(k-1)+minSum)):
             print("Not good")
-            print("sum",sumPeaks," minsum ",minSum," k",k)
+
             return;
     print("Looks good")
-    while (degreesSum >0):
-        x = randint(0, nrNodes - 1)
-        y = randint(0, nrNodes - 1)
-
-        for m in range(0,nrNodes):
-            if(gradeList[m]!=0):
-                x=m
-                for n in range(x + 1, nrNodes):
-                    if (gradeList[n] != 0 and adj[x][n]):
-                        y = n
-
-
-
-        gradeList[x]-=1
-        gradeList[y]-=1
-        degreesSum-=2
-        adj[x][y]=1
-        adj[y][x]=1
-        gradeList.sort(reverse=True);
+    for i in range(0,nrNodes):
+        for j in range(i+1,nrNodes):
+            if(gradeList[i]>0 and gradeList[j]>0):
+                gradeList[i]-=1
+                gradeList[j]-=1
+                adj[i][j]=1
+                adj[j][i]=1
 
     print(adj)
 
@@ -52,4 +41,4 @@ def genearetGraph(gradeList,nrNodes):
 
 
 while(True):
-    genearetGraph([2],5)
+    genearetGraph([],10)
