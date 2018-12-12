@@ -1,6 +1,7 @@
 from os import listdir
 from os.path import isfile, join
 import csv
+import re
 import numpy as np
 class Reader:
     def __init__(self):
@@ -17,4 +18,8 @@ class Reader:
     def getMatByName(self,name):
         return self.readings[name]
 
-
+    def getReadingsByConditionAndAnimal(self,animalId,condition):
+        mats=self.readings
+        readings=[self.readings[x] for x in mats.keys()  if re.match(r"P02_SCAPearson-"+str(animalId)+"-"+condition+"-[0-9]+-TimeOffset.csv",x) is not None ]
+        print(readings)
+        return readings;
