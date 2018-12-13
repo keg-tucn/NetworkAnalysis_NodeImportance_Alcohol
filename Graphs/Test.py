@@ -10,40 +10,56 @@ proc=MatProc()
 #mat=proc.binarize(mat)
 #np.savetxt("test.csv",mat,delimiter=' , ')
 #size=mat.shape;
-condition="Control"
 animalId=4
-matsi=reader.getReadingsByConditionAndAnimal(animalId,condition)
+nrSamples=7
+index = 0
+nrControl=85
+nrEtOH=85
+ok=True
+while(ok):
+    animalId=int(index/5)+1
+    condition = "Control"
+
+    matsi=reader.getReadingsByConditionAndAnimal(animalId,condition)
+
+    print(matsi)
+    for matu in matsi:
+
+        aux=proc.binarize(matu)
+        size=aux.shape
+        with open("./tmp/graf"+str(index)+".txt",'w+') as file:
+            for i in range(0,size[1]):
+                for j in range(i+1,size[0]):
+                    if aux[i][j]==1:
+                        file.write(str(i) + " " + str(j) + "\n");
+        os.system("python ./node2vec_main.py"+" --input ./tmp/graf"+str(index)+".txt"+ "  --dimensions 84 --num-walks 40 --output ./tmp/embedding" +condition+str(index)+".txt")
+        index=index+1
+        if (index == nrControl ):
+            ok=False
+            break;
 index=0
-#np.savetxt("da" + str(index) + ".txt", matsi, delimiter=' ')
-print(matsi)
-for matu in matsi:
-    #np.savetxt("test.csv",matu,delimiter=' , ')
+ok=True
+while ok:
+    animalId=int(index/5)+1
 
-    aux=proc.binarize(matu)
-   # np.savetxt("./tmp/out"+str(index)+".txt",aux,delimiter=' ')
-    size=aux.shape
-    with open("./tmp/graf"+str(index)+".txt",'w+') as file:
-        for i in range(0,size[1]):
-            for j in range(i+1,size[0]):
-                if aux[i][j]==1:
-                    file.write(str(i) + " " + str(j) + "\n");
-    os.system("python ./node2vec_main.py"+" --input ./tmp/graf"+str(index)+".txt"+ " --output ./tmp/embedding"+condition+str(index)+".txt")
-    index=index+1
-condition="EtOH"
-alcohol=reader.getReadingsByConditionAndAnimal(animalId,condition)
-for matu in alcohol:
-    #np.savetxt("test.csv",matu,delimiter=' , ')
+    condition="EtOH"
+    alcohol=reader.getReadingsByConditionAndAnimal(animalId,condition)
+    for matu in alcohol:
+        #np.savetxt("test.csv",matu,delimiter=' , ')
 
-    aux=proc.binarize(matu)
-   # np.savetxt("out"+str(index)+".txt",aux,delimiter=' ')
-    size=aux.shape
-    with open("./tmp/graf"+str(index)+".txt","w+") as file:
-        for i in range(0,size[1]):
-            for j in range(i+1,size[0]):
-                if aux[i][j]==1:
-                    file.write(str(i) + " " + str(j) + "\n");
-    os.system("python ./node2vec_main.py"+" --input ./tmp/graf"+str(index)+".txt"+ " --output ./tmp/embedding"+condition+str(index)+".txt")
-    index=index+1
+        aux=proc.binarize(matu)
+       # np.savetxt("out"+str(index)+".txt",aux,delimiter=' ')
+        size=aux.shape
+        with open("./tmp/graf"+str(index)+".txt","w+") as file:
+            for i in range(0,size[1]):
+                for j in range(i+1,size[0]):
+                    if aux[i][j]==1:
+                        file.write(str(i) + " " + str(j) + "\n");
+        os.system("python ./node2vec_main.py"+"  --input ./tmp/graf"+str(index)+".txt"+ "  --dimensions 84 --num-walks 40  --output ./tmp/embedding"+condition+str(index)+".txt")
+        index=index+1
+        if (index == nrEtOH):
+            ok=False
+            break;
 
 
 

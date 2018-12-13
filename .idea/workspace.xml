@@ -2,160 +2,416 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d33c13c-a8ec-4a74-9f38-9703248798be" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/Graphs/SVM_Learn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/MatProc.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/MatProc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/Reader.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/Reader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/Test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/da0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/da0.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/generator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/graf.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/graf.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/node2vec.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/node2vec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/node2vec_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/node2vec_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/original.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/original.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/out0.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/out0.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/out1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/out1.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/out2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/out2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/out3.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/out3.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/out4.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/out4.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/test" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/test" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/test.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Graphs/yuhu.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Graphs/yuhu.csv" afterDir="false" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/SVM_Learn.py" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl10.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl11.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl12.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl13.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl14.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl15.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl16.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl17.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl18.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl19.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl20.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl21.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl22.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl23.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl24.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl25.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl26.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl27.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl28.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl29.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl30.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl31.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl32.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl33.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl34.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl35.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl36.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl37.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl38.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl39.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl40.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl41.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl42.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl43.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl44.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl45.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl46.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl47.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl48.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl49.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl5.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl50.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl51.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl52.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl53.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl54.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl55.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl56.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl57.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl58.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl59.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl6.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl60.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl61.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl62.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl63.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl64.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl65.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl66.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl67.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl68.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl69.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl7.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl70.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl71.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl72.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl73.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl74.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl75.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl76.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl77.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl78.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl79.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl8.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl80.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl81.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl82.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl83.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl84.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl9.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH0.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH1.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH10.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH11.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH12.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH13.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH14.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH15.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH16.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH17.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH18.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH19.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH2.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH20.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH21.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH22.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH23.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH24.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH25.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH26.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH27.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH28.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH29.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH3.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH30.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH31.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH32.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH33.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH34.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH35.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH36.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH37.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH38.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH39.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH4.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH40.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH41.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH42.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH43.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH44.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH45.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH46.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH47.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH48.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH49.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH50.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH51.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH52.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH53.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH54.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH55.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH56.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH57.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH58.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH59.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH60.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH61.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH62.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH63.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH64.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH65.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH66.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH67.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH68.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH69.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH70.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH71.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH72.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH73.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH74.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH75.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH76.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH77.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH78.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH79.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH80.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH81.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH82.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH83.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH84.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf10.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf11.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf12.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf13.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf14.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf15.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf16.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf17.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf18.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf19.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf20.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf21.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf23.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf24.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf25.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf26.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf27.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf28.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf29.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf31.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf32.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf33.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf34.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf35.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf36.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf37.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf38.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf39.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf40.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf41.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf42.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf43.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf44.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf45.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf46.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf47.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf48.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf50.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf51.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf52.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf53.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf54.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf55.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf57.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf58.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf59.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf60.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf61.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf62.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf63.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf64.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf65.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf66.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf67.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf68.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf69.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf70.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf71.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf72.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf73.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf74.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf76.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf77.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf78.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf79.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf80.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf82.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf83.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/Graphs/tmp/graf84.txt" />
+      <change beforePath="$PROJECT_DIR$/.idea/Licenta.iml" afterPath="$PROJECT_DIR$/.idea/Licenta.iml" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/Graphs/SVM_Learn" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/Test.py" afterPath="$PROJECT_DIR$/Graphs/Test.py" />
+      <change beforePath="$PROJECT_DIR$/Graphs/da0.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/embed.emb" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/embedding0.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/embedding1.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/embedding2.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/embedding3.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/embedding4.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/graf.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf30.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/graf0.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf75.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/graf1.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf81.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/graf2.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf49.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/graf3.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf22.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/graf4.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf56.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/out0.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/out1.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/out2.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/out3.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/out4.txt" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingControl0.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl0.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingControl1.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl1.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingControl2.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl2.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingControl3.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl3.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingControl4.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingControl4.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH5.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH5.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH6.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH6.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH7.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH7.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH8.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH8.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH9.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/embeddingEtOH9.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf0.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf0.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf1.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf1.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf2.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf2.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf3.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf3.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf4.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf4.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf5.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf5.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf6.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf6.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf7.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf7.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf8.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf8.txt" />
+      <change beforePath="$PROJECT_DIR$/Graphs/tmp/graf9.txt" afterPath="$PROJECT_DIR$/Graphs/tmp/graf9.txt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/licenta$Test.coverage" NAME="Test Coverage Results" MODIFIED="1544712770409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Graphs" />
-    <SUITE FILE_PATH="coverage/Licenta$Test.coverage" NAME="Test Coverage Results" MODIFIED="1544647229387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Graphs" />
-    <SUITE FILE_PATH="coverage/licenta$SVM_Learn.coverage" NAME="SVM_Learn Coverage Results" MODIFIED="1544714724653" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Graphs" />
+    <SUITE FILE_PATH="coverage/Licenta$Test.coverage" NAME="Test Coverage Results" MODIFIED="1544736025779" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Graphs" />
+    <SUITE FILE_PATH="coverage/Licenta$SVM_Learn.coverage" NAME="SVM_Learn Coverage Results" MODIFIED="1544743105453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Graphs" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Graphs/Reader.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="330">
-                  <caret line="22" selection-start-line="22" selection-end-line="22" />
-                  <folding>
-                    <element signature="e#0#22#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Graphs/node2vec_main.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="199">
-                  <caret line="85" column="46" selection-start-line="85" selection-start-column="46" selection-end-line="85" selection-end-column="46" />
-                  <folding>
-                    <element signature="e#240#255#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Graphs/SVM_Learn">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="450">
-                  <caret line="54" selection-start-line="54" selection-end-line="54" />
-                  <folding>
-                    <element signature="e#0#23#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/core/numeric.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="199">
-                  <caret line="500" selection-start-line="500" selection-end-line="500" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file:///usr/local/lib/python2.7/dist-packages/sklearn/utils/validation.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="169">
-                  <caret line="796" selection-start-line="796" selection-end-line="796" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Graphs/test.csv">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Graphs/MatProc.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Graphs/Test.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="379">
-                  <caret line="40" column="34" selection-start-line="40" selection-start-column="34" selection-end-line="40" selection-end-column="34" />
-                  <folding>
-                    <element signature="e#0#27#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Graphs/generator.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <folding>
-                    <element signature="e#0#18#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Graphs/out1.txt">
-              <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Graphs/Reader.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="150">
-                  <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
-                  <folding>
-                    <element signature="e#0#22#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="generator.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Graphs/generator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Reader.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Graphs/Reader.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="24" column="24" lean-forward="false" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+                <element signature="e#214#532#0" expanded="true" />
+                <element signature="e#594#646#0" expanded="true" />
+                <element signature="e#688#714#0" expanded="true" />
+                <element signature="e#790#1020#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="node2vec_main.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Graphs/node2vec_main.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+              <folding>
+                <element signature="e#240#255#0" expanded="true" />
+                <element signature="e#2697#2998#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MatProc.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Graphs/MatProc.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="29" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+              <folding>
+                <element signature="e#69#90#0" expanded="true" />
+                <element signature="e#127#547#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="node2vec.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Graphs/node2vec.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Graphs/Test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="16" column="9" lean-forward="false" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SVM_Learn.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Graphs/SVM_Learn.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="500">
+              <caret line="88" column="59" lean-forward="false" selection-start-line="88" selection-start-column="59" selection-end-line="88" selection-end-column="59" />
+              <folding>
+                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#131#1697#0" expanded="true" />
+                <element signature="e#2954#3491#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="validation.py" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/sklearn/utils/validation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="458">
+              <caret line="570" column="0" lean-forward="false" selection-start-line="570" selection-start-column="0" selection-end-line="570" selection-end-column="0" />
+              <folding>
+                <element signature="e#30178#30909#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pydevd.py" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="181">
+              <caret line="1071" column="0" lean-forward="false" selection-start-line="1071" selection-start-column="0" selection-end-line="1071" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="npyio.py" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python3.5/dist-packages/numpy/lib/npyio.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5175">
+              <caret line="1334" column="0" lean-forward="false" selection-start-line="1334" selection-start-column="0" selection-end-line="1334" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -175,44 +431,81 @@
         <option value="$PROJECT_DIR$/Graphs/Reader.py" />
         <option value="$PROJECT_DIR$/Graphs/MatProc.py" />
         <option value="$PROJECT_DIR$/Graphs/Classifier.py" />
+        <option value="$PROJECT_DIR$/Graphs/SVM_Learn" />
         <option value="$PROJECT_DIR$/Graphs/node2vec_main.py" />
         <option value="$PROJECT_DIR$/Graphs/Test.py" />
-        <option value="$PROJECT_DIR$/Graphs/SVM_Learn" />
+        <option value="$PROJECT_DIR$/Graphs/SVM_Learn.py" />
       </list>
     </option>
   </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="192" />
-    <option name="width" value="1390" />
-    <option name="height" value="998" />
+    <option name="x" value="960" />
+    <option name="width" value="960" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="licenta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="licenta" type="462c0819:PsiDirectoryNode" />
+              <item name="Licenta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Licenta" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="licenta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="licenta" type="462c0819:PsiDirectoryNode" />
-              <item name="graph2vec" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="licenta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="licenta" type="462c0819:PsiDirectoryNode" />
+              <item name="Licenta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Licenta" type="462c0819:PsiDirectoryNode" />
               <item name="Graphs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="licenta" type="b2602c69:ProjectViewProjectNode" />
-              <item name="licenta" type="462c0819:PsiDirectoryNode" />
+              <item name="Licenta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Licenta" type="462c0819:PsiDirectoryNode" />
               <item name="node2vec-master" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Licenta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Licenta" type="462c0819:PsiDirectoryNode" />
+              <item name="node2vec-master" type="462c0819:PsiDirectoryNode" />
+              <item name="emb" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Licenta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Licenta" type="462c0819:PsiDirectoryNode" />
+              <item name="node2vec-master" type="462c0819:PsiDirectoryNode" />
+              <item name="graph" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Licenta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Licenta" type="462c0819:PsiDirectoryNode" />
+              <item name="node2vec-master" type="462c0819:PsiDirectoryNode" />
+              <item name="node2vec_spark" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Licenta" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Licenta" type="462c0819:PsiDirectoryNode" />
+              <item name="node2vec-master" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -221,10 +514,10 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -240,45 +533,44 @@
   </component>
   <component name="RunManager" selected="Python.SVM_Learn">
     <configuration name="SVM_Learn" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Licenta" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Graphs" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Graphs/SVM_Learn" />
+      <module name="Licenta" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Graphs/SVM_Learn.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
     <configuration name="Test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="Licenta" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="/usr/bin/python2.7" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Graphs" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <module name="Licenta" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Graphs/Test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="Licenta" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -289,22 +581,27 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <module name="Licenta" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
     </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Python.Test" />
+      <item index="1" class="java.lang.String" itemvalue="Python.SVM_Learn" />
+    </list>
     <recent_temporary>
-      <list>
-        <item itemvalue="Python.SVM_Learn" />
-        <item itemvalue="Python.Test" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Python.SVM_Learn" />
+        <item index="1" class="java.lang.String" itemvalue="Python.Test" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -325,141 +622,404 @@
     <option name="totallyTimeSpent" value="9971000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-1" width="1920" height="1053" extended-state="6" />
+    <frame x="960" y="0" width="1922" height="1054" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21291356" />
-      <window_info id="Structure" order="1" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32946146" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39827773" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="Python Console" order="11" weight="0.32831" />
-      <window_info anchor="bottom" id="Database Changes" order="12" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="right" x="0" y="0" width="430" height="854" id="Documentation" order="4" side_tool="true" visible="true" weight="0.019743863" />
-      <window_info anchor="right" id="Database" order="5" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32946146" sideWeight="0.5229167" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.019791666" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="0" y="0" width="430" height="854" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32946146" sideWeight="0.47708333" order="2" side_tool="false" content_ui="tabs" x="484" y="377" width="952" height="310" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09583333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39915523" sideWeight="0.48125" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Graphs/Reader.py</url>
-          <line>24</line>
+          <url>file://$PROJECT_DIR$/Graphs/node2vec_main.py</url>
+          <line>102</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Graphs/Reader.py</url>
-          <line>22</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Graphs/SVM_Learn</url>
-          <line>54</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Graphs/SVM_Learn</url>
-          <line>53</line>
-          <option name="timeStamp" value="18" />
+          <url>file://$PROJECT_DIR$/Graphs/SVM_Learn.py</url>
+          <line>109</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+      <option name="time" value="17" />
     </breakpoint-manager>
+    <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/Graphs/out0.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/out1.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/MatProc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="6" column="29" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+          <folding>
+            <element signature="e#69#90#0" expanded="true" />
+            <element signature="e#127#547#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/node2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/Test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" column="26" lean-forward="false" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.5/dist-packages/numpy/lib/npyio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5175">
+          <caret line="1334" column="0" lean-forward="false" selection-start-line="1334" selection-start-column="0" selection-end-line="1334" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/out2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/out3.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/node2vec-master/.gitignore" />
     <entry file="file://$PROJECT_DIR$/node2vec-master/src/embeddings.emd">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-210">
-          <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
-          <folding />
+          <caret line="34" column="65" lean-forward="false" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node2vec-master/src/graf.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node2vec-master/graph/karate.edgelist">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-630">
-          <folding />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Graphs/test">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_run_in_console.py" />
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_run_in_console.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="52" column="0" lean-forward="false" selection-start-line="52" selection-start-column="0" selection-end-line="52" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/node2vec-master/src/node2vec.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#18#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node2vec-master/src/runnode2vec.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="579">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
+          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/graf.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/node2vec_main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/test.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-603">
+          <caret line="12" column="28" lean-forward="false" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.5/dist-packages/numpy/lib/npyio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5175">
+          <caret line="1334" column="0" lean-forward="false" selection-start-line="1334" selection-start-column="0" selection-end-line="1334" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/MatProc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="29" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
           <folding>
-            <element signature="e#240#255#0" expanded="false" />
-            <element signature="e#2697#2998#0" expanded="false" />
-            <element signature="e#3017#3287#0" expanded="false" />
-            <element signature="e#3321#3359#0" expanded="false" />
+            <element signature="e#69#90#0" expanded="true" />
+            <element signature="e#127#547#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python3.5/dist-packages/numpy/lib/npyio.py" />
-    <entry file="file://$PROJECT_DIR$/Graphs/graf.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Graphs/Classifier.py" />
-    <entry file="file://$PROJECT_DIR$/Graphs/node2vec.py">
+    <entry file="file://$PROJECT_DIR$/Graphs/Reader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        <state relative-caret-position="315">
+          <caret line="22" column="130" lean-forward="false" selection-start-line="22" selection-start-column="130" selection-end-line="22" selection-end-column="130" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+            <element signature="e#214#532#0" expanded="true" />
+            <element signature="e#594#646#0" expanded="true" />
+            <element signature="e#688#714#0" expanded="true" />
+            <element signature="e#790#1020#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Graphs/original.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/Graphs/out0.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Graphs/out2.txt">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Graphs/out1.txt">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/out2.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/out3.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Graphs/generator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/node2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/Test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="3" lean-forward="false" selection-start-line="23" selection-start-column="3" selection-end-line="23" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node2vec-master/.gitignore" />
+    <entry file="file://$PROJECT_DIR$/node2vec-master/src/embeddings.emd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-210">
+          <caret line="34" column="65" lean-forward="false" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node2vec-master/src/graf.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node2vec-master/graph/karate.edgelist">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-630">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/test">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydev_run_in_console.py" />
+    <entry file="file://$PROJECT_DIR$/node2vec-master/src/node2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node2vec-master/src/runnode2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="579">
+          <caret line="62" column="0" lean-forward="false" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.5/dist-packages/numpy/lib/npyio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5175">
+          <caret line="1334" column="0" lean-forward="false" selection-start-line="1334" selection-start-column="0" selection-end-line="1334" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/Classifier.py" />
+    <entry file="file://$PROJECT_DIR$/Graphs/generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/test.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="28" lean-forward="false" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/MatProc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="29" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+          <folding>
+            <element signature="e#69#90#0" expanded="true" />
+            <element signature="e#127#547#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/core/numeric.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="500" column="0" lean-forward="false" selection-start-line="500" selection-start-column="0" selection-end-line="500" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/SVM_Learn">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="1071" column="0" lean-forward="false" selection-start-line="1071" selection-start-column="0" selection-end-line="1071" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/node2vec.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
@@ -468,69 +1028,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Graphs/node2vec_main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="85" column="46" selection-start-line="85" selection-start-column="46" selection-end-line="85" selection-end-column="46" />
+        <state relative-caret-position="450">
+          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
           <folding>
             <element signature="e#240#255#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Graphs/test.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Graphs/MatProc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="29" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Graphs/Test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="40" column="34" selection-start-line="40" selection-start-column="34" selection-end-line="40" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#2697#2998#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Graphs/Reader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        <state relative-caret-position="345">
+          <caret line="24" column="24" lean-forward="false" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
           <folding>
             <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/numpy/core/numeric.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="500" selection-start-line="500" selection-end-line="500" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Graphs/SVM_Learn">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="54" selection-start-line="54" selection-end-line="54" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#214#532#0" expanded="true" />
+            <element signature="e#594#646#0" expanded="true" />
+            <element signature="e#688#714#0" expanded="true" />
+            <element signature="e#790#1020#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/sklearn/utils/validation.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="796" selection-start-line="796" selection-end-line="796" />
+        <state relative-caret-position="458">
+          <caret line="570" column="0" lean-forward="false" selection-start-line="570" selection-start-column="0" selection-end-line="570" selection-end-column="0" />
+          <folding>
+            <element signature="e#30178#30909#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/Test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="9" lean-forward="false" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Graphs/SVM_Learn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="88" column="59" lean-forward="false" selection-start-line="88" selection-start-column="59" selection-end-line="88" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+            <element signature="e#131#1697#0" expanded="true" />
+            <element signature="e#2954#3491#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
