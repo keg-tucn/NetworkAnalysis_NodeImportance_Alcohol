@@ -94,7 +94,7 @@ class SVMobj:
         nrOfNodes=len(self.data[0]);
         classifiers=[]
         for i in range(0,nrOfNodes):
-            clf=svm.SVC(gamma='scale')
+            clf=svm.SVC(kernel='poly',degree=4)
             m=self.data[0]
             n=m[0]
 
