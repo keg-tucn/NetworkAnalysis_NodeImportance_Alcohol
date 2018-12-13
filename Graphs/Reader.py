@@ -20,6 +20,6 @@ class Reader:
 
     def getReadingsByConditionAndAnimal(self,animalId,condition):
         mats=self.readings
-        readings=[self.readings[x] for x in mats.keys()  if re.match(r"P02_SCAPearson-"+str(animalId)+"-"+condition+"-[0-9]+-TimeOffset.csv",x) is not None ]
+        readings=[self.readings[x] for x in mats.keys()  if re.match(r"P02_SCAPearson-"+str(animalId)+"-"+condition+"-[0-9]+-ValAtTimeOffset.csv",x) is not None ]
         print(readings)
         return readings;

@@ -1,6 +1,7 @@
 from MatProc import MatProc
 from Reader import Reader
 import numpy as np
+import os
 reader=Reader()
 reader.readAll()
 #mat=reader.getMatByName("P02_SCAPearson-1-Control-91-ValAtTimeOffset.csv")
@@ -18,13 +19,14 @@ for matu in matsi:
 
     aux=proc.binarize(matu)
     np.savetxt("out"+str(index)+".txt",aux,delimiter=' ')
+    size=aux.shape
+    with open("graf"+str(index)+".txt","a") as file:
+        for i in range(0,size[1]):
+            for j in range(i+1,size[0]):
+                if aux[i][j]==1:
+                    file.write(str(i) + " " + str(j) + "\n");
+    os.system("node2vec_main.py"+ " --input graf"+str(index)+".txt"+ " --output embedding"+str(index)+".txt")
     index=index+1
 
 
-'''
-with open("graf.txt",'w') as file:
-    for i in range(0,size[1]):
-        for j in range(i+1,size[0]):
-            if (mat[i][j]==1):
-                file.write(str(i)+" "+str(j)+"\n");
-'''
+

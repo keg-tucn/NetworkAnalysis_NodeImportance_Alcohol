@@ -4,7 +4,7 @@ import numpy as np
 
 class MatProc:
     def __init__(self):
-        self.varianceMargin=1
+        self.varianceMargin=2
     def binarize(self,mat):
         sum=0
         for (x,y),value in np.ndenumerate(mat):
