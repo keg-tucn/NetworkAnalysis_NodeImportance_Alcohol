@@ -31,13 +31,13 @@ class Mat2Graph():
 
                 aux = proc.binarize(matu)
                 size = aux.shape
-                with open("./tmp/graf" + str(index) + ".txt", 'w+') as file:
+                with open("./tmp/graf" + str(index) + ".txt", 'w+') as file: #save as adj lisr
                     for i in range(0, size[1]):
                         for j in range(i + 1, size[0]):
                             if aux[i][j] == 1:
                                 file.write(str(i) + " " + str(j) + "\n");
                 os.system("python ./node2vec_main.py" + " --input ./tmp/graf" + str(
-                    index) + ".txt" + "  --dimensions 84 --num-walks 40 --output ./embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(
+                    index) + ".txt" + "  --dimensions 84 --num-walks 40 --output ./embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
                     index) + ".txt")
                 index = index + 1
                 if (index == nrSamples):
@@ -92,6 +92,8 @@ while ok:
             break;
 '''
 embedder=Mat2Graph()
+embedder.writeAdjMatrix(50,"Control");
+
 embedder.writeAdjMatrix(50,"EtOH");
 
 

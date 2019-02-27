@@ -4,70 +4,56 @@ import re
 import numpy as np
 import array
 class SVMobj:
-    def __init__(self,animalId):
-        dict=[]
-        index=0;
-        controlLimit=42;
-        etohLimit=42;
-        85
+    def __init__(self,):
+        self.index = 0;
+        self.labels = []
+        self.LabelDict={}
 
-        files=os.listdir("./tmp/")
-        controlFiles=[x for x in files if re.match(r"embedding"+"Control"+"[0-9]+.txt",x) is not None ]
-        nrControl=len(controlFiles)
+        self.LabelDict["Control"] = 0
+        self.LabelDict["EtOH"] = 1
 
-        nr_features = 84
+        self.data = []
+        self.storeEmbedding("Control")
+        self.storeEmbedding("EtOH")
 
-        labels=range(84)
-        for i in range(0,controlLimit):
-            with open(os.path.join("./tmp/",controlFiles[i])) as file:
-                w, h = [int(x) for x in next(file).split()]
-                self.nrRows=w
-                self.depth=h
+    def storeEmbedding(self,condition):
 
-                labels[index]=0
-                r=range(w)
-                for j in range(0,w):
-                    s=[float(x) for x in next(file).split()]
-                    m=int(s.pop(0))
-                    r[m]=s
-                dict.append(r)
-                index=index+1;
-        etohFiles = [x for x in files if re.match(r"embedding"+"EtOH"+"[0-9]+.txt",x) is not None]
-        nrEtOH = len(etohFiles)
-        p=len(dict)
-        for i in range(0, etohLimit):
-            with open(os.path.join("./tmp/",etohFiles[i])) as file:
+        files = os.listdir("./embeddings/")
+
+        controlFiles = [x for x in files if re.match(r"EMBD_" + condition + "_[0-9]+_[0-9]+.txt", x) is not None]
+        nrSamples = len(controlFiles)
+
+
+
+        for i in range(0, nrSamples):
+            with open(os.path.join("./embeddings/", controlFiles[i])) as file:
                 w, h = [int(x) for x in next(file).split()]
                 self.nrRows = w
                 self.depth = h
 
-                labels[index]=1
+                self.labels.insert(self.index,self.LabelDict[condition])
                 r = range(w)
+                for j in range(0, w):
+                    s = [float(x) for x in next(file).split()]#take every line and remove the header(node number)
+                    m = int(s.pop(0))
+                    r[m] = s
+                self.data.append(r)
+                self.index = self.index + 1;
 
-                for j in range(0,w):
-                    s=[float(x) for x in next(file).split()]
-                    m=int(s.pop(0))
-                    r[m]=s
-
-                dict.append(r)
-                index = index + 1;
-        p=len(dict)
-
-        self.data = dict
-        self.labes=labels
-    def classify(self,classifiers):
+    def classify(self):
         condition="Control"
         label=0;
         limit=43
-        files=os.listdir("./tmp/")
+        EMBD_dir="./embeddings"
+        files=os.listdir("./embeddings/")
 
-        allfiles = [x for x in files if re.match(r"embedding" + condition + "[0-9]+.txt", x) is not None]
+        allfiles = [x for x in files if re.match(r"EMBD_" + condition + "_[0-9]+_[0-9]+.txt", x) is not None]
         nrOfFiles = len(allfiles)
         meanAcc=0
         for i in range(limit, nrOfFiles):
-            with open(os.path.join("./tmp/", allfiles[i])) as file:
+            with open(os.path.join(EMBD_dir, allfiles[i])) as file:
                 w, h = [int(x) for x in next(file).split()]
-                print("Predictinf for file "+allfiles[i]);
+                print("Predicting for file "+allfiles[i]);
                 self.nrRows = w
                 self.depth = h
 
@@ -78,7 +64,7 @@ class SVMobj:
                     s = [float(x) for x in next(file).split()]
                     m = int(s.pop(0))
                     s=[s]
-                    if classifiers[m].predict(s)==label:
+                    if self.classifiers[m].predict(s)==label:
                         good=good+1
                     else:
                         bad=bad+1
@@ -98,21 +84,21 @@ class SVMobj:
             m=self.data[0]
             n=m[0]
 
-            X=[[X[i]] for X in self.data]
-            X=[x for y in X for x in y]
-            Y=self.labes
+            X=[[X[i]] for X in self.data]#take every i-th line from every embedding
+            X=[x for y in X for x in y]# reduce an unnecessary dimension
+            Y=self.labels
             xarray=np.array(X)
             yarray=np.array(Y)
             clf.fit(xarray,yarray);
-            classifiers.append(clf)
+            classifiers.append(clf) #train
             #single=X[55]
             #single=[single]
             #print(clf.predict(single))
-        return classifiers
+        self.classifiers= classifiers
 
 
 
-obj=SVMobj(4)
+obj=SVMobj()
 
 classifiers=obj.train()
-obj.classify(classifiers)
+obj.classify()
