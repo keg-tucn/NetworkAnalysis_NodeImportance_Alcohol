@@ -17,7 +17,7 @@ class Reader:
         return self.readings[method+animalCode+condition+id]
     def getMatByName(self,name):
         return self.readings[name]
-
+ #read a specific mat belonging to an animal and environment
     def getReadingsByConditionAndAnimal(self,animalId,condition):
         mats=self.readings
         readings=[self.readings[x] for x in mats.keys()  if re.match(r"P02_SCAPearson-"+str(animalId)+"-"+condition+"-[0-9]+-ValAtTimeOffset.csv",x) is not None ]
