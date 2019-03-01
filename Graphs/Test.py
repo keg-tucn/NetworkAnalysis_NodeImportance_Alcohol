@@ -3,8 +3,7 @@ from Reader import Reader
 import shutil
 import numpy as np
 import os
-reader=Reader()
-reader.readAll()
+import re
 #mat=reader.getMatByName("P02_SCAPearson-1-Control-91-ValAtTimeOffset.csv")
 #np.savetxt("original.csv",mat,delimiter=' , ')
 proc=MatProc()
@@ -13,88 +12,43 @@ proc=MatProc()
 #size=mat.shape;
 
 class Mat2Graph():
-    def writeAdjMatrix(self,nrSamples,condition):
+    def writeAdjMatrix(self,condition,outFolder):
         index=0
-        try:
-            shutil.rmtree("./tmp")
-        except:
-            print("TMP folder not found\n");
-        os.makedirs(os.path.dirname("./tmp/"))
-        ok=True;
-        while(ok):
-            animalId = int(index / 5) + 1#each animal has 5 readings for a state
-
-            matsi = reader.getReadingsByConditionAndAnimal(animalId, condition)#getall mats
-
-            print(matsi)
-            for matu in matsi:
-
-                aux = proc.binarize(matu)
-                size = aux.shape
-                with open("./tmp/graf" + str(index) + ".txt", 'w+') as file: #save as adj lisr
-                    for i in range(0, size[1]):
-                        for j in range(i + 1, size[0]):
-                            if aux[i][j] == 1:
-                                file.write(str(i) + " " + str(j) + "\n");
-                os.system("python ./node2vec_main.py" + " --input ./tmp/graf" + str(
-                    index) + ".txt" + "  --dimensions 84 --num-walks 40 --output ./embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
-                    index) + ".txt")
-                index = index + 1
-                if (index == nrSamples):
-                    ok = False
-                    break;
+        matsi = reader.getAllByCondition(condition)#getall mats
+        print(matsi)
+        for [matu,fileName] in matsi:
+            print("Processing file "+str(matu))
+            #animalId = int(index / 5) + 1  # each animal has 5 readings for a state
+            m=re.search("SCAPearson-(.+?)-",fileName)#get animal id and trial number
+            animalId=m.group(1)
+            m = re.search(condition+"-(.+?)-", fileName)
+            trial = m.group(1)
+            aux = proc.binarize(matu)
+            size = aux.shape
+            with open(outFolder+"graf" + str(trial) + ".txt", 'w+') as file: #save as adj lisr
+                for i in range(0, size[1]):
+                    for j in range(i + 1, size[0]):
+                        if aux[i][j] == 1:
+                            file.write(str(i) + " " + str(j) + "\n");
+            os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
+                trial) + ".txt" + "  --dimensions 84 --num-walks 40 --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
+                index) + ".txt")
+            index = index + 1
 
 
-'''
-while(ok):
-    animalId=int(index/5)+1
-    condition = "Control"
-
-    matsi=reader.getReadingsByConditionAndAnimal(animalId,condition)
-
-    print(matsi)
-    for matu in matsi:
-
-        aux=proc.binarize(matu)
-        size=aux.shape
-        with open("./tmp/graf"+str(index)+".txt",'w+') as file:
-            for i in range(0,size[1]):
-                for j in range(i+1,size[0]):
-                    if aux[i][j]==1:
-                        file.write(str(i) + " " + str(j) + "\n");
-        os.system("python ./node2vec_main.py"+" --input ./tmp/graf"+str(index)+".txt"+ "  --dimensions 84 --num-walks 40 --output ./tmp/embedding" +condition+str(index)+".txt")
-        index=index+1
-        if (index == nrControl ):
-            ok=False
-            break;
-index=0
-ok=True
-while ok:
-    animalId=int(index/5)+1
-
-    condition="EtOH"
-    alcohol=reader.getReadingsByConditionAndAnimal(animalId,condition)
-    for matu in alcohol:
-        #np.savetxt("test.csv",matu,delimiter=' , ')
-
-        aux=proc.binarize(matu)
-       # np.savetxt("out"+str(index)+".txt",aux,delimiter=' ')
-        size=aux.shape
-        with open("./tmp/graf"+str(index)+".txt","w+") as file:
-            for i in range(0,size[1]):
-                for j in range(i+1,size[0]):
-                    if aux[i][j]==1:
-                        file.write(str(i) + " " + str(j) + "\n");
-        os.system("python ./node2vec_main.py"+"  --input ./tmp/graf"+str(index)+".txt"+ "  --dimensions 84 --num-walks 40  --output ./tmp/embedding"+condition+str(index)+".txt")
-        index=index+1
-        if (index == nrEtOH):
-            ok=False
-            break;
-'''
+outFolder='./training/'
+reader=Reader()
+reader.readAll("./Readings/Readings_Train/")
+try:
+    shutil.rmtree(outFolder)
+except:
+    print("TMP folder not found\n");
+os.makedirs(os.path.dirname(outFolder))
+os.makedirs(os.path.dirname(outFolder + "embeddings/"))
 embedder=Mat2Graph()
-embedder.writeAdjMatrix(50,"Control");
+embedder.writeAdjMatrix("Control",outFolder);
 
-embedder.writeAdjMatrix(50,"EtOH");
+embedder.writeAdjMatrix("EtOH",outFolder);
 
 
 
