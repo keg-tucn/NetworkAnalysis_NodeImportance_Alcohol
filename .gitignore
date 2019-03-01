@@ -6,6 +6,8 @@
 .idea
 testing/*
 training/*
+embeddings/*
+
 *.iml
 out
 gen### Python template
@@ -113,3 +115,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+/Graphs/testing/
+/Graphs/training/
+/Graphs/embeddings/
+/Graphs/tmp/

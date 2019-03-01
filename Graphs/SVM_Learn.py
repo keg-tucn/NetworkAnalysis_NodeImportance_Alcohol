@@ -50,6 +50,7 @@ class SVMobj:
         nrOfFiles = len(allfiles)
         meanAcc=0
         scores=np.zeros(len(self.classifiers))
+        weight=np.ones(len(self.classifiers))/len(self.classifiers);
         for i in range(0, nrOfFiles):
             with open(os.path.join(srcDir, allfiles[i])) as file:
                 m=re.search("EMBD_(.+?)_",allfiles[i])
@@ -62,20 +63,26 @@ class SVMobj:
                 r = range(w)
                 good=1
                 bad=1
+                fileScore=0;
                 for j in range(0, w):
                     s = [float(x) for x in next(file).split()]
                     m = int(s.pop(0))
                     s=[s]
                     label=self.LabelDict[condition]
-                    if self.classifiers[m].predict(s)==label:
+                    prediction=self.classifiers[m].predict(s);
+                    fileScore+=weight[m]*prediction;
+                    if prediction == label:
                         scores[m]=scores[m]+1
                         good=good+1
                     else:
+                        weight[m]-=10/w
+
                         bad=bad+1
                 m=good/float((good+bad))
                 meanAcc+=m;
-                print '{0:.16f}'.format(m)
-                print("The result is "+str(good)+" and bad:"+str(bad));
+               # print '{0:.16f}'.format(m)
+                print "The score is"+'{0:.16f}'.format(float(fileScore))
+               # print("The good is "+str(good)+" and bad:"+str(bad));
 
         print("I had a number of images:"+str(nrOfFiles))
         print("The scores are "+str(np.sort(scores)))

@@ -52,3 +52,23 @@ embedder.writeAdjMatrix("EtOH",outFolder);
 
 
 
+
+
+outFolder='./testing/'
+reader=Reader()
+reader.readAll("./Readings/Readings_Test/")
+try:
+    shutil.rmtree(outFolder)
+except:
+    print("TMP folder not found\n");
+os.makedirs(os.path.dirname(outFolder))
+os.makedirs(os.path.dirname(outFolder + "embeddings/"))
+embedder=Mat2Graph()
+embedder.writeAdjMatrix("Control",outFolder);
+
+embedder.writeAdjMatrix("EtOH",outFolder);
+
+
+
+
+
