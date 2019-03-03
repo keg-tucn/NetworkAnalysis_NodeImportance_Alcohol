@@ -1,0 +1,63 @@
+----- Forwarded Message -----
+From: Vasile Vlad Moca <vladvm@gmail.com>
+To: Marius Supuran <marius.supuran@yahoo.com>
+Cc: "muresan@tins.ro" <muresan@tins.ro>; "Mihaela.Dinsoreanu@cs.utcluj.ro" <Mihaela.Dinsoreanu@cs.utcluj.ro>
+Sent: Tuesday, October 30, 2018, 9:59:48 PM GMT+2
+Subject: Re: Intrebari licenta Feature Selection
+
+Salut Marius,
+
+Am pus pe dropbox un dataset care pare mai informativ decat altele. Asa cum am vorbit la ultima noastra intalnire, acestea sunt date de FMRI din sobolani care sunt expusi la alcool. Mai precis sunt matrici de corelatie (adiacenta) calculate pe activitatea din diverse zone din creier (ROIs - regions of interest).
+
+https://www.dropbox.com/s/400hm0huga4125m/Sca-results%202018-04-18-for%20UTCN%20Students.zip?dl=0
+In total sunt inregistrate 17 animale in urmatoarele conditii:
+- 17 animale x 5 trialuri = 85 trialuri fara expunere la alcool (Control) - se porneste de la animale care nu au fost expuse la alcool
+- 17 animale x 5 trialuri = 85 trialuri cu expunere la alcool (EtOH) - apoi toate animalele sunt expuse la alcool
+- 8 animale x 5 trialuri = 40 trialuri sunt tratate cu Naltrexone (Naltrexone) iar restul 
+- 9 animale x 5 trialuri = 45 trialuri sunt in stare de abstinenta (Abstinence) - nu li se administreaza nici un fel de substanta.
+
+In arhiva veti gasi urmatoarele fisiere:
+- SyBilAA - Berlin 09-2016 - Matrix Vlad Moca.pptx - o prezentare mai mult despre date si despre metode, care ar trebui sa clarifice cat de cat diverse aspecte legate de date si de matricile de adiacenta. 
+- _!readme.txt - informatii despre pre-procesari:  poate nu este foarte interesant pentru voi dar poate fi util si ajuta la identificarea datelor
+- SCAPearsonR-trials.ini - un fisier de configurare al analize prin care sunt generate matricile de adiacenta (vedeti mai jos). Am obiceiul de a pune astfel de informatii impreuna cu rezultatele ca sa putem tracta exact parametrii analizelor.
+- Pipe02-ROI-names.txt - numele zonelor din creier (ROIs) utilizate. 
+- In directorul "P02_SCAPearson" gasiti matricile de adiacenta. 
+Pentru fiecare trial veti gasi 2 fisiere a caror nume indica informatiile experimentale separate prin "-":
+PIPELINE_FEATURE_VALIDATION-ANIMALID-CONDITION-TRIALID-VALUEOFFESTDESCRIPTION.EXTENSION:
+De exemplu: 
+P02_SCAPearson-1-Control-91-ValAtTimeOffset.csv
+P02_SCAPearson-1-Control-91-TimeOffset.csv
+        - codul metodei de analiza: P02_SCAPearson
+        - codul animalului: 1
+        - conditia: Control
+        - cod unic de identificare trial: 91
+De cele mai multe ori din cros-corelatii se pot estima atat taria corelatiei dintre 2 ROI-uri cat si un anumit defazaj temporal. De aceea aveti 2 fisiere pentru fiecare trial unul cu defazaje ("TimeOffset") si unul cu valorile de la acel defazaj "ValAtTimeOffset". Pentru cazul de fata, unde aveti coeficientului de corelatie Pearson, valorile "TimeOffset" sunt toate 0 si se poate ignora. Am lasat aceste fisiere acolo pentru conformitatea cu alte dataseturi unde aceste fisiere sunt relevante. Fisierele "ValAtTimeOffset" sunt cele cu care trebuie sa lucrati voi.
+  Pentru moment ar trebui sa aveti destule informatii astfel incat sa puteti sa va descurcati cu matricile de adiacenta. La urmatoarea intalnire putem sa discutam despre cum exact se generaza fisierele acestea. Daca aveti intrebari sau nelamuriri puteti sa-mi scrieti oricand.
+
+Spor la treaba,
+Vlad
+
+On 30-Oct-18 6:38 PM, Raul C. Muresan wrote:
+Salut Marius, 
+
+Raspunsurile mele mai jos: 
+
+1. Da, sunt ok pentru inceput. 
+
+2. O varianta initiala este sa selectati aceste weight-uri dintr-o distributie uniforma intre 0 si 1. Insa trebuie sa stabiliti atunci cum definiti de exemplu node degree. Un link exista sa zicem numai daca are weight non zero. In datele reale, weight-urile sunt distribuite intre -1 si 1, pentru ca Pearson Correlation Coefficient da valori in acest interval. Apoi, se aplica o procedura de uniformizare pentru obtinerea unei retele cu densitate 50% (se pastreaza doar link-urile care au valori are corelatiei in valoare absoluta suficient de mare ca graful final sa aiba 50% dintre nodurile posibile). 
+
+3. Da, putem sa va dam date. Va rog sa vorbiti cu Vlad, in CC, ca sa vi le puna la dispozitie. 
+
+Spor! 
+
+Numai bine, 
+Raul 
+
+
+On 10/30/2018 4:13 PM, Marius Supuran wrote: 
+Buna ziua, ma numesc Supuran Marius si sunt unul din studentii care isi face lucrarea de licenta pe Feature Selection (date de pe sobolani). Impreuna cu colegii mei avem cateva intrebari legate de prima parte (generarea de grafuri): 
+1. Ca metrici initiale am ales node degree, average path length, clustering coefficient si centrality, e ok? 
+2. Weight-urile muchiilor ar trebui sa fie numere random intre 0 si 1 sau sa urmareasca o anumita distributie (de exemplu mai multe muchii cu weight-ul apropiat de 0.5)? Poate nu e o intrebare relevanta dar si informatia asta ar fi utila. 
+3. Ati putea oare sa ne trimiteti cateva date ca sa vedem cum arata grafurile reale? Nu avem nevoie de mult, cateva grafuri ar fi suficiente. 
+
+Va multumim.
