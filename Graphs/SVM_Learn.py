@@ -8,7 +8,7 @@ class SVMobj:
         self.index = 0;
         self.labels = []
         self.LabelDict={}
-
+        self.N=85
         self.LabelDict["Control"] = 0
         self.LabelDict["EtOH"] = 1
         self.LabelDict["Abstinence"] = 2
@@ -34,11 +34,12 @@ class SVMobj:
                 self.depth = h
 
                 self.labels.insert(self.index,self.LabelDict[condition])
-                r = range(w)
+                r = np.zeros((self.N,self.N))
                 for j in range(0, w):
                     s = [float(x) for x in next(file).split()]#take every line and remove the header(node number)
                     m = int(s.pop(0))
-                    r[m] = s
+                   # r=np.insert(r, m, np.array(s), 0)
+                    r[m]=s
                 self.data.append(r)
                 self.index = self.index + 1;
 
@@ -106,9 +107,11 @@ class SVMobj:
             m=self.data[0]
             n=m[0]
 
-            X=[[X[i]] for X in self.data]#take every i-th line from every embedding
-            X=[x for y in X for x in y]# reduce an unnecessary dimension
-            Y=self.labels
+            X=[X[i] for X in self.data if np.sum(X[i]) is not 0]#take every i-th line from every embedding and toss out the 0 valued
+            #X=[x for y in X for x in y]# reduce an unnecessary dimension
+
+            Y=[self.labels[x] for x in range(0,len(self.labels))  ] #            Y=[self.labels[i] for i in range(0,len(self.labels))  ] #
+
             xarray=np.array(X)
             yarray=np.array(Y)
             clf.fit(xarray,yarray);

@@ -17,7 +17,7 @@ class Mat2Graph():
         matsi = reader.getAllByCondition(condition)#getall mats
         print(matsi)
         for [matu,fileName] in matsi:
-            print("Processing file "+str(matu))
+            print("Processing file "+str(fileName))
             #animalId = int(index / 5) + 1  # each animal has 5 readings for a state
             m=re.search("SCAPearson-(.+?)-",fileName)#get animal id and trial number
             animalId=m.group(1)
@@ -27,14 +27,15 @@ class Mat2Graph():
             np.savetxt(outFolder+trial,aux,fmt="%d",delimiter=',')
             size = aux.shape
             with open(outFolder+"graf" + str(trial) + ".txt", 'w+') as file: #save as adj lisr
-                for i in range(0, size[1]):
+                for i in range(0, size[0]):
                     for j in range(i + 1, size[0]):
                         if aux[i][j] == 1:
-                            file.write(str(i) + " " + str(j) + "\n");
+                             file.write(str(i) + " " + str(j) + "\n");
             os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
-                trial) + ".txt" + "  --dimensions 84 --num-walks 40 --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
-                index) + ".txt")
+                trial) + ".txt" + "  --dimensions 85 --num-walks 40 --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
+                trial) + ".txt")
             index = index + 1
+
 
 
 outFolder='./training/'
