@@ -24,6 +24,7 @@ class Mat2Graph():
             m = re.search(condition+"-(.+?)-", fileName)
             trial = m.group(1)
             aux = proc.binarize(matu)
+            np.savetxt(outFolder+trial,aux,fmt="%d",delimiter=',')
             size = aux.shape
             with open(outFolder+"graf" + str(trial) + ".txt", 'w+') as file: #save as adj lisr
                 for i in range(0, size[1]):

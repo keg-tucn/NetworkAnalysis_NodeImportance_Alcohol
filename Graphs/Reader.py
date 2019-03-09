@@ -11,7 +11,7 @@ class Reader:
         onlyfiles = [f for f in listdir(self.directory) if isfile(join(self.directory, f)) and f.endswith('.csv')]
         dictionary={}
         for file in onlyfiles:
-            mat=np.loadtxt(open(join(self.directory,file), "rb"), delimiter=",", skiprows=1)
+            mat=np.loadtxt(open(join(self.directory,file), "rb"), delimiter=",", skiprows=0)
             dictionary[file]=mat
         self.readings=dictionary
     def getMat(self,method,animalCode,condition,id):
