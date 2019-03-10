@@ -24,22 +24,19 @@ class Reader:
             onlyfiles = [f for f in listdir(currDir) if isfile(join(currDir, f)) and f.endswith('.xml')]
             for file in onlyfiles:
                 finePath=join(currDir,file)
-                G = nx.read_graphml(finePath)
+                G = nx.read_gexf(finePath)
                 m = re.search( "(.+?)-", file)
                 animalId = m.group(1)
                 m = re.search(env+"-(.+?).xml", file)
                 trial = m.group(1)
-                oldName="P02_SCAPearson-"+str(animalId)+"-"+env+"-"+str(trial)+"ValAtTimeOffset.csv"
-                mat=nx.to_numpy_matrix(G,nodelist=range(0,85))
-                dictionary[file]=mat
+                oldName="P02_SCAPearson-"+str(animalId)+"-"+env+"-"+str(trial)+"-ValAtTimeOffset.csv"
+                mat=nx.to_numpy_matrix(G,nodelist=range(0,84))
+                dictionary[oldName]=mat
                 np.savetxt("Testule",mat)
-                print("Good")
+                print("Loaded "+oldName)
         self.readings=dictionary
 
-        for file in onlyfiles:
-            mat=np.loadtxt(open(join(self.directory,file), "rb"), delimiter=",", skiprows=0)
-            dictionary[file]=mat
-        self.readings=dictionary
+
     def getMat(self,method,animalCode,condition,id):
         return self.readings[method+animalCode+condition+id]
     def getMatByName(self,name):
@@ -54,5 +51,5 @@ class Reader:
         print(readings)
         return readings;
 
-R=Reader()
-R.readAll2("./sum_weight_high_edge_values/sum_weight_40/",["EtOH","Control"])
+#R=Reader()
+#R.readAll2("./sum_weight_high_edge_values/sum_weight_40/",["EtOH","Control"])
