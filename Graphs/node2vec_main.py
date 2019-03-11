@@ -85,16 +85,19 @@ def learn_embeddings(walks):
 	'''
 	walks = [map(str, walk) for walk in walks]
 	model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
+
 	model.wv.save_word2vec_format(args.output)
-	
+
 	return
 
 def main(args):
 	'''
 	Pipeline for representational learning for all nodes in a graph.
 	'''
+	print("Nr of dimensions is "+str(args.dimensions))
 	nx_G = read_graph()
 	G = node2vec.Graph(nx_G, args.directed, args.p, args.q)
+	mat=nx.to_numpy_matrix(G)
 	G.preprocess_transition_probs()
 	walks = G.simulate_walks(args.num_walks, args.walk_length)
 	learn_embeddings(walks)

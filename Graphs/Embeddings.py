@@ -23,16 +23,16 @@ class Mat2Graph():
             animalId=m.group(1)
             m = re.search(condition+"-(.+?)-", fileName)
             trial = m.group(1)
-            aux = proc.binarize(matu)
-            np.savetxt(outFolder+trial,aux,fmt="%d",delimiter=',')
+            aux = matu
+            np.savetxt(outFolder+trial,aux,fmt="%d",delimiter=',')#just for testing
             size = aux.shape
             with open(outFolder+"graf" + str(trial) + ".txt", 'w+') as file: #save as adj lisr
                 for i in range(0, size[0]):
-                    for j in range(i + 1, size[0]):
-                        if aux[i][j] == 1:
-                             file.write(str(i) + " " + str(j) + "\n");
+                    for j in range(i + 1, size[1]):
+                        if aux[i][j] >0:
+                             file.write(str(i) + " " + str(j) +" "+str(matu[i][j])+ "\n");
             os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
-                trial) + ".txt" + "  --dimensions 85 --num-walks 40 --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
+                trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
                 trial) + ".txt")
             index = index + 1
 
@@ -71,7 +71,7 @@ embedder=Mat2Graph()
 embedder.writeAdjMatrix("Control",outFolder);
 
 embedder.writeAdjMatrix("EtOH",outFolder);
-embedder.writeAdjMatrix("Abstinence",outFolder);
+#embedder.writeAdjMatrix("Abstinence",outFolder);
 
 
 

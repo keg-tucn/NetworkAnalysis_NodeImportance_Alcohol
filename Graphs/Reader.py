@@ -19,19 +19,24 @@ class Reader:
     def readAll2(self,srcDir,environments):
         self.directory=srcDir
         dictionary={}
-        for env in environments:
+        for env in environments:#loop through envirnoments folders
             currDir=join(srcDir,env)
             onlyfiles = [f for f in listdir(currDir) if isfile(join(currDir, f)) and f.endswith('.xml')]
             for file in onlyfiles:
                 finePath=join(currDir,file)
-                G = nx.read_gexf(finePath)
-                m = re.search( "(.+?)-", file)
+                G = nx.read_graphml(finePath)
+                m = re.search( "(.+?)-", file)#get data about the readings
                 animalId = m.group(1)
                 m = re.search(env+"-(.+?).xml", file)
                 trial = m.group(1)
-                oldName="P02_SCAPearson-"+str(animalId)+"-"+env+"-"+str(trial)+"-ValAtTimeOffset.csv"
-                mat=nx.to_numpy_matrix(G,nodelist=range(0,84))
-                dictionary[oldName]=mat
+                oldName="P02_SCAPearson-"+str(animalId)+"-"+env+"-"+str(trial)+"-ValAtTimeOffset.csv"#save it with the normal name for the code to work
+                #mat=nx.to_numpy_matrix(G,nodelist=range(0,84))
+                mat = nx.adjacency_matrix(G)
+
+                r=mat.todense()
+                convertedMat = list(mat)
+                test=nx.to_edgelist(G,nodelist=range(0,85))
+                dictionary[oldName]=convertedMat
                 np.savetxt("Testule",mat)
                 print("Loaded "+oldName)
         self.readings=dictionary
