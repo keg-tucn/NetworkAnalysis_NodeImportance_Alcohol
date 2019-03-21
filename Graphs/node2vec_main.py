@@ -23,6 +23,8 @@ def parse_args():
 
 	parser.add_argument('--input', nargs='?', default='graph/karate.edgelist',
 	                    help='Input graph path')
+	parser.add_argument('--environment', nargs='?', default='Control',
+	                    help='Input environments')
 
 	parser.add_argument('--output', nargs='?', default='emb/karate.emb',
 	                    help='Embeddings path')
@@ -97,7 +99,7 @@ def main(args):
 	print("Nr of dimensions is "+str(args.dimensions))
 	nx_G = read_graph()
 	G = node2vec.Graph(nx_G, args.directed, args.p, args.q)
-	mat=nx.to_numpy_matrix(G)
+	#mat=nx.to_numpy_matrix(G)
 	G.preprocess_transition_probs()
 	walks = G.simulate_walks(args.num_walks, args.walk_length)
 	learn_embeddings(walks)

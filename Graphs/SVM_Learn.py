@@ -42,7 +42,8 @@ class SVMobj:
                     r[m]=s
                 self.data.append(r)
                 self.index = self.index + 1;
-
+    def distance(self,sample, train):
+        return 0
     def classify(self,srcDir):
 
 

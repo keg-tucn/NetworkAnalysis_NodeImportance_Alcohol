@@ -24,13 +24,13 @@ class Mat2Graph():
             m = re.search(condition+"-(.+?)-", fileName)
             trial = m.group(1)
             aux = matu
-            np.savetxt(outFolder+trial,aux,fmt="%d",delimiter=',')#just for testing
+            np.savetxt(outFolder+trial,aux,fmt="%f",delimiter=',')#just for testing
             size = aux.shape
             with open(outFolder+"graf" + str(trial) + ".txt", 'w+') as file: #save as adj lisr
                 for i in range(0, size[0]):
                     for j in range(i + 1, size[1]):
-                        if aux[i][j] >0:
-                             file.write(str(i) + " " + str(j) +" "+str(matu[i][j])+ "\n");
+                        if aux[i][j] is not 0:
+                             file.write(str(i) + " " + str(j) +" "+str(aux[i][j])+ "\n");
             os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
                 trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
                 trial) + ".txt")
@@ -40,7 +40,9 @@ class Mat2Graph():
 
 outFolder='./training/'
 reader=Reader()
-reader.readAll2("./sum_weight_high_edge_values/sum_weight_30/training/",["EtOH","Control"])
+#reader.readAll2("./Readings/Readings_Train/",["EtOH","Control"])
+reader.readAll("./Readings/Readings_Train/")
+
 try:
     shutil.rmtree(outFolder)
 except:
@@ -60,7 +62,9 @@ embedder.writeAdjMatrix("Abstinence",outFolder);
 
 outFolder='./testing/'
 reader=Reader()
-reader.readAll2("./sum_weight_high_edge_values/sum_weight_30/testing/",["EtOH","Control"])
+reader.readAll("./Readings/Readings_Test/")
+
+# reader.readAll2(".Readings/Readings_Test/",["EtOH","Control"])
 try:
     shutil.rmtree(outFolder)
 except:
