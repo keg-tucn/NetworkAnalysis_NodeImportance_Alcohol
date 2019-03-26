@@ -11,12 +11,13 @@ proc=MatProc()
 #mat=proc.binarize(mat)
 #np.savetxt("test.csv",mat,delimiter=' , ')
 #size=mat.shape;
+reader = Reader()
 
 class Mat2Graph():
     def writeAdjMatrix(self,condition,outFolder):
         index=0
         matsi = reader.getAllByCondition(condition)#getall mats
-        print(matsi)
+
         for [matu,fileName] in matsi:
             print("Processing file "+str(fileName))
             #animalId = int(index / 5) + 1  # each animal has 5 readings for a state
@@ -38,8 +39,10 @@ class Mat2Graph():
             index = index + 1
     def writeAdjMatrixForCondition(self,condition,outFolder):
         index=0
+        dimensions = 85
+        nrWalks = 30
         matsi = reader.getAllByCondition(condition)#getall mats
-        print(matsi)
+
         for [matu,fileName] in matsi:
             print("Processing file "+str(fileName))
             #animalId = int(index / 5) + 1  # each animal has 5 readings for a state
@@ -56,8 +59,7 @@ class Mat2Graph():
                         if aux[i][j] is not 0:
                              file.write(str(i) + " " + str(j) +" "+str(aux[i][j])+ "\n");
             inputName=outFolder+"/graf" + str(trial) + ".txt"
-            dimensions=85
-            nrWalks=14
+
             output=outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(trial) + ".txt"
             newMain(inputName,dimensions,output,condition,30,nrWalks,True)
             # os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
@@ -65,49 +67,27 @@ class Mat2Graph():
             #     trial) + ".txt")
             index = index + 1
 
+def createEmbeddings(outFolder,readingsFolder,conditions):
+
+    # reader.readAll2("./Readings/Readings_Train/",["EtOH","Control"])
+    reader.readAll(readingsFolder)
+    try:
+        shutil.rmtree(outFolder)
+    except:
+        print("The folder "+outFolder+" does not exist\n")
+    os.makedirs(os.path.dirname(outFolder))
+    os.makedirs(os.path.dirname(outFolder + "embeddings/"))
+    embedder = Mat2Graph()
+    for condition in conditions:
+        embedder.writeAdjMatrixForCondition(condition, outFolder)
+
+
+createEmbeddings('./training/',"./Readings/Readings_Train/",["Control","EtOH","Abstinence"])
+createEmbeddings('./testing/',"./Readings/Readings_Test/",["Control","EtOH"])
 
 
 
-outFolder='./training/'
-reader=Reader()
-#reader.readAll2("./Readings/Readings_Train/",["EtOH","Control"])
-reader.readAll("./Readings/Readings_Train/")
-
-try:
-    shutil.rmtree(outFolder)
-except:
-    print("TMP folder not found\n");
-os.makedirs(os.path.dirname(outFolder))
-os.makedirs(os.path.dirname(outFolder + "embeddings/"))
-embedder=Mat2Graph()
-# embedder.writeAdjMatrix("Control",outFolder);
-
-embedder.writeAdjMatrixForCondition("Control",outFolder);
-embedder.writeAdjMatrixForCondition("EtOH",outFolder);
-embedder.writeAdjMatrixForCondition("Abstinence",outFolder);
-
-
-
-
-
-
-outFolder='./testing/'
-reader=Reader()
-reader.readAll("./Readings/Readings_Test/")
-
-# reader.readAll2(".Readings/Readings_Test/",["EtOH","Control"])
-try:
-    shutil.rmtree(outFolder)
-except:
-    print("TMP folder not found\n");
-os.makedirs(os.path.dirname(outFolder))
-os.makedirs(os.path.dirname(outFolder + "embeddings/"))
-embedder=Mat2Graph()
-embedder.writeAdjMatrixForCondition("Control",outFolder);
-
-embedder.writeAdjMatrixForCondition("EtOH",outFolder);
-#embedder.writeAdjMatrix("Abstinence",outFolder);
-
+exit(1)
 
 
 
