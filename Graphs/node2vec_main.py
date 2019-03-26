@@ -92,6 +92,15 @@ def learn_embeddings(walks):
 
 	return
 
+def newMain(input,dimensions,  output,condition,walkLength,nrWalks=14,weighted=True):
+	args.weighted=weighted
+	args.input=input
+	args.environment=condition
+	args.walk_length=walkLength
+	args.output=output
+	args.dimensions=dimensions
+	args.num_walks=nrWalks
+	main(args)
 def main(args):
 	'''
 	Pipeline for representational learning for all nodes in a graph.
@@ -104,6 +113,5 @@ def main(args):
 	walks = G.simulate_walks(args.num_walks, args.walk_length)
 	learn_embeddings(walks)
 
-if __name__ == "__main__":
-	args = parse_args()
-	main(args)
+
+args = parse_args()

@@ -1,8 +1,14 @@
 from sklearn import svm
 import os
+import sys
 import re
 import numpy as np
+from math import sqrt
 import array
+class Classifs:
+    def __init__(self,label,score):
+        self.label=label
+        self.score=score
 class SVMobj:
     def __init__(self,):
         self.index = 0;
@@ -44,6 +50,75 @@ class SVMobj:
                 self.index = self.index + 1;
     def distance(self,sample, train):
         return 0
+    def vectorDistance(self,a,b):#euclidean distance
+        if(len(a) is not len (b)):
+            raise ValueError('The shapes are not equal')
+        sum=0
+        for i in range(len(a)):
+            sum+=pow(a[i]-b[i],2)
+        return sqrt(sum)
+
+
+    def compareWithTraining(self,sample):
+        nrNeighbors=30
+        scores = []
+        for index in range(0,len(sample)):
+
+            row=sample[index]
+
+            bestLabel=-1
+            bestScore = sys.maxint
+            for train,label in zip(self.data,self.labels):
+                try:
+                    trainRow=train[index]
+                except:
+                    continue
+                computedScore=self.vectorDistance(row, trainRow)
+                if(computedScore<bestScore):
+                    bestScore=computedScore
+                    bestLabel=label
+            scores.append(Classifs(bestLabel,bestScore));
+        scores.sort(key=lambda x:x.score,reverse=True)
+        votes=np.zeros(len(self.LabelDict))
+        for i in range(nrNeighbors):
+            votes[scores[i].label]= votes[scores[i].label]+1
+        smallesScore=0
+        trueLabel=-1
+        for i in range(0,len(self.LabelDict)):
+            if(votes[i]>smallesScore):
+                smallesScore=votes[i]
+                trueLabel=i
+        return trueLabel
+
+
+
+
+    def KNN(self,srcDir):
+        overallScore=0
+        allFiles=os.listdir(srcDir)
+        for filename in allFiles :
+            with open (os.path.join(srcDir,filename)) as file:
+                m = re.search("EMBD_(.+?)_", filename)
+                condition = m.group(1)
+                w, h = [int(x) for x in next(file).split()]
+                print("Predicting for file " + filename);
+                sample={}
+                for j in range(0, w):  # loop through all clasifiers
+                    s = [float(x) for x in
+                         next(file).split()]  # get line by line embedding and use the appropiat classifier
+                    m = int(s.pop(0))
+                    sample[m]=s
+                classifiedLabel=self.compareWithTraining(sample)
+                print(classifiedLabel)
+                isOk=classifiedLabel is self.LabelDict[condition]
+                if isOk:
+                    overallScore=overallScore+1
+                print("The prediction is "+str(isOk))
+        print("The acc is "+str(overallScore/float(len(allFiles))))
+
+
+
+
     def classify(self,srcDir):
 
 
@@ -128,6 +203,6 @@ obj=SVMobj()
 obj.storeEmbedding("Control", "./training/embeddings/")
 obj.storeEmbedding("EtOH", "./training/embeddings/")
 #obj.storeEmbedding("Abstinence", "./training/embeddings/")
-
-classifiers=obj.train()
-obj.classify("./testing/embeddings")
+obj.KNN("./testing/embeddings")
+# classifiers=obj.train()
+# obj.classify("./testing/embeddings")
