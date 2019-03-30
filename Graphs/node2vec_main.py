@@ -101,6 +101,13 @@ def newMain(input,dimensions,  output,condition,walkLength,nrWalks=14,weighted=T
 	args.dimensions=dimensions
 	args.num_walks=nrWalks
 	main(args)
+def getGraphWalks(inputFile,dimensions,directed,num_walks,walk_length):
+	nx_G = read_graph()
+	G = node2vec.Graph(nx_G, directed, args.p, args.q)
+	# mat=nx.to_numpy_matrix(G)
+	G.preprocess_transition_probs()
+	walks = G.simulate_walks(args.num_walks, args.walk_length)
+	return walks;
 def main(args):
 	'''
 	Pipeline for representational learning for all nodes in a graph.

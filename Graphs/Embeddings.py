@@ -67,6 +67,49 @@ class Mat2Graph():
             #     trial) + ".txt")
             index = index + 1
 
+    def learn_embeddings(self,walks,outFile,dimensions,windowsSize,nrWorkers,nrIterations):
+        '''
+        Learn embeddings by optimizing the Skipgram objective using SGD.
+        '''
+        walks = [map(str, walk) for walk in walks]
+        model = Word2Vec(walks, size=dimensions, window=windowsSize, min_count=0, sg=1, workers=nrWorkers,
+                         iter=nrIterations)
+
+        model.wv.save_word2vec_format(outFile)
+
+        return
+    def writeConditionEmbedding(self,condition,outFolder):
+        index = 0
+        walkLength=30
+        dimensions = 85
+        nrWalks = 45
+        matsi = reader.getAllByCondition(condition)  # getall mats
+        allWalks=[]
+        output = outFolder + "embeddings/EMBD_" + condition +".txt"
+
+        for [matu, fileName] in matsi:
+            print("Processing file " + str(fileName))
+            # animalId = int(index / 5) + 1  # each animal has 5 readings for a state
+            m = re.search(condition + "-(.+?)-", fileName)
+            trial = m.group(1)
+            aux = matu
+            np.savetxt(outFolder + trial, aux, fmt="%f", delimiter=',')  # just for testing
+            size = aux.shape
+            grafFileName=outFolder + "graf" + str(trial) + ".txt"
+            with open(grafFileName, 'w+') as file:  # save as adj lisr
+                for i in range(0, size[0]):
+                    for j in range(i + 1, size[1]):
+                        if aux[i][j] is not 0:
+                            file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
+            inputName = outFolder + "/graf" + str(trial) + ".txt"
+
+            allWalks.append(getGraphWalks(grafFileName,dimensions,directed=False,walk_length=walkLength,num_walks=nrWalks))
+            #newMain(inputName, dimensions, output, condition, walkLength, nrWalks, True)
+            # os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
+            #     trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
+            #     trial) + ".txt")
+            index = index + 1
+        self.learn_embeddings(allWalks,output,dimensions,10,8,1)
 def createEmbeddings(outFolder,readingsFolder,conditions):
 
     # reader.readAll2("./Readings/Readings_Train/",["EtOH","Control"])
@@ -79,11 +122,11 @@ def createEmbeddings(outFolder,readingsFolder,conditions):
     os.makedirs(os.path.dirname(outFolder + "embeddings/"))
     embedder = Mat2Graph()
     for condition in conditions:
-        embedder.writeAdjMatrixForCondition(condition, outFolder)
+        embedder.writeConditionEmbedding(condition, outFolder)
 
 
 createEmbeddings('./training/',"./Readings/Readings_Train/",["Control","EtOH","Abstinence"])
-createEmbeddings('./testing/',"./Readings/Readings_Test/",["Control","EtOH"])
+#createEmbeddings('./testing/',"./Readings/Readings_Test/",["Control","EtOH"])
 
 
 
