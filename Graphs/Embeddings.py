@@ -166,7 +166,7 @@ readings=None# 4d mat 1 dim=clasify alg
 # 4 dim window size
 # 0-knn,1 closest
 
-needNewData=True
+needNewData=False
 nrClassifiers=2
 walksSet=[20,30]
 walkLengthSet=[10,15,20]
@@ -179,12 +179,12 @@ if needNewData:
 
                     readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
                 print("Starting new execution",i, j, k)
-
+                start = time.time()
                 createEmbeddings(embedder.writeConditionEmbedding, './training/', "./Readings/Readings_Train/",
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
                 createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', "./Readings/Readings_Test/",
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-                start = time.time()
+
                 print("Finished with ",i, j, k)
                 print("Elapsed time ",str(int(time.time()-start)))
 
@@ -194,21 +194,36 @@ if needNewData:
                 obj.storeEmbedding("Abstinence", "./training/embeddings/")
 
                 readings[0,i, j, k]=  obj.KNN("./testing/embeddings",1)
-                readings[1, i, j, k]=obj.classifyByClosestNeighbor("./training/embeddings/")
+                readings[1, i, j, k]=obj.classifyByClosestNeighbor("./testing/embeddings/")
     filehandler = open(b"results.obj", "wb")
     pickle.dump(readings, filehandler)
     filehandler.close()
 else:
+    # readings = None  # 4d mat 1 dim=clasify alg
+    #                     2 dim-nrwalks
+    # 3 dim-walkLength
+    # 4 dim window size
+    # 0-knn,1 closest
+    obj = SVMobj()
+    obj.storeEmbedding("Control", "./training/embeddings/")
+    obj.storeEmbedding("EtOH", "./training/embeddings/")
+    obj.storeEmbedding("Abstinence", "./training/embeddings/")
+
+    obj.KNN("./testing/embeddings", 1)
+    obj.classifyByClosestNeighbor("./testing/embeddings/")
+    exit(1)
     fig, ax = plt.subplots()
     filehandler = open(b"results.obj", "rb")
 
     readings=pickle.load(filehandler)
-    ax.plot(walksSet, readings[0,:,2,2], 'k--', label='walksSet length')
-    ax.plot(walksSet, readings[1,:,2,2], 'k', label='walksSet length')
+    # ax.plot(walksSet, readings[0,:,2,2], 'k--', label='walksSet length KNN')
+    # ax.plot(walksSet, readings[1,:,2,2], 'k', label='walksSet length closest')
+    # ax.plot(walkLengthSet, readings[0, 1, :, 2], 'g--', label='walksLengthSet length KNN')
+    # ax.plot(walkLengthSet, readings[1, 1, :, 2], 'r--', label='walksLengthSet length length closest')
+    ax.plot(windowSizeSet, readings[0, 1, 2, :], 'g--', label='windowsSize KNN')
+    ax.plot(windowSizeSet, readings[1, 1, 2, :], 'r--', label='windowSize closest')
 
-
-
-    legend = ax.legend(loc='upper center', shadow=True, fontsize='x-large')
+    legend = ax.legend(loc='center', shadow=True, fontsize='x-large')
 
     # Put a nicer background color on the legend.
     legend.get_frame().set_facecolor('C0')

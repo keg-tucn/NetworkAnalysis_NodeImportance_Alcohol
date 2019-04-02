@@ -116,7 +116,7 @@ class SVMobj:
                 m = re.search("EMBD_(.+?)_", filename)
                 condition = m.group(1)
                 w, h = [int(x) for x in next(file).split()]
-                print("Predicting for file " + filename);
+                print("CLOSEST:Predicting for file " + filename);
                 sample = {}
                 for j in range(0, w):  # read embedding
                     s = [float(x) for x in
@@ -141,7 +141,7 @@ class SVMobj:
                 m = re.search("EMBD_(.+?)_", filename)
                 condition = m.group(1)
                 w, h = [int(x) for x in next(file).split()]
-                print("Predicting for file " + filename);
+                print("KNN:Predicting for file " + filename);
                 sample={}
                 for j in range(0, w):  # loop through all clasifiers
                     s = [float(x) for x in
