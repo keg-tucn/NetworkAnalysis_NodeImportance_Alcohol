@@ -92,7 +92,7 @@ def learn_embeddings(walks):
 
 	return
 
-def newMain(input,dimensions,  output,condition,walkLength,nrWalks=14,weighted=True):
+def newMain(input,dimensions,  output,condition,walkLength,nrWalks,weighted,windowSize):
 	args.weighted=weighted
 	args.input=input
 	args.environment=condition
@@ -100,13 +100,17 @@ def newMain(input,dimensions,  output,condition,walkLength,nrWalks=14,weighted=T
 	args.output=output
 	args.dimensions=dimensions
 	args.num_walks=nrWalks
+	args.window_size=windowSize
 	main(args)
-def getGraphWalks(inputFile,dimensions,directed,num_walks,walk_length):
+def getGraphWalks(inputFile,dimensions,directed,num_walks,walk_length,weighted):
+	args.input=inputFile
+	args.dimensions=dimensions
+	args.weighted=weighted
 	nx_G = read_graph()
 	G = node2vec.Graph(nx_G, directed, args.p, args.q)
 	# mat=nx.to_numpy_matrix(G)
 	G.preprocess_transition_probs()
-	walks = G.simulate_walks(args.num_walks, args.walk_length)
+	walks = G.simulate_walks(num_walks, walk_length)
 	return walks;
 def main(args):
 	'''

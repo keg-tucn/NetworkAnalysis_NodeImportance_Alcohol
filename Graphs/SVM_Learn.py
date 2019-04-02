@@ -56,11 +56,28 @@ class SVMobj:
         sum=0
         for i in range(len(a)):
             sum+=pow(a[i]-b[i],2)
+        if sum<0:
+            raise ValueError("The distance between 2 vectors cannot be negative")
         return sqrt(sum)
+    def closestNeighboor(self,sample):
+        bestScore=sys.maxint;
+        bestLabel=-1;
+        for i,ngb in enumerate(self.data):
+            tmpDistance=0
+            for j in range(0,len(sample)):
+                try:
+                    sampleRow=sample[j]
+                    ngbRow=ngb[j]
+                    tmpDistance+=self.vectorDistance(sampleRow,ngbRow)
+                except:
+                    print("File with index "+str(i)+" is missing vector "+str(j))
+            if tmpDistance<bestScore:
+                bestScore=tmpDistance
+                bestLabel=self.labels[i]
+        return bestLabel
 
+    def compareWithTraining(self,sample,nrNeighbors):
 
-    def compareWithTraining(self,sample):
-        nrNeighbors=30
         scores = []
         for index in range(0,len(sample)):
 
@@ -91,9 +108,32 @@ class SVMobj:
         return trueLabel
 
 
+    def classifyByClosestNeighbor(self,srcDir):
+        overallScore = 0
+        allFiles = os.listdir(srcDir)
+        for filename in allFiles:
+            with open(os.path.join(srcDir, filename)) as file:
+                m = re.search("EMBD_(.+?)_", filename)
+                condition = m.group(1)
+                w, h = [int(x) for x in next(file).split()]
+                print("Predicting for file " + filename);
+                sample = {}
+                for j in range(0, w):  # read embedding
+                    s = [float(x) for x in
+                         next(file).split()]  # get line by line embedding and use the appropiat classifier
+                    m = int(s.pop(0))
+                    sample[m] = s
+                classifiedLabel = self.closestNeighboor(sample)
+                print("The found label is"+str(classifiedLabel))
+                isOk = classifiedLabel is self.LabelDict[condition]
+                if isOk:
+                    overallScore = overallScore + 1
+                print("The prediction is " + str(isOk))
+        accuracy = overallScore / float(len(allFiles))
+        print("The acc is " + str(accuracy))
+        return accuracy
 
-
-    def KNN(self,srcDir):
+    def KNN(self,srcDir,nrNeighbors):
         overallScore=0
         allFiles=os.listdir(srcDir)
         for filename in allFiles :
@@ -108,14 +148,15 @@ class SVMobj:
                          next(file).split()]  # get line by line embedding and use the appropiat classifier
                     m = int(s.pop(0))
                     sample[m]=s
-                classifiedLabel=self.compareWithTraining(sample)
+                classifiedLabel=self.compareWithTraining(sample,nrNeighbors)
                 print(classifiedLabel)
                 isOk=classifiedLabel is self.LabelDict[condition]
                 if isOk:
                     overallScore=overallScore+1
                 print("The prediction is "+str(isOk))
-        print("The acc is "+str(overallScore/float(len(allFiles))))
-
+        accuracy=overallScore/float(len(allFiles))
+        print("The acc is "+str(accuracy))
+        return accuracy
 
 
 
@@ -199,10 +240,3 @@ class SVMobj:
 
 
 
-obj=SVMobj()
-obj.storeEmbedding("Control", "./training/embeddings/")
-obj.storeEmbedding("EtOH", "./training/embeddings/")
-#obj.storeEmbedding("Abstinence", "./training/embeddings/")
-# obj.KNN("./testing/embeddings")
-classifiers=obj.train()
-obj.classify("./testing/embeddings")
