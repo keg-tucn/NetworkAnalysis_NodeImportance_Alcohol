@@ -154,6 +154,76 @@ def classifyAndTrain():
     classifiers = obj.train()
     # obj.classify("./testing/embeddings")
 
+def runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
+    readings = None  # 4d mat 1 dim=clasify alg
+    #                     2 dim-nrwalks
+    # 3 dim-walkLength
+    # 4 dim window size
+    # 0-knn,1 closest
+
+
+
+
+
+
+
+    # for i,nrWalks in enumerate(walksSet):
+    #     for j,walkLength in enumerate(walkLengthSet):
+    #         for k,windowSize in enumerate(windowSizeSet):
+    #             if readings is None:
+    #
+    #                 readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
+    #             print("Starting new execution",i, j, k)
+    #             start = time.time()
+    #             createEmbeddings(embedder.writeConditionEmbedding, './training/', "./Readings/Readings_Train/",
+    #                              ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+    #             createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', "./Readings/Readings_Test/",
+    #                              ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+    #
+    #             print("Finished with ",i, j, k)
+    #             print("Elapsed time ",str(int(time.time()-start)))
+    #
+    #             obj = SVMobj()
+    #             obj.storeEmbedding("Control", "./training/embeddings/")
+    #             obj.storeEmbedding("EtOH", "./training/embeddings/")
+    #             obj.storeEmbedding("Abstinence", "./training/embeddings/")
+    #
+    #             readings[0,i, j, k]=  obj.KNN("./testing/embeddings",1)
+    #             readings[1, i, j, k]=obj.classifyByClosestNeighbor("./testing/embeddings/")
+    # filehandler = open(b"resultsSingleInstances.obj", "wb")
+    # pickle.dump(readings, filehandler)
+    # filehandler.close()
+    nrClassifiers = 3  # third dim for SVM classifier
+
+    for i, nrWalks in enumerate(walksSet):
+        for j, walkLength in enumerate(walkLengthSet):
+            for k, windowSize in enumerate(windowSizeSet):
+                if readings is None:
+                    readings = np.zeros((nrClassifiers, len(walksSet), len(walkLengthSet), len(windowSizeSet)))
+                print("Starting new execution", i, j, k)
+                start = time.time()
+                createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', "./Readings/Readings_Train/",
+                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
+                                 windowSize=windowSize)
+                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', "./Readings/Readings_Test/",
+                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
+                                 windowSize=windowSize)
+
+                print("Finished with ", i, j, k)
+                print("Elapsed time ", str(int(time.time() - start)))
+
+                obj = SVMobj()
+                obj.storeEmbedding("Control", "./training/embeddings/")
+                obj.storeEmbedding("EtOH", "./training/embeddings/")
+                obj.storeEmbedding("Abstinence", "./training/embeddings/")
+
+                readings[0, i, j, k] = obj.KNN("./testing/embeddings", 8)
+                readings[1, i, j, k] = obj.classifyByClosestNeighbor("./testing/embeddings/")
+                obj.train()
+                readings[2, i, j, k] = obj.classify("./testing/embeddings/")
+    filehandler = open(b"resultsMultipleInstances.obj", "wb")
+    pickle.dump(readings, filehandler)
+    filehandler.close()
 
 proc=MatProc()
 reader = Reader()
@@ -166,69 +236,34 @@ readings=None# 4d mat 1 dim=clasify alg
 # 4 dim window size
 # 0-knn,1 closest
 
-needNewData=False
+needNewData=True
 nrClassifiers=2
-walksSet=[20,30]
-walkLengthSet=[10,15,20]
-windowSizeSet=[5,7,9]
-if needNewData:
-    for i,nrWalks in enumerate(walksSet):
-        for j,walkLength in enumerate(walkLengthSet):
-            for k,windowSize in enumerate(windowSizeSet):
-                if readings is None:
+walksSet=[20,30,40]
+walkLengthSet=[10,15]
+windowSizeSet=[5,7]
+obj = SVMobj()
+runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 
-                    readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
-                print("Starting new execution",i, j, k)
-                start = time.time()
-                createEmbeddings(embedder.writeConditionEmbedding, './training/', "./Readings/Readings_Train/",
-                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', "./Readings/Readings_Test/",
-                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+exit(1)
+fig, ax = plt.subplots()
+filehandler = open(b"resultsMultipleInstances.obj", "rb")
 
-                print("Finished with ",i, j, k)
-                print("Elapsed time ",str(int(time.time()-start)))
+readings=pickle.load(filehandler)
+# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
+# ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
+ax.plot(walkLengthSet, readings[0, 2, :, 1], 'g--', label='walksLengthSet length KNN')
+ax.plot(walkLengthSet, readings[1, 2, :, 1], 'r--', label='walksLengthSet length length closest')
+ax.plot(walkLengthSet, readings[2, 2, :, 1], 'y--', label='walksLengthSet length length SVM')
 
-                obj = SVMobj()
-                obj.storeEmbedding("Control", "./training/embeddings/")
-                obj.storeEmbedding("EtOH", "./training/embeddings/")
-                obj.storeEmbedding("Abstinence", "./training/embeddings/")
+# ax.plot(windowSizeSet, readings[0, 1, 1, :], 'g--', label='windowsSize KNN')
+# ax.plot(windowSizeSet, readings[1, 1, 1, :], 'r--', label='windowSize closest')
 
-                readings[0,i, j, k]=  obj.KNN("./testing/embeddings",1)
-                readings[1, i, j, k]=obj.classifyByClosestNeighbor("./testing/embeddings/")
-    filehandler = open(b"results.obj", "wb")
-    pickle.dump(readings, filehandler)
-    filehandler.close()
-else:
-    # readings = None  # 4d mat 1 dim=clasify alg
-    #                     2 dim-nrwalks
-    # 3 dim-walkLength
-    # 4 dim window size
-    # 0-knn,1 closest
-    obj = SVMobj()
-    obj.storeEmbedding("Control", "./training/embeddings/")
-    obj.storeEmbedding("EtOH", "./training/embeddings/")
-    obj.storeEmbedding("Abstinence", "./training/embeddings/")
+legend = ax.legend(loc='center', shadow=True, fontsize='x-large')
 
-    obj.KNN("./testing/embeddings", 1)
-    obj.classifyByClosestNeighbor("./testing/embeddings/")
-    exit(1)
-    fig, ax = plt.subplots()
-    filehandler = open(b"results.obj", "rb")
+# Put a nicer background color on the legend.
+legend.get_frame().set_facecolor('C0')
 
-    readings=pickle.load(filehandler)
-    # ax.plot(walksSet, readings[0,:,2,2], 'k--', label='walksSet length KNN')
-    # ax.plot(walksSet, readings[1,:,2,2], 'k', label='walksSet length closest')
-    # ax.plot(walkLengthSet, readings[0, 1, :, 2], 'g--', label='walksLengthSet length KNN')
-    # ax.plot(walkLengthSet, readings[1, 1, :, 2], 'r--', label='walksLengthSet length length closest')
-    ax.plot(windowSizeSet, readings[0, 1, 2, :], 'g--', label='windowsSize KNN')
-    ax.plot(windowSizeSet, readings[1, 1, 2, :], 'r--', label='windowSize closest')
-
-    legend = ax.legend(loc='center', shadow=True, fontsize='x-large')
-
-    # Put a nicer background color on the legend.
-    legend.get_frame().set_facecolor('C0')
-
-    plt.show()
+plt.show()
 
 
 sys.exit()
