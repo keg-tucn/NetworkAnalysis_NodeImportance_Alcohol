@@ -167,34 +167,34 @@ def runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
 
 
 
-    # for i,nrWalks in enumerate(walksSet):
-    #     for j,walkLength in enumerate(walkLengthSet):
-    #         for k,windowSize in enumerate(windowSizeSet):
-    #             if readings is None:
-    #
-    #                 readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
-    #             print("Starting new execution",i, j, k)
-    #             start = time.time()
-    #             createEmbeddings(embedder.writeConditionEmbedding, './training/', "./Readings/Readings_Train/",
-    #                              ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-    #             createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', "./Readings/Readings_Test/",
-    #                              ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-    #
-    #             print("Finished with ",i, j, k)
-    #             print("Elapsed time ",str(int(time.time()-start)))
-    #
-    #             obj = SVMobj()
-    #             obj.storeEmbedding("Control", "./training/embeddings/")
-    #             obj.storeEmbedding("EtOH", "./training/embeddings/")
-    #             obj.storeEmbedding("Abstinence", "./training/embeddings/")
-    #
-    #             readings[0,i, j, k]=  obj.KNN("./testing/embeddings",1)
-    #             readings[1, i, j, k]=obj.classifyByClosestNeighbor("./testing/embeddings/")
-    # filehandler = open(b"resultsSingleInstances.obj", "wb")
-    # pickle.dump(readings, filehandler)
-    # filehandler.close()
-    nrClassifiers = 3  # third dim for SVM classifier
+    for i,nrWalks in enumerate(walksSet):
+        for j,walkLength in enumerate(walkLengthSet):
+            for k,windowSize in enumerate(windowSizeSet):
+                if readings is None:
 
+                    readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
+                print("Starting new execution",i, j, k)
+                start = time.time()
+                createEmbeddings(embedder.writeConditionEmbedding, './training/', "./Readings/Readings_Train/",
+                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', "./Readings/Readings_Test/",
+                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+
+                print("Finished with ",i, j, k)
+                print("Elapsed time ",str(int(time.time()-start)))
+
+                obj = SVMobj()
+                obj.storeEmbedding("Control", "./training/embeddings/")
+                obj.storeEmbedding("EtOH", "./training/embeddings/")
+                obj.storeEmbedding("Abstinence", "./training/embeddings/")
+
+                readings[0,i, j, k]=  obj.KNN("./testing/embeddings",1)
+                readings[1, i, j, k]=obj.classifyByClosestNeighbor("./testing/embeddings/")
+    filehandler = open(b"resultsSingleInstances.obj", "wb")
+    pickle.dump(readings, filehandler)
+    filehandler.close()
+    nrClassifiers = 3  # third dim for SVM classifier
+    readings=None
     for i, nrWalks in enumerate(walksSet):
         for j, walkLength in enumerate(walkLengthSet):
             for k, windowSize in enumerate(windowSizeSet):
@@ -224,6 +224,24 @@ def runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
     filehandler = open(b"resultsMultipleInstances.obj", "wb")
     pickle.dump(readings, filehandler)
     filehandler.close()
+def savePlot(X,Y,labels,output):
+    fig, ax = plt.subplots()
+
+    colors=['r--','g--','k']
+    for index,(subY,label,color) in enumerate(zip(Y,labels,colors)):
+        ax.plot(X, subY, color, label=label)
+
+    # ax.plot(windowSizeSet, readings[0, 1, 1, :], 'g--', label='windowsSize KNN')
+    # ax.plot(windowSizeSet, readings[1, 1, 1, :], 'r--', label='windowSize closest')
+
+    legend = ax.legend(loc='center', shadow=True, fontsize='x-large')
+
+    # Put a nicer background color on the legend.
+    legend.get_frame().set_facecolor('C0')
+    plt.savefig(output+".png")
+    plt.show()
+    plt.clf()
+
 
 proc=MatProc()
 reader = Reader()
@@ -239,34 +257,49 @@ readings=None# 4d mat 1 dim=clasify alg
 needNewData=True
 nrClassifiers=2
 walksSet=[20,30,40]
-walkLengthSet=[10,15]
-windowSizeSet=[5,7]
+walkLengthSet=[10,15,20]
+windowSizeSet=[5,7,9]
 obj = SVMobj()
-runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+# runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 
-exit(1)
-fig, ax = plt.subplots()
+#Read pickled data
 filehandler = open(b"resultsMultipleInstances.obj", "rb")
-
 readings=pickle.load(filehandler)
+
+
+
 # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
 # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-ax.plot(walkLengthSet, readings[0, 2, :, 1], 'g--', label='walksLengthSet length KNN')
-ax.plot(walkLengthSet, readings[1, 2, :, 1], 'r--', label='walksLengthSet length length closest')
-ax.plot(walkLengthSet, readings[2, 2, :, 1], 'y--', label='walksLengthSet length length SVM')
+savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest','walksLengthSet length length SVM'],"WalkLength Set Multiple")
+savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
+savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
 
-# ax.plot(windowSizeSet, readings[0, 1, 1, :], 'g--', label='windowsSize KNN')
-# ax.plot(windowSizeSet, readings[1, 1, 1, :], 'r--', label='windowSize closest')
-
-legend = ax.legend(loc='center', shadow=True, fontsize='x-large')
-
-# Put a nicer background color on the legend.
-legend.get_frame().set_facecolor('C0')
-
-plt.show()
+filehandler = open(b"resultsSingleInstances.obj", "rb")
+readings=pickle.load(filehandler)
 
 
-sys.exit()
+
+# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
+# ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
+savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest','walksLengthSet length length SVM'],"WalkLength Set Single")
+savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set Single")
+# savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
+
+#fig, ax = plt.subplots()
+
+# ax.plot(walkLengthSet, readings[0, 2, :, 1], 'g--', label='walksLengthSet length KNN')
+# ax.plot(walkLengthSet, readings[1, 2, :, 1], 'r--', label='walksLengthSet length length closest')
+# ax.plot(walkLengthSet, readings[2, 2, :, 1], 'y--', label='walksLengthSet length length SVM')
+#
+#
+# legend = ax.legend(loc='center', shadow=True, fontsize='x-large')
+#
+# # Put a nicer background color on the legend.
+# legend.get_frame().set_facecolor('C0')
+#
+# plt.show()
+
+
 
 
 
