@@ -130,7 +130,7 @@ class Mat2Graph():
 def createEmbeddings(function,outFolder,readingsFolder,conditions,walkLength,nrWalks,windowSize):
 
     # reader.readAll2("./Readings/Readings_Train/",["EtOH","Control"])
-    reader.readAll(readingsFolder)
+    # reader.readAll(readingsFolder)
     try:
         shutil.rmtree(outFolder)
     except:
@@ -140,7 +140,7 @@ def createEmbeddings(function,outFolder,readingsFolder,conditions,walkLength,nrW
 
     for condition in conditions:
         function(condition, outFolder,walkLength=walkLength,nrWalks=nrWalks,windowSize=windowSize)
-def classifyAndTrain():
+def classifyAndTrain(obj):
 
     obj.storeEmbedding("Control", "./training/embeddings/")
     obj.storeEmbedding("EtOH", "./training/embeddings/")
@@ -154,19 +154,22 @@ def classifyAndTrain():
     classifiers = obj.train()
     # obj.classify("./testing/embeddings")
 
+
+def read(srcFolder, option):
+    global reader
+    allConditions = ["Control", "EtOH", "Abstinence"]
+    if (option is 1):
+        reader.readAll(srcFolder)
+    if (option is 2):
+        reader.readAll2(srcFolder, allConditions)
+
+
 def runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
     readings = None  # 4d mat 1 dim=clasify alg
     #                     2 dim-nrwalks
     # 3 dim-walkLength
     # 4 dim window size
     # 0-knn,1 closest
-
-
-
-
-
-
-
     for i,nrWalks in enumerate(walksSet):
         for j,walkLength in enumerate(walkLengthSet):
             for k,windowSize in enumerate(windowSizeSet):
@@ -174,6 +177,7 @@ def runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
 
                     readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
                 print("Starting new execution",i, j, k)
+
                 start = time.time()
                 createEmbeddings(embedder.writeConditionEmbedding, './training/', "./Readings/Readings_Train/",
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
@@ -247,7 +251,6 @@ proc=MatProc()
 reader = Reader()
 model=None
 embedder = Mat2Graph()
-
 readings=None# 4d mat 1 dim=clasify alg
 #                     2 dim-nrwalks
 # 3 dim-walkLength
@@ -259,47 +262,39 @@ nrClassifiers=2
 walksSet=[20,30,40]
 walkLengthSet=[10,15,20]
 windowSizeSet=[5,7,9]
-obj = SVMobj()
+
+
 # runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 
 #Read pickled data
+
 filehandler = open(b"resultsMultipleInstances.obj", "rb")
 readings=pickle.load(filehandler)
+root="./embedding_h igh/"
+folders=["sum_weight_10","sum_weight_20","sum_weight_30","sum_weight_40","sum_weight_50","sum_weight_60","sum_weight_70"]
 
+for folder in folders:
+    source=os.path.join(root,folder)
 
+    read(source,2)
+    runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 
-# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
+    # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
 # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest','walksLengthSet length length SVM'],"WalkLength Set Multiple")
-savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
-savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
+    savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest','walksLengthSet length length SVM'],"WalkLength Set Multiple")
+    savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
+    savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
 
-filehandler = open(b"resultsSingleInstances.obj", "rb")
-readings=pickle.load(filehandler)
-
-
-
-# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
-# ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest','walksLengthSet length length SVM'],"WalkLength Set Single")
-savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set Single")
-# savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
-
-#fig, ax = plt.subplots()
-
-# ax.plot(walkLengthSet, readings[0, 2, :, 1], 'g--', label='walksLengthSet length KNN')
-# ax.plot(walkLengthSet, readings[1, 2, :, 1], 'r--', label='walksLengthSet length length closest')
-# ax.plot(walkLengthSet, readings[2, 2, :, 1], 'y--', label='walksLengthSet length length SVM')
-#
-#
-# legend = ax.legend(loc='center', shadow=True, fontsize='x-large')
-#
-# # Put a nicer background color on the legend.
-# legend.get_frame().set_facecolor('C0')
-#
-# plt.show()
+    filehandler = open(b"resultsSingleInstances.obj", "rb")
+    readings=pickle.load(filehandler)
 
 
+
+    # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
+    # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
+    savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest'],"WalkLength Set Single")
+    savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest'],"Windows size set Single")
+    savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest'],"walksSet single")
 
 
 
