@@ -213,7 +213,7 @@ class SVMobj:
         print("I had a number of images:"+str(nrOfFiles))
         print("The scores are "+str(np.sort(scores)))
         print("Final acc"+str(meanAcc/float(nrOfFiles)))
-
+        return meanAcc/float(nrOfFiles)
 
 
     def train(self):

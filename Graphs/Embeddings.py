@@ -240,14 +240,14 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
 def savePlot(X,Y,labels,output):
     fig, ax = plt.subplots()
 
-    colors=['r--','g--','k']
+    colors=['r--','g--','b+']
     for index,(subY,label,color) in enumerate(zip(Y,labels,colors)):
         ax.plot(X, subY, color, label=label)
 
     # ax.plot(windowSizeSet, readings[0, 1, 1, :], 'g--', label='windowsSize KNN')
     # ax.plot(windowSizeSet, readings[1, 1, 1, :], 'r--', label='windowSize closest')
 
-    legend = ax.legend(loc='center', shadow=True, fontsize='x-large')
+    legend = ax.legend(loc='best', shadow=True, fontsize='x-large')
 
     # Put a nicer background color on the legend.
     legend.get_frame().set_facecolor('C0')
@@ -289,10 +289,10 @@ trainSource=os.path.join(trainSource,'train')
 
 testSource=os.path.join(root,folders[4],'test')
 
-runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+# runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
 # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-
+plt.close('all')
 filehandler = open(b"resultsMultipleInstances.obj", "rb")
 readings=pickle.load(filehandler)
 savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest','walksLengthSet length length SVM'],"WalkLength Set Multiple")
@@ -306,7 +306,7 @@ readings=pickle.load(filehandler)
 
 # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
 # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest'],"WalkLength Set Single")
+savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet  closest'],"WalkLength Set Single")
 savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest'],"Windows size set Single")
 savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest'],"walksSet single")
 
