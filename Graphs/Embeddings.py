@@ -216,6 +216,8 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
                 createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', trainSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
+                reader.readings = None
+                read(testSource, 2)
                 createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
