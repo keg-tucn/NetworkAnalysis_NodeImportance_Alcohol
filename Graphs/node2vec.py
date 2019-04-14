@@ -68,7 +68,10 @@ class Graph():
 				unnormalized_probs.append(G[dst][dst_nbr]['weight'])
 			else:
 				unnormalized_probs.append(G[dst][dst_nbr]['weight']/q)
-		norm_const = sum(unnormalized_probs)
+
+		minimum = min(unnormalized_probs)
+		maximum = max(unnormalized_probs)
+		norm_const = maximum - minimum if maximum - minimum != 0.0 else 1.0;
 		normalized_probs =  [float(u_prob)/norm_const for u_prob in unnormalized_probs]
 
 		return alias_setup(normalized_probs)
@@ -83,7 +86,10 @@ class Graph():
 		alias_nodes = {}
 		for node in G.nodes():
 			unnormalized_probs = [G[node][nbr]['weight'] for nbr in sorted(G.neighbors(node))]
-			norm_const = sum(unnormalized_probs)
+
+			minimum=min(unnormalized_probs)
+			maximum=max(unnormalized_probs)
+			norm_const = maximum-minimum if maximum-minimum != 0.0 else 1.0;
 			normalized_probs =  [float(u_prob)/norm_const for u_prob in unnormalized_probs]
 			alias_nodes[node] = alias_setup(normalized_probs)
 

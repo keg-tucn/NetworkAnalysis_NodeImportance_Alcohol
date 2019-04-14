@@ -24,7 +24,7 @@ class Reader:
             onlyfiles = [f for f in listdir(currDir) if isfile(join(currDir, f)) and f.endswith('.xml')]
             for file in onlyfiles:
                 finePath=join(currDir,file)
-                G = nx.read_graphml(finePath)
+                G = nx.read_graphml(finePath,node_type=int)
                 m = re.search( "(.+?)-", file)#get data about the readings
                 animalId = m.group(1)
                 m = re.search(env+"-(.+?).xml", file)
@@ -32,14 +32,48 @@ class Reader:
                 oldName="P02_SCAPearson-"+str(animalId)+"-"+env+"-"+str(trial)+"-ValAtTimeOffset.csv"#save it with the normal name for the code to work
                 #mat=nx.to_numpy_matrix(G,nodelist=range(0,84))
                 mat = nx.adjacency_matrix(G)
+                row=mat[1,:]
+                t=np.array(row)
+                row=list(row)
+                copied=np.zeros((85,85))
+                for i in range(0,copied.shape[0]):
+                    for j in range(0, copied.shape[1]):
+                        try:
+                            copied[i,j]=mat[i,j]
+                        except:
+                            raise ValueError("Not found an edge")
+                dictionary[oldName]=copied
 
-                r=mat.todense()
-                convertedMat = list(mat)
-                test=nx.to_edgelist(G,nodelist=range(0,85))
-                dictionary[oldName]=convertedMat
-                np.savetxt("Testule",mat)
+
+
+                np.savetxt("Testule",copied)
                 print("Loaded "+oldName)
         self.readings=dictionary
+    def readAll3(self,srcDir,environments):
+        self.directory = srcDir
+        dictionary = {}
+        for env in environments:  # loop through envirnoments folders
+            currDir = srcDir
+            onlyfiles = [f for f in listdir(currDir) if isfile(join(currDir, f)) and f.endswith('.xml')]
+            for file in onlyfiles:
+                finePath = join(currDir, file)
+                G = nx.read_graphml(finePath)
+                m = re.search("(.+?)-", file)  # get data about the readings
+                animalId = m.group(1)
+                m = re.search(env + "-(.+?).xml", file)
+                trial = m.group(1)
+                oldName = "P02_SCAPearson-" + str(animalId) + "-" + env + "-" + str(
+                    trial) + "-ValAtTimeOffset.csv"  # save it with the normal name for the code to work
+                # mat=nx.to_numpy_matrix(G,nodelist=range(0,84))
+                mat = nx.adjacency_matrix(G)
+
+                r = mat.todense()
+                convertedMat = list(mat)
+                test = nx.to_edgelist(G, nodelist=range(0, 85))
+                dictionary[oldName] = convertedMat
+                np.savetxt("Testule", mat)
+                print("Loaded " + oldName)
+        self.readings = dictionary
 
 
     def getMat(self,method,animalCode,condition,id):

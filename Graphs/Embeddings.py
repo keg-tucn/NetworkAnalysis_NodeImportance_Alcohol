@@ -162,9 +162,12 @@ def read(srcFolder, option):
         reader.readAll(srcFolder)
     if (option is 2):
         reader.readAll2(srcFolder, allConditions)
+    if (option is 3):
+        reader.readAll3(srcFolder, allConditions)
 
 
-def runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
+
+def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
     readings = None  # 4d mat 1 dim=clasify alg
     #                     2 dim-nrwalks
     # 3 dim-walkLength
@@ -179,9 +182,13 @@ def runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
                 print("Starting new execution",i, j, k)
 
                 start = time.time()
-                createEmbeddings(embedder.writeConditionEmbedding, './training/', "./Readings/Readings_Train/",
+                reader.readings=None
+                read(trainSource, 2)
+                createEmbeddings(embedder.writeConditionEmbedding, './training/', trainSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', "./Readings/Readings_Test/",
+                reader.readings = None
+                read(testSource, 2)
+                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
 
                 print("Finished with ",i, j, k)
@@ -206,10 +213,10 @@ def runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
                     readings = np.zeros((nrClassifiers, len(walksSet), len(walkLengthSet), len(windowSizeSet)))
                 print("Starting new execution", i, j, k)
                 start = time.time()
-                createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', "./Readings/Readings_Train/",
+                createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', trainSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
-                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', "./Readings/Readings_Test/",
+                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
 
@@ -268,33 +275,38 @@ windowSizeSet=[5,7,9]
 
 #Read pickled data
 
-filehandler = open(b"resultsMultipleInstances.obj", "rb")
-readings=pickle.load(filehandler)
-root="./embedding_h igh/"
+
+root="./Dataset_without_time/sum_weight_high_edge_values/"
 folders=["sum_weight_10","sum_weight_20","sum_weight_30","sum_weight_40","sum_weight_50","sum_weight_60","sum_weight_70"]
 
-for folder in folders:
-    source=os.path.join(root,folder)
+# for folder in folders:
+#     source=os.path.join(root,folder)
+trainSource=os.path.join(root,folders[4])
+trainSource=os.path.join(trainSource,'train')
 
-    read(source,2)
-    runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 
-    # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
+testSource=os.path.join(root,folders[4],'test')
+
+runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
 # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-    savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest','walksLengthSet length length SVM'],"WalkLength Set Multiple")
-    savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
-    savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
 
-    filehandler = open(b"resultsSingleInstances.obj", "rb")
-    readings=pickle.load(filehandler)
+filehandler = open(b"resultsMultipleInstances.obj", "rb")
+readings=pickle.load(filehandler)
+savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest','walksLengthSet length length SVM'],"WalkLength Set Multiple")
+savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
+savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
+
+filehandler = open(b"resultsSingleInstances.obj", "rb")
+readings=pickle.load(filehandler)
 
 
 
-    # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
-    # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-    savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest'],"WalkLength Set Single")
-    savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest'],"Windows size set Single")
-    savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest'],"walksSet single")
+# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
+# ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
+savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet length length closest'],"WalkLength Set Single")
+savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest'],"Windows size set Single")
+savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest'],"walksSet single")
 
 
 
