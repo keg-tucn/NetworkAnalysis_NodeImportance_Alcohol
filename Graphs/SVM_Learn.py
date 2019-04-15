@@ -220,17 +220,19 @@ class SVMobj:
         nrOfNodes=len(self.data[0]);
         classifiers=[]
         for i in range(0,nrOfNodes):
-            clf=svm.SVC(kernel='poly',degree=4)
+            clf=svm.SVC(kernel='linear',degree=4)
             m=self.data[0]
             n=m[0]
 
-            X=[X[i] for X in self.data if np.sum(X[i]) is not 0]#take every i-th line from every embedding and toss out the 0 valued
+            X=[X[i] for X in self.data if np.sum(abs(X[i])) is not 0]#take every i-th line from every embedding and toss out the 0 valued
             #X=[x for y in X for x in y]# reduce an unnecessary dimension
 
             Y=[self.labels[x] for x in range(0,len(self.labels))  ] #            Y=[self.labels[i] for i in range(0,len(self.labels))  ] #
 
             xarray=np.array(X)
             yarray=np.array(Y)
+            if(len(xarray) != len(yarray)):
+                raise ValueError("Input vectors for the SVM  do not have a similar size")
             clf.fit(xarray,yarray);
             classifiers.append(clf) #train
             #single=X[55]

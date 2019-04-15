@@ -242,7 +242,7 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
 def savePlot(X,Y,labels,output):
     fig, ax = plt.subplots()
 
-    colors=['r--','g--','b+']
+    colors=['r--','g--','b--']
     for index,(subY,label,color) in enumerate(zip(Y,labels,colors)):
         ax.plot(X, subY, color, label=label)
 
@@ -256,8 +256,13 @@ def savePlot(X,Y,labels,output):
     plt.savefig(output+".png")
     plt.show()
     plt.clf()
-
-
+def test():
+    obj = SVMobj()
+    obj.storeEmbedding("Control", "./training/embeddings/")
+    obj.storeEmbedding("EtOH", "./training/embeddings/")
+    obj.storeEmbedding("Abstinence", "./training/embeddings/")
+    obj.train()
+    obj.classify("./testing/embeddings/")
 proc=MatProc()
 reader = Reader()
 model=None
@@ -274,10 +279,14 @@ walksSet=[20,30,40]
 walkLengthSet=[10,15,20]
 windowSizeSet=[5,7,9]
 
-
+test()
+sys.exit(1)
 # runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 
 #Read pickled data
+
+
+
 
 
 root="./Dataset_without_time/sum_weight_high_edge_values/"
@@ -291,15 +300,15 @@ trainSource=os.path.join(trainSource,'train')
 
 testSource=os.path.join(root,folders[4],'test')
 
-runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+# runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
 # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
 plt.close('all')
 filehandler = open(b"resultsMultipleInstances.obj", "rb")
 readings=pickle.load(filehandler)
 savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet  KNN','walksLengthSet   closest','walksLengthSet   SVM'],"WalkLength Set Multiple")
-savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
-savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
+savePlot(windowSizeSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
+savePlot(walksSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
 
 filehandler = open(b"resultsSingleInstances.obj", "rb")
 readings=pickle.load(filehandler)
@@ -309,8 +318,8 @@ readings=pickle.load(filehandler)
 # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
 # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
 savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet  closest'],"WalkLength Set Single")
-savePlot(walkLengthSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest'],"Windows size set Single")
-savePlot(walkLengthSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest'],"walksSet single")
+savePlot(windowSizeSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest'],"Windows size set Single")
+savePlot(walksSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest'],"walksSet single")
 
 
 
