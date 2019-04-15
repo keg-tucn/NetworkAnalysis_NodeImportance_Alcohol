@@ -180,7 +180,6 @@ class SVMobj:
                 self.nrRows = w
                 self.depth = h
 
-                r = range(w)
                 good=0
                 bad=0
                 fileScore=0;
@@ -200,12 +199,12 @@ class SVMobj:
                         bad=bad+1
 
 
-                weight/=sum(weight)#normalize weight vector
+                weight/=sum(abs(weight))#normalize weight vector
                 if(int(round(fileScore))==label):
                     meanAcc=meanAcc+1
 
                 print "The label is "+str(self.LabelDict[condition])
-                print '{}'.format(int(round(fileScore)))
+                print 'I have {}'.format(int(round(fileScore)))
                 print 'Raw{:0.16f}'.format(fileScore)
                 print "The classifiers acc is"+'{:0.16f}'.format(float(good/(good+bad)))
                # print("The good is "+str(good)+" and bad:"+str(bad));
@@ -220,7 +219,7 @@ class SVMobj:
         nrOfNodes=len(self.data[0]);
         classifiers=[]
         for i in range(0,nrOfNodes):
-            clf=svm.SVC(kernel='linear',degree=4)
+            clf=svm.SVC(kernel='linear')
             m=self.data[0]
             n=m[0]
 

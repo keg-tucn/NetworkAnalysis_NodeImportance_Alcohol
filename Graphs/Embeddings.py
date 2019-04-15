@@ -173,38 +173,38 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
     # 3 dim-walkLength
     # 4 dim window size
     # 0-knn,1 closest
-    for i,nrWalks in enumerate(walksSet):
-
-        for j,walkLength in enumerate(walkLengthSet):
-            for k,windowSize in enumerate(windowSizeSet):
-                if readings is None:
-
-                    readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
-                print("Starting new execution",i, j, k)
-
-                start = time.time()
-                reader.readings=None
-                read(trainSource, 2)
-                createEmbeddings(embedder.writeConditionEmbedding, './training/', trainSource,
-                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-                reader.readings = None
-                read(testSource, 2)
-                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
-                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-
-                print("Finished with ",i, j, k)
-                print("Elapsed time ",str(int(time.time()-start)))
-
-                obj = SVMobj()
-                obj.storeEmbedding("Control", "./training/embeddings/")
-                obj.storeEmbedding("EtOH", "./training/embeddings/")
-                obj.storeEmbedding("Abstinence", "./training/embeddings/")
-
-                readings[0,i, j, k]=  obj.KNN("./testing/embeddings",1)
-                readings[1, i, j, k]=obj.classifyByClosestNeighbor("./testing/embeddings/")
-    filehandler = open(b"resultsSingleInstances.obj", "wb")
-    pickle.dump(readings, filehandler)
-    filehandler.close()
+    # for i,nrWalks in enumerate(walksSet):
+    #
+    #     for j,walkLength in enumerate(walkLengthSet):
+    #         for k,windowSize in enumerate(windowSizeSet):
+    #             if readings is None:
+    #
+    #                 readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
+    #             print("Starting new execution",i, j, k)
+    #
+    #             start = time.time()
+    #             reader.readings=None
+    #             read(trainSource, 2)
+    #             createEmbeddings(embedder.writeConditionEmbedding, './training/', trainSource,
+    #                              ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+    #             reader.readings = None
+    #             read(testSource, 2)
+    #             createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
+    #                              ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+    #
+    #             print("Finished with ",i, j, k)
+    #             print("Elapsed time ",str(int(time.time()-start)))
+    #
+    #             obj = SVMobj()
+    #             obj.storeEmbedding("Control", "./training/embeddings/")
+    #             obj.storeEmbedding("EtOH", "./training/embeddings/")
+    #             obj.storeEmbedding("Abstinence", "./training/embeddings/")
+    #
+    #             readings[0,i, j, k]=  obj.KNN("./testing/embeddings",1)
+    #             readings[1, i, j, k]=obj.classifyByClosestNeighbor("./testing/embeddings/")
+    # filehandler = open(b"resultsSingleInstances.obj", "wb")
+    # pickle.dump(readings, filehandler)
+    # filehandler.close()
     nrClassifiers = 3  # third dim for SVM classifier
     readings=None
     for i, nrWalks in enumerate(walksSet):
@@ -223,7 +223,7 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
                 createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
-
+                return
                 print("Finished with ", i, j, k)
                 print("Elapsed time ", str(int(time.time() - start)))
 
@@ -260,9 +260,10 @@ def test():
     obj = SVMobj()
     obj.storeEmbedding("Control", "./training/embeddings/")
     obj.storeEmbedding("EtOH", "./training/embeddings/")
-    obj.storeEmbedding("Abstinence", "./training/embeddings/")
+    # obj.storeEmbedding("Abstinence", "./training/embeddings/")
     obj.train()
     obj.classify("./testing/embeddings/")
+    sys.exit(1)
 proc=MatProc()
 reader = Reader()
 model=None
@@ -280,8 +281,7 @@ walkLengthSet=[10,15,20]
 windowSizeSet=[5,7,9]
 
 test()
-sys.exit(1)
-# runDataMining(nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+
 
 #Read pickled data
 
@@ -300,7 +300,8 @@ trainSource=os.path.join(trainSource,'train')
 
 testSource=os.path.join(root,folders[4],'test')
 
-# runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+
 # ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
 # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
 plt.close('all')
