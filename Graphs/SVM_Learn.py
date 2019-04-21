@@ -181,20 +181,28 @@ class SVMobj:
         all_embeddings_filepath=os.path.join(testingdir,all_embeddings_filename)
         dontCare1,dontCare2,AllEMBD=self.readEmbedding(all_embeddings_filepath)
         allFiles = os.listdir(srcDir)
-        AllEMBDlist=[AllEMBD[i] for m,i in enumerate(AllEMBD) ]
-        meanSum=np.zeros((85,85),dtype=float)
+        AllEMBDlist=[AllEMBD[i] for i,m in enumerate(AllEMBD) ]
+        meanSum=np.zeros((4,85,85),dtype=float)
+        counts=np.zeros(4)
         for filename in allFiles:
+            m = re.search("EMBD_(.+?)_", filename)
+            condition = m.group(1)
             file_path=os.path.join(srcDir, filename)
             condition,w,sample=self.readEmbedding(file_path)
-            sampleList=[sample[i] for m,i in enumerate(sample)]
+            sampleList=[sample[i] for i,m in enumerate(sample)]
             difference=np.array(sampleList)-np.array(AllEMBDlist)
-            meanSum+=difference
-            print(difference)
-        meanSum/=len(allFiles)
-        plt.figure(figsize=(18, 18))
-        sns.heatmap(meanSum)
-        plt.savefig("dsada.png", dpi=600)
-        plt.show()
+            meanSum[self.LabelDict[condition]]+=difference
+            counts[self.LabelDict[condition]]+=1
+            # print(difference)
+        for i,mat in enumerate(meanSum):
+            plt.figure()
+            aux=mat/counts[i]
+            plt.figure(figsize=(12, 12))
+            sns.heatmap(aux)
+            plt.savefig(str(i)+".png", dpi=600)
+
+            plt.show()
+            plt.close()
 
 
 
