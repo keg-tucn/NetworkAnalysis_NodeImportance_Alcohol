@@ -97,7 +97,7 @@ class Mat2Graph():
         matsi = reader.getAllByCondition(condition)  # getall mats
         allWalks=[]
         output = outFolder + "embeddings/EMBD_" + condition +"_777_777.txt"
-        model=None
+
         for [matu, fileName] in matsi:
             print("Processing file " + str(fileName))
             # animalId = int(index / 5) + 1  # each animal has 5 readings for a state
@@ -126,11 +126,50 @@ class Mat2Graph():
         except:
             print("Something is not good with your trained model or it doesn't exist")
 
+    def writeGlobalEmbedding(self, condition, outFolder, walkLength, nrWalks, windowSize):
+        index = 0
+        global model
+
+        dimensions = 85
+        output = outFolder + "embeddings/All.txt"
+
+
+        matsi = reader.getAllByCondition(condition)  # getall mats
+        allWalks = []
+
+        for [matu, fileName] in matsi:
+            print("Processing file " + str(fileName))
+            # animalId = int(index / 5) + 1  # each animal has 5 readings for a state
+            m = re.search(condition + "-(.+?)-", fileName)
+            trial = m.group(1)
+            aux = matu
+            np.savetxt(outFolder + trial, aux, fmt="%f", delimiter=',')  # just for testing
+            size = aux.shape
+            grafFileName = outFolder + "graf" + str(trial) + ".txt"
+            with open(grafFileName, 'w+') as file:  # save as adj lisr
+                for i in range(0, size[0]):
+                    for j in range(i + 1, size[1]):
+                        if aux[i][j] is not 0:
+                            file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
+
+            allWalks.append(
+                getGraphWalks(grafFileName, dimensions, directed=False, walk_length=walkLength, num_walks=nrWalks,
+                              weighted=True))
+            # newMain(inputName, dimensions, output, condition, walkLength, nrWalks, True)
+            # os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
+            #     trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
+            #     trial) + ".txt")
+            index = index + 1
+            self.learn_embeddings(allWalks, dimensions, windowSize=windowSize, nrWorkers=16, nrIterations=1)
+        try:
+            model.wv.save_word2vec_format(output)
+        except:
+            print("Something is not good with your trained model or it doesn't exist")
+
 
 def createEmbeddings(function,outFolder,readingsFolder,conditions,walkLength,nrWalks,windowSize):
 
-    # reader.readAll2("./Readings/Readings_Train/",["EtOH","Control"])
-    # reader.readAll(readingsFolder)
+
     try:
         shutil.rmtree(outFolder)
     except:
@@ -159,15 +198,16 @@ def read(srcFolder, option):
     global reader
     allConditions = ["Control", "EtOH", "Abstinence"]
     if (option is 1):
-        reader.readAll(srcFolder)
+        reader.readAll(srcFolder) #my files
     if (option is 2):
-        reader.readAll2(srcFolder, allConditions)
+        reader.readAll2(srcFolder, allConditions)#separate conditions in folders
     if (option is 3):
-        reader.readAll3(srcFolder, allConditions)
+        reader.readAll3(srcFolder, allConditions)#all conditions in one folder
 
 
 
 def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
+    global model
     readings = None  # 4d mat 1 dim=clasify alg
     #                     2 dim-nrwalks
     # 3 dim-walkLength
@@ -215,11 +255,13 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
                 print("Starting new execution", i, j, k)
                 start = time.time()
                 read(trainSource, 2)
-                createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', trainSource,
+                model = None
+                createEmbeddings(embedder.writeGlobalEmbedding, './training/', trainSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
                 reader.readings = None
                 read(testSource, 2)
+                model = None
                 createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
@@ -257,12 +299,28 @@ def savePlot(X,Y,labels,output):
     plt.show()
     plt.clf()
 def test():
+    # root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_50"
+    # trainSource = os.path.join(root, 'train')
+    # read(trainSource, 2)
+    # model = None
+    # createEmbeddings(embedder.writeGlobalEmbedding, './training/', trainSource,
+    #                  ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
+    #                  windowSize=7)
+    #
+    #
+    # testSorce = os.path.join(root, 'test')
+    # read(testSorce, 2)
+    # model = None
+    # createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSorce,
+    #                  ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
+    #                  windowSize=7)
     obj = SVMobj()
-    obj.storeEmbedding("Control", "./training/embeddings/")
-    obj.storeEmbedding("EtOH", "./training/embeddings/")
+    # obj.storeEmbedding("Control", "./training/embeddings/")
+    # obj.storeEmbedding("EtOH", "./training/embeddings/")
     # obj.storeEmbedding("Abstinence", "./training/embeddings/")
-    obj.train()
-    obj.classify("./testing/embeddings/")
+    obj.computeParticulars("./training/embeddings","./testing/embeddings/")
+
+
     sys.exit(1)
 proc=MatProc()
 reader = Reader()
@@ -281,8 +339,7 @@ walkLengthSet=[10,15,20]
 windowSizeSet=[5,7,9]
 
 test()
-
-
+sys.exit(2)
 #Read pickled data
 
 
@@ -298,29 +355,25 @@ trainSource=os.path.join(root,folders[4])
 trainSource=os.path.join(trainSource,'train')
 
 
-testSource=os.path.join(root,folders[4],'test')
-
-runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
-
-# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
-# ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-plt.close('all')
-filehandler = open(b"resultsMultipleInstances.obj", "rb")
-readings=pickle.load(filehandler)
-savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet  KNN','walksLengthSet   closest','walksLengthSet   SVM'],"WalkLength Set Multiple")
-savePlot(windowSizeSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
-savePlot(walksSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
-
-filehandler = open(b"resultsSingleInstances.obj", "rb")
-readings=pickle.load(filehandler)
 
 
-
-# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
-# ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
-savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet  closest'],"WalkLength Set Single")
-savePlot(windowSizeSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest'],"Windows size set Single")
-savePlot(walksSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest'],"walksSet single")
-
-
+# runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+#
+#
+# plt.close('all')
+# filehandler = open(b"resultsMultipleInstances.obj", "rb")
+# readings=pickle.load(filehandler)
+# savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1],readings[2, 2, :, 1]],['walksLengthSet  KNN','walksLengthSet   closest','walksLengthSet   SVM'],"WalkLength Set Multiple")
+# savePlot(windowSizeSet,[readings[0, 1, 1, :],readings[1, 1, 1, :],readings[2, 1, 1, :]],['windowsSize KNN','windowSize closest','windowSize SVM'],"Windows size set multi")
+# savePlot(walksSet,[readings[0, :, 1, 0],readings[1, :, 1, 0],readings[2, :, 1, 0]],['walksSet KNN','walksSet closest','walksSet SVM'],"walksSet multi")
+#
+#
+# filehandler = open(b"resultsSingleInstances.obj", "rb")
+# readings=pickle.load(filehandler)# ax.plot(walksSet, readings[0,:,1,1], 'k--', label='walksSet length KNN')
+# # ax.plot(walksSet, readings[1,:,1,1], 'k', label='walksSet length closest')
+# savePlot(walkLengthSet,[readings[0, 2, :, 1],readings[1, 2, :, 1]],['walksLengthSet length KNN','walksLengthSet  closest'],"WalkLength Set Single")
+# savePlot(windowSizeSet,[readings[0, 1, 1, :],readings[1, 1, 1, :]],['windowsSize KNN','windowSize closest'],"Windows size set Single")
+# savePlot(walksSet,[readings[0, :, 1, 0],readings[1, :, 1, 0]],['walksSet KNN','walksSet closest'],"walksSet single")
+#
+#
 

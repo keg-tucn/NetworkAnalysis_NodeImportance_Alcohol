@@ -46,7 +46,7 @@ class Reader:
 
 
 
-                np.savetxt("Testule",copied)
+                # np.savetxt("Testule",copied)
                 print("Loaded "+oldName)
         self.readings=dictionary
     def readAll3(self,srcDir,environments):

@@ -4,6 +4,8 @@ import sys
 import re
 import numpy as np
 from math import sqrt
+import matplotlib.pyplot as plt
+import seaborn as sns;
 import array
 class Classifs:
     def __init__(self,label,score):
@@ -132,7 +134,22 @@ class SVMobj:
         accuracy = overallScore / float(len(allFiles))
         print("The acc is " + str(accuracy))
         return accuracy
-
+    def readEmbedding(self,file_path):#returns condition,weight and mat
+        with open(file_path) as file:
+            m = re.search("EMBD_(.+?)_", file_path)
+            try:
+                condition = m.group(1)
+            except:
+                condition=""
+            w, h = [int(x) for x in next(file).split()]
+            print("Reading " + file_path);
+            sample = {}
+            for j in range(0, w):  # read embedding
+                s = [float(x) for x in
+                     next(file).split()]  # get line by line embedding and use the appropiat classifier
+                m = int(s.pop(0))
+                sample[m] = s
+            return condition,w,sample
     def KNN(self,srcDir,nrNeighbors):
         overallScore=0
         allFiles=os.listdir(srcDir)
@@ -157,6 +174,27 @@ class SVMobj:
         accuracy=overallScore/float(len(allFiles))
         print("The acc is "+str(accuracy))
         return accuracy
+    def computeParticulars(self,testingdir,srcDir):
+        overallScore = 0
+
+        all_embeddings_filename="All.txt"
+        all_embeddings_filepath=os.path.join(testingdir,all_embeddings_filename)
+        dontCare1,dontCare2,AllEMBD=self.readEmbedding(all_embeddings_filepath)
+        allFiles = os.listdir(srcDir)
+        AllEMBDlist=[AllEMBD[i] for m,i in enumerate(AllEMBD) ]
+        meanSum=np.zeros((85,85),dtype=float)
+        for filename in allFiles:
+            file_path=os.path.join(srcDir, filename)
+            condition,w,sample=self.readEmbedding(file_path)
+            sampleList=[sample[i] for m,i in enumerate(sample)]
+            difference=np.array(sampleList)-np.array(AllEMBDlist)
+            meanSum+=difference
+            print(difference)
+        meanSum/=len(allFiles)
+        plt.figure(figsize=(18, 18))
+        sns.heatmap(meanSum)
+        plt.savefig("dsada.png", dpi=600)
+        plt.show()
 
 
 
