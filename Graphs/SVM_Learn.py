@@ -185,8 +185,7 @@ class SVMobj:
         meanSum=np.zeros((4,85,85),dtype=float)
         counts=np.zeros(4)
         for filename in allFiles:
-            m = re.search("EMBD_(.+?)_", filename)
-            condition = m.group(1)
+
             file_path=os.path.join(srcDir, filename)
             condition,w,sample=self.readEmbedding(file_path)
             sampleList=[sample[i] for i,m in enumerate(sample)]
@@ -194,7 +193,7 @@ class SVMobj:
             meanSum[self.LabelDict[condition]]+=difference
             counts[self.LabelDict[condition]]+=1
             # print(difference)
-        for i,mat in enumerate(meanSum):
+        for i,mat in enumerate(meanSum[0:2,:,:]):
             plt.figure()
             aux=mat/counts[i]
             plt.figure(figsize=(12, 12))
@@ -203,6 +202,20 @@ class SVMobj:
 
             plt.show()
             plt.close()
+        control=meanSum[0,:,:]
+        control/=counts[0]
+        alcohol=meanSum[1,:,:]
+        alcohol/=counts[1]
+        diff=control-alcohol
+        plt.figure()
+
+        plt.figure(figsize=(12, 12))
+        sns.heatmap(diff)
+        plt.savefig(  "Cont-EtOH.png", dpi=600)
+
+        plt.show()
+        plt.close()
+
 
 
 

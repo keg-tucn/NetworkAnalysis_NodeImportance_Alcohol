@@ -149,8 +149,8 @@ class Mat2Graph():
             with open(grafFileName, 'w+') as file:  # save as adj lisr
                 for i in range(0, size[0]):
                     for j in range(i + 1, size[1]):
-                        if aux[i][j] is not 0:
-                            file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
+
+                        file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
 
             allWalks.append(
                 getGraphWalks(grafFileName, dimensions, directed=False, walk_length=walkLength, num_walks=nrWalks,
