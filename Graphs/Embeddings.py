@@ -298,30 +298,60 @@ def savePlot(X,Y,labels,output):
     plt.savefig(output+".png")
     plt.show()
     plt.clf()
+def readLabels():
+    fileName="brainZones.txt"
+    readu=[]
+    with open( fileName) as file:
+        for line in file:
+            line=line.split()
+            nr=line[0]
+            longName=' '.join(line[2:])
+            readu.append(   [nr,longName] )
+
+        # sample = {}
+        # for j in range(0, w):  # loop through all clasifiers
+        #     s = [float(x) for x in
+        #          next(file).split()]  # get line by line embedding and use the appropiat classifier
+        #     m = int(s.pop(0))
+        #     sample[m] = s
+        # classifiedLabel = self.compareWithTraining(sample, nrNeighbors)
+        # print(classifiedLabel)
+        # isOk = classifiedLabel is self.LabelDict[condition]
+        # if isOk:
+        #     overallScore = overallScore + 1
+        # print("The prediction is " + str(isOk))
+    print(readu)
+    return readu;
 def test():
-    # root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_50"
-    # trainSource = os.path.join(root, 'train')
-    # read(trainSource, 2)
-    # model = None
-    # createEmbeddings(embedder.writeGlobalEmbedding, './training/', trainSource,
-    #                  ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
-    #                  windowSize=7)
-    #
-    #
-    # testSorce = os.path.join(root, 'test')
-    # read(testSorce, 2)
-    # model = None
-    # createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSorce,
-    #                  ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
-    #                  windowSize=7)
-    obj = SVMobj()
-    # obj.storeEmbedding("Control", "./training/embeddings/")
-    # obj.storeEmbedding("EtOH", "./training/embeddings/")
-    # obj.storeEmbedding("Abstinence", "./training/embeddings/")
-    obj.computeParticulars("./training/embeddings","./testing/embeddings/")
+    readLabels()
+    wantClassify=True
+    wantNewData=False
+    if(wantNewData):
+        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_30"
+        trainSource = os.path.join(root, 'train')
+        read(trainSource, 2)
+        model = None
+        createEmbeddings(embedder.writeGlobalEmbedding, './training/', trainSource,
+                         ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
+                         windowSize=7)
 
 
-    sys.exit(1)
+        testSorce = os.path.join(root, 'test')
+        read(testSorce, 2)
+        model = None
+        createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSorce,
+                         ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
+                         windowSize=7)
+    if(wantClassify):
+        obj = SVMobj()
+        # obj.storeEmbedding("Control", "./training/embeddings/")
+        # obj.storeEmbedding("EtOH", "./training/embeddings/")
+        # obj.storeEmbedding("Abstinence", "./training/embeddings/")
+
+        obj.computeParticulars(readLabels() ,"./training/embeddings","./testing/embeddings/")
+
+
+
 proc=MatProc()
 reader = Reader()
 model=None

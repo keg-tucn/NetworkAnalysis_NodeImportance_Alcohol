@@ -46,7 +46,7 @@ class SVMobj:
                 for j in range(0, w):
                     s = [float(x) for x in next(file).split()]#take every line and remove the header(node number)
                     m = int(s.pop(0))
-                   # r=np.insert(r, m, np.array(s), 0)
+                    # r=np.insert(r, m, np.array(s), 0)
                     r[m]=s
                 self.data.append(r)
                 self.index = self.index + 1;
@@ -174,7 +174,7 @@ class SVMobj:
         accuracy=overallScore/float(len(allFiles))
         print("The acc is "+str(accuracy))
         return accuracy
-    def computeParticulars(self,testingdir,srcDir):
+    def computeParticulars(self,zoneNames,testingdir,srcDir):
         overallScore = 0
 
         all_embeddings_filename="All.txt"
@@ -202,6 +202,7 @@ class SVMobj:
 
             plt.show()
             plt.close()
+        #TODO this is for control - alcohol
         control=meanSum[0,:,:]
         control/=counts[0]
         alcohol=meanSum[1,:,:]
@@ -210,13 +211,25 @@ class SVMobj:
         plt.figure()
 
         plt.figure(figsize=(12, 12))
-        sns.heatmap(diff)
+        sns.heatmap(diff,annot=zoneNames)
         plt.savefig(  "Cont-EtOH.png", dpi=600)
 
         plt.show()
         plt.close()
+        #This if for COntrol-Abstinence
+        control = meanSum[0, :, :]
+        control /= counts[0]
+        abstinence = meanSum[2, :, :]
+        abstinence /= counts[2]
+        diff = control - abstinence
+        plt.figure()
 
+        plt.figure(figsize=(12, 12))
+        sns.heatmap(diff)
+        plt.savefig("Cont-Abst.png", dpi=600)
 
+        plt.show()
+        plt.close()
 
 
     def classify(self,srcDir):
@@ -266,7 +279,7 @@ class SVMobj:
                 print 'I have {}'.format(int(round(fileScore)))
                 print 'Raw{:0.16f}'.format(fileScore)
                 print "The classifiers acc is"+'{:0.16f}'.format(float(good/(good+bad)))
-               # print("The good is "+str(good)+" and bad:"+str(bad));
+            # print("The good is "+str(good)+" and bad:"+str(bad));
 
         print("I had a number of images:"+str(nrOfFiles))
         print("The scores are "+str(np.sort(scores)))
