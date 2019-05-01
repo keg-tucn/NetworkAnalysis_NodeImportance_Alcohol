@@ -256,7 +256,7 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
                 start = time.time()
                 read(trainSource, 2)
                 model = None
-                createEmbeddings(embedder.writeGlobalEmbedding, './training/', trainSource,
+                createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', trainSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
                 reader.readings = None
@@ -265,7 +265,7 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
                 createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
                                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks,
                                  windowSize=windowSize)
-                return
+
                 print("Finished with ", i, j, k)
                 print("Elapsed time ", str(int(time.time() - start)))
 
@@ -327,11 +327,11 @@ def test():
     wantClassify=True
     wantNewData=False
     if(wantNewData):
-        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_30"
+        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
         model = None
-        createEmbeddings(embedder.writeGlobalEmbedding, './training/', trainSource,
+        createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', trainSource,
                          ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
                          windowSize=7)
 
@@ -344,11 +344,13 @@ def test():
                          windowSize=7)
     if(wantClassify):
         obj = SVMobj()
-        # obj.storeEmbedding("Control", "./training/embeddings/")
-        # obj.storeEmbedding("EtOH", "./training/embeddings/")
-        # obj.storeEmbedding("Abstinence", "./training/embeddings/")
 
-        obj.computeParticulars(readLabels() ,"./training/embeddings","./testing/embeddings/")
+        obj.storeEmbedding("Control", "./training/embeddings/")
+        obj.storeEmbedding("EtOH", "./training/embeddings/")
+        obj.storeEmbedding("Abstinence", "./training/embeddings/")
+        obj.train()
+        obj.classify("./testing/embeddings/")
+        # obj.computeParticulars(readLabels() ,"./training/embeddings","./testing/embeddings/")
 
 
 
@@ -368,8 +370,8 @@ walksSet=[20,30,40]
 walkLengthSet=[10,15,20]
 windowSizeSet=[5,7,9]
 
-test()
-sys.exit(2)
+# test()
+# sys.exit(2)
 #Read pickled data
 
 
@@ -381,13 +383,11 @@ folders=["sum_weight_10","sum_weight_20","sum_weight_30","sum_weight_40","sum_we
 
 # for folder in folders:
 #     source=os.path.join(root,folder)
-trainSource=os.path.join(root,folders[4])
-trainSource=os.path.join(trainSource,'train')
+root=os.path.join(root,folders[6])
+trainSource=os.path.join(root,'train')
+testSorce = os.path.join(root, 'test')
 
-
-
-
-# runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
+runDataMining(trainSource,testSorce,nrClassifiers,walksSet,walkLengthSet,windowSizeSet)
 #
 #
 # plt.close('all')

@@ -256,35 +256,37 @@ class SVMobj:
                 bad=0
                 fileScore=0;
                 label = self.LabelDict[condition]
-
+                votes=np.zeros(len(self.LabelDict))
                 for j in range(0, w):#loop through all clasifiers
                     s = [float(x) for x in next(file).split()] #get line by line embedding and use the appropiat classifier
                     m = int(s.pop(0))
                     s=[s]
                     prediction=self.classifiers[m].predict(s)[0];
-                    fileScore+=weight[m]*prediction;#use weights for classifiers
+                    votes[prediction]+=1
+                    # fileScore+=weight[m]*prediction;#use weights for classifiers
                     if prediction == label:
                         scores[m]=scores[m]+1
                         good=good+1
                         weight[m]+= len(self.classifiers)#increase classifier weight
                     else:
                         bad=bad+1
+                predictedLabel=votes.argmax()
 
 
                 weight/=sum(abs(weight))#normalize weight vector
-                if(int(round(fileScore))==label):
+                if(predictedLabel==label):
                     meanAcc=meanAcc+1
 
-                print "The label is "+str(self.LabelDict[condition])
-                print 'I have {}'.format(int(round(fileScore)))
-                print 'Raw{:0.16f}'.format(fileScore)
-                print "The classifiers acc is"+'{:0.16f}'.format(float(good/(good+bad)))
+                print "The correct label is "+str(self.LabelDict[condition])
+                # print 'I have {}'.format(int(round(fileScore)))
+                print 'My predicted value is {} with a number of votes: {}'.format(predictedLabel,votes[predictedLabel])
+                print "The classifiers acc is"+'{:0.16f}\n'.format((good/float(good+bad)))
             # print("The good is "+str(good)+" and bad:"+str(bad));
-
+        accuracy=meanAcc/float(nrOfFiles)
         print("I had a number of images:"+str(nrOfFiles))
         print("The scores are "+str(np.sort(scores)))
-        print("Final acc"+str(meanAcc/float(nrOfFiles)))
-        return meanAcc/float(nrOfFiles)
+        print("Final acc"+str(accuracy))
+        return accuracy
 
 
     def train(self):
