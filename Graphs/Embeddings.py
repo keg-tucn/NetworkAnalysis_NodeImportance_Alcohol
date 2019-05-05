@@ -313,7 +313,7 @@ def readLabels():
 def test():
     # readLabels()
     wantClassify=True
-    wantNewData=False
+    wantNewData=True
     if(wantNewData):
         root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
         trainSource = os.path.join(root, 'train')
@@ -356,9 +356,9 @@ nrClassifiers=2
 walksSet=[20,30,40,50]
 walkLengthSet=[10,15,20,25]
 windowSizeSet=[5,7,9,11]
-
-test()
-sys.exit(2)
+#
+# test()
+# sys.exit(2)
 #Read pickled data
 
 
