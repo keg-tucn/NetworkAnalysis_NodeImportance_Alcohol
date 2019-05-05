@@ -7,6 +7,8 @@ from math import sqrt
 import matplotlib.pyplot as plt
 import seaborn as sns;
 import array
+import pandas as pd
+
 class Classifs:
     def __init__(self,label,score):
         self.label=label
@@ -174,6 +176,16 @@ class SVMobj:
         accuracy=overallScore/float(len(allFiles))
         print("The acc is "+str(accuracy))
         return accuracy
+
+    def create_heatmap_cam_2d(self,cam, path_to_save, nodes_indexes, confidence_score):
+        f, ax = plt.subplots(figsize=(20, 20))
+        plt.figtext(x=0.13, y=0.90, s="Plot name : {}".format(path_to_save), fontsize=15,
+                    fontname="sans-serif")
+        heatmap_state = sns.heatmap(cam, cmap="jet", xticklabels=nodes_indexes,yticklabels=nodes_indexes, ax=ax,)
+        fig = heatmap_state.get_figure()
+        fig.savefig(path_to_save)
+        fig.clf()
+
     def computeParticulars(self,zoneNames,testingdir,srcDir):
         overallScore = 0
 
@@ -197,39 +209,40 @@ class SVMobj:
             plt.figure()
             aux=mat/counts[i]
             plt.figure(figsize=(12, 12))
-            sns.heatmap(aux)
+            sns.heatmap(aux,cmap='coolwarm')
             plt.savefig(str(i)+".png", dpi=600)
 
             plt.show()
             plt.close()
         #TODO this is for control - alcohol
+        pureLabels=np.array([x for index, x in zoneNames])
+
         control=meanSum[0,:,:]
         control/=counts[0]
         alcohol=meanSum[1,:,:]
         alcohol/=counts[1]
         diff=control-alcohol
-        plt.figure()
 
-        plt.figure(figsize=(12, 12))
-        sns.heatmap(diff,annot=zoneNames)
-        plt.savefig(  "Cont-EtOH.png", dpi=600)
 
-        plt.show()
-        plt.close()
+        self.create_heatmap_cam_2d(diff, "Control_Alcohol_V2", pureLabels, 2.0)
+
+
+
         #This if for COntrol-Abstinence
         control = meanSum[0, :, :]
         control /= counts[0]
         abstinence = meanSum[2, :, :]
         abstinence /= counts[2]
         diff = control - abstinence
-        plt.figure()
+        self.create_heatmap_cam_2d(diff, "Control_Abstinence_V2", pureLabels, 2.0)
 
-        plt.figure(figsize=(12, 12))
-        sns.heatmap(diff)
-        plt.savefig("Cont-Abst.png", dpi=600)
-
-        plt.show()
-        plt.close()
+        # This if for COntrol-Abstinence
+        etoh = meanSum[1, :, :]
+        etoh /= counts[1]
+        abstinence = meanSum[2, :, :]
+        abstinence /= counts[2]
+        diff = etoh - abstinence
+        self.create_heatmap_cam_2d(diff, "EtOH_Abstinence_V2", pureLabels, 2.0)
 
 
     def classify(self,srcDir):
