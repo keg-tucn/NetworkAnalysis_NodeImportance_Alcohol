@@ -248,7 +248,6 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
                 filehandler.close()
     nrClassifiers = 3  # third dim for SVM classifier
     readings=None
-    filehandler = open(b"resultsMultipleInstances.obj", "wb")
     for i, nrWalks in enumerate(walksSet):
         for j, walkLength in enumerate(walkLengthSet):
             for k, windowSize in enumerate(windowSizeSet):
@@ -280,6 +279,7 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
                 readings[1, i, j, k] = obj.classifyByClosestNeighbor("./testing/embeddings/")
                 obj.train()
                 readings[2, i, j, k] = obj.classify("./testing/embeddings/")
+                filehandler = open(b"resultsMultipleInstances.obj", "wb")
 
                 pickle.dump(readings, filehandler)
                 filehandler.close()
