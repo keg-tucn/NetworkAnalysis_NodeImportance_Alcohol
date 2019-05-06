@@ -5,7 +5,9 @@ import re
 import numpy as np
 import networkx as nx
 class Reader:
-
+    def __init__(self,N,dimensions):
+        self.N=N
+        self.dimensions=dimensions
 
     def readAll(self,srcDir):
         self.directory=srcDir
@@ -35,7 +37,7 @@ class Reader:
                 row=mat[1,:]
                 t=np.array(row)
                 row=list(row)
-                copied=np.zeros((85,85))
+                copied=np.zeros((self.N,self.dimensions))
                 for i in range(0,copied.shape[0]):
                     for j in range(0, copied.shape[1]):
                         try:
@@ -69,7 +71,7 @@ class Reader:
 
                 r = mat.todense()
                 convertedMat = list(mat)
-                test = nx.to_edgelist(G, nodelist=range(0, 85))
+                test = nx.to_edgelist(G, nodelist=range(0, self.N))
                 dictionary[oldName] = convertedMat
                 np.savetxt("Testule", mat)
                 print("Loaded " + oldName)

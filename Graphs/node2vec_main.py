@@ -94,6 +94,7 @@ def learn_embeddings(walks):
 
 def newMain(input,dimensions,  output,condition,walkLength,nrWalks,weighted,windowSize):
 	args.weighted=weighted
+
 	args.input=input
 	args.environment=condition
 	args.walk_length=walkLength

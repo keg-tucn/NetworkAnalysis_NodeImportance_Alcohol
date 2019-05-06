@@ -19,6 +19,8 @@ import matplotlib.pyplot as plt
 #np.savetxt("test.csv",mat,delimiter=' , ')
 #size=mat.shape;
 
+dimensions=30
+N=85
 class Mat2Graph():
     def writeAdjMatrix(self,condition,outFolder):
         index=0
@@ -45,7 +47,7 @@ class Mat2Graph():
             index = index + 1
     def writeAdjMatrixForCondition(self,condition,outFolder,walkLength,nrWalks,windowSize):
         index=0
-        dimensions = 85
+
 
         matsi = reader.getAllByCondition(condition)#getall mats
 
@@ -92,7 +94,7 @@ class Mat2Graph():
         index = 0
         global model
 
-        dimensions = 85
+        dimensions = 30
 
         matsi = reader.getAllByCondition(condition)  # getall mats
         allWalks=[]
@@ -130,7 +132,7 @@ class Mat2Graph():
         index = 0
         global model
 
-        dimensions = 85
+
         output = outFolder + "embeddings/All.txt"
 
 
@@ -220,22 +222,22 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
                 if readings is None:
 
                     readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
-                print("Starting new execution",i, j, k)
+                # print("Starting new execution",i, j, k)
+                #
+                # start = time.time()
+                # reader.readings=None
+                # read(trainSource, 2)
+                # createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', trainSource,
+                #                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+                # reader.readings = None
+                # read(testSource, 2)
+                # createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
+                #                  ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
+                #
+                # print("Finished with ",i, j, k)
+                # print("Elapsed time ",str(int(time.time()-start)))
 
-                start = time.time()
-                reader.readings=None
-                read(trainSource, 2)
-                createEmbeddings(embedder.writeConditionEmbedding, './training/', trainSource,
-                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-                reader.readings = None
-                read(testSource, 2)
-                createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSource,
-                                 ["Control", "EtOH", "Abstinence"], walkLength=walkLength, nrWalks=nrWalks, windowSize=windowSize)
-
-                print("Finished with ",i, j, k)
-                print("Elapsed time ",str(int(time.time()-start)))
-
-                obj = SVMobj()
+                obj = SVMobj(N,dimensions)
                 obj.storeEmbedding("Control", "./training/embeddings/")
                 obj.storeEmbedding("EtOH", "./training/embeddings/")
                 obj.storeEmbedding("Abstinence", "./training/embeddings/")
@@ -344,7 +346,7 @@ def test():
 
 
 proc=MatProc()
-reader = Reader()
+reader = Reader(N,dimensions)
 model=None
 embedder = Mat2Graph()
 readings=None# 4d mat 1 dim=clasify alg

@@ -14,11 +14,12 @@ class Classifs:
         self.label=label
         self.score=score
 class SVMobj:
-    def __init__(self,):
+    def __init__(self,N,dimensions):
         self.index = 0;
         self.labels = []
         self.LabelDict={}
-        self.N=85
+        self.N=N
+        self.dimensions=dimensions
         self.LabelDict["Control"] = 0
         self.LabelDict["EtOH"] = 1
         self.LabelDict["Abstinence"] = 2
@@ -44,7 +45,7 @@ class SVMobj:
                 self.depth = h
 
                 self.labels.insert(self.index,self.LabelDict[condition])
-                r = np.zeros((self.N,self.N))
+                r = np.zeros((self.N,self.dimensions))
                 for j in range(0, w):
                     s = [float(x) for x in next(file).split()]#take every line and remove the header(node number)
                     m = int(s.pop(0))
@@ -194,7 +195,7 @@ class SVMobj:
         dontCare1,dontCare2,AllEMBD=self.readEmbedding(all_embeddings_filepath)
         allFiles = os.listdir(srcDir)
         AllEMBDlist=[AllEMBD[i] for i,m in enumerate(AllEMBD) ]
-        meanSum=np.zeros((4,85,85),dtype=float)
+        meanSum=np.zeros((4,self.N,self.dimensions),dtype=float)
         counts=np.zeros(4)
         for filename in allFiles:
 
