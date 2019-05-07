@@ -22,6 +22,13 @@ import matplotlib.pyplot as plt
 dimensions=30
 N=85
 class Mat2Graph():
+    def __init__(self):
+        self.models=[]
+        self.LabelDict={}
+        self.LabelDict["Control"] = 0
+        self.LabelDict["EtOH"] = 1
+        self.LabelDict["Abstinence"] = 2
+        self.LabelDict["Naltrexon"] = 3
     def writeAdjMatrix(self,condition,outFolder):
         index=0
         matsi = reader.getAllByCondition(condition)#getall mats
@@ -45,12 +52,50 @@ class Mat2Graph():
                 trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
                 trial) + ".txt")
             index = index + 1
+    def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
+        index = 0
+        print("Running trainModelsForConditions")
+
+        for condition in conditions:
+            matsi = reader.getAllByCondition(condition)  # getall mats
+            allWalks = []
+
+            for [matu, fileName] in matsi:
+                print("Processing file " + str(fileName))
+                # animalId = int(index / 5) + 1  # each animal has 5 readings for a state
+                m = re.search(condition + "-(.+?)-", fileName)
+                trial = m.group(1)
+                aux = matu
+                np.savetxt(outFolder + trial, aux, fmt="%f", delimiter=',')  # just for testing
+                size = aux.shape
+                grafFileName = outFolder + "graf" + str(trial) + ".txt"
+                with open(grafFileName, 'w+') as file:  # save as adj lisr
+                    for i in range(0, size[0]):
+                        for j in range(i + 1, size[1]):
+                            if aux[i][j] is not 0:
+                                file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
+
+                allWalks.append(
+                    getGraphWalks(grafFileName, dimensions, directed=False, walk_length=walkLength, num_walks=nrWalks,
+                                  weighted=True))
+                index = index + 1
+            walks = [item for x in allWalks for item in x]
+            walks = [map(str, walk) for walk in walks]
+            currentModel=self.models[self.LabelDict[condition]]
+            if (currentModel is None):
+                currentModel = Word2Vec(walks, size=dimensions, window=windowSize, min_count=0, sg=1, workers=6,
+                                 iter=1)
+            else:
+                currentModel.train(walks, total_examples=len(walks), epochs=10)
+
+            return
+
     def writeAdjMatrixForCondition(self,condition,outFolder,walkLength,nrWalks,windowSize):
         index=0
 
 
         matsi = reader.getAllByCondition(condition)#getall mats
-
+        allWalks=[]
         for [matu,fileName] in matsi:
             print("Processing file "+str(fileName))
             #animalId = int(index / 5) + 1  # each animal has 5 readings for a state
@@ -61,15 +106,15 @@ class Mat2Graph():
             aux = matu
             np.savetxt(outFolder+trial,aux,fmt="%f",delimiter=',')#just for testing
             size = aux.shape
-            with open(outFolder+"graf" + str(trial) + ".txt", 'w+') as file: #save as adj lisr
+            grafFileName = outFolder + "graf" + str(trial) + ".txt"
+            with open(grafFileName, 'w+') as file: #save as adj lisr
                 for i in range(0, size[0]):
                     for j in range(i + 1, size[1]):
                         if aux[i][j] is not 0:
                              file.write(str(i) + " " + str(j) +" "+str(aux[i][j])+ "\n");
-            inputName=outFolder+"/graf" + str(trial) + ".txt"
 
             output=outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(trial) + ".txt"
-            newMain(inputName,dimensions,output,condition,walkLength=walkLength,nrWalks=nrWalks,weighted=True,windowSize=windowSize)
+            newMain(grafFileName,dimensions,output,condition,walkLength=walkLength,nrWalks=nrWalks,weighted=True,windowSize=windowSize)
             # os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
             #     trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
             #     trial) + ".txt")
@@ -92,9 +137,9 @@ class Mat2Graph():
         return
     def writeConditionEmbedding(self,condition,outFolder,walkLength,nrWalks,windowSize):
         index = 0
-        global model
 
-        dimensions = 30
+
+
 
         matsi = reader.getAllByCondition(condition)  # getall mats
         allWalks=[]
@@ -117,10 +162,6 @@ class Mat2Graph():
 
 
             allWalks.append(getGraphWalks(grafFileName,dimensions,directed=False,walk_length=walkLength,num_walks=nrWalks,weighted=True))
-            #newMain(inputName, dimensions, output, condition, walkLength, nrWalks, True)
-            # os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
-            #     trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
-            #     trial) + ".txt")
             index = index + 1
             self.learn_embeddings(allWalks,dimensions,windowSize=windowSize,nrWorkers=16,nrIterations=1)
         try:
@@ -335,14 +376,18 @@ def test():
                          ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
                          windowSize=7)
     if(wantClassify):
-        obj = SVMobj()
-
-        obj.storeEmbedding("Control", "./training/embeddings/")
-        obj.storeEmbedding("EtOH", "./training/embeddings/")
-        obj.storeEmbedding("Abstinence", "./training/embeddings/")
-        # obj.train()
-        # obj.classify("./testing/embeddings/")
-        obj.computeParticulars(readLabels(), "./training/embeddings", "./testing/embeddings/")
+        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
+        trainSource = os.path.join(root, 'train')
+        read(trainSource, 2)
+        embedder.trainModelsForConditions(["Control","Abstinence","EtOH"],"./training",30,50,7)
+        # obj = SVMobj()
+        #
+        # obj.storeEmbedding("Control", "./training/embeddings/")
+        # obj.storeEmbedding("EtOH", "./training/embeddings/")
+        # obj.storeEmbedding("Abstinence", "./training/embeddings/")
+        # # obj.train()
+        # # obj.classify("./testing/embeddings/")
+        # obj.computeParticulars(readLabels(), "./training/embeddings", "./testing/embeddings/")
 
 
 proc=MatProc()
@@ -361,8 +406,8 @@ walksSet=[20,30,40,50]
 walkLengthSet=[10,15,20,25]
 windowSizeSet=[5,7]
 #
-# test()
-# sys.exit(2)
+test()
+sys.exit(2)
 #Read pickled data
 
 

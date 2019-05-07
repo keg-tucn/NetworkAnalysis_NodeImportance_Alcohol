@@ -44,7 +44,7 @@ def parse_args():
 	parser.add_argument('--iter', default=1, type=int,
                       help='Number of epochs in SGD')
 
-	parser.add_argument('--workers', type=int, default=8,
+	parser.add_argument('--workers', type=int, default=6,
 	                    help='Number of parallel workers. Default is 8.')
 
 	parser.add_argument('--p', type=float, default=1,
@@ -90,7 +90,7 @@ def learn_embeddings(walks):
 
 	model.wv.save_word2vec_format(args.output)
 
-	return
+	return model
 
 def newMain(input,dimensions,  output,condition,walkLength,nrWalks,weighted,windowSize):
 	args.weighted=weighted

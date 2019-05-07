@@ -63,7 +63,7 @@ class SVMobj:
             sum+=pow(a[i]-b[i],2)
         if sum<0:
             raise ValueError("The distance between 2 vectors cannot be negative")
-        return sqrt(sum)
+        return float(sqrt(sum))
     def closestNeighboor(self,sample):
         bestScore=sys.maxint;
         bestLabel=-1;
@@ -90,6 +90,7 @@ class SVMobj:
 
             bestLabel=-1
             bestScore = sys.maxint
+            computedScore=0
             for train,label in zip(self.data,self.labels):
                 try:
                     trainRow=train[index]
@@ -111,7 +112,32 @@ class SVMobj:
                 smallesScore=votes[i]
                 trueLabel=i
         return trueLabel
-
+    def compareWithTrainingAsAWhole(self,sample,nrNeighbors):
+        scores = []
+        bestLabel = -1
+        bestScore = sys.maxint
+        computedScore = 0
+        for train, label in zip(self.data, self.labels):
+            try:
+                trainRow = train[index]
+            except:
+                continue
+            computedScore = self.vectorDistance(row, trainRow)
+            if (computedScore < bestScore):
+                bestScore = computedScore
+                bestLabel = label
+        scores.append(Classifs(bestLabel, bestScore));
+        scores.sort(key=lambda x: x.score, reverse=True)
+        votes = np.zeros(len(self.LabelDict))
+        for i in range(nrNeighbors):
+            votes[scores[i].label] = votes[scores[i].label] + 1
+        smallesScore = 0
+        trueLabel = -1
+        for i in range(0, len(self.LabelDict)):
+            if (votes[i] > smallesScore):
+                smallesScore = votes[i]
+                trueLabel = i
+        return trueLabel
 
     def classifyByClosestNeighbor(self,srcDir):
         overallScore = 0
