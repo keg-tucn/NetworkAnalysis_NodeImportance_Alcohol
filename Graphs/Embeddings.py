@@ -23,7 +23,7 @@ dimensions=30
 N=85
 class Mat2Graph():
     def __init__(self):
-        self.models=[]
+        self.models=[None,None,None,None]
         self.LabelDict={}
         self.LabelDict["Control"] = 0
         self.LabelDict["EtOH"] = 1
@@ -87,8 +87,8 @@ class Mat2Graph():
                                  iter=1)
             else:
                 currentModel.train(walks, total_examples=len(walks), epochs=10)
+            self.models[self.LabelDict[condition]]=currentModel
 
-            return
 
     def writeAdjMatrixForCondition(self,condition,outFolder,walkLength,nrWalks,windowSize):
         index=0
@@ -379,7 +379,10 @@ def test():
         root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
-        embedder.trainModelsForConditions(["Control","Abstinence","EtOH"],"./training",30,50,7)
+        embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training",30,50,7)
+        control=embedder.models[0].wv.most_similar(positive=["1"])
+        etoh = embedder.models[1].wv.most_similar(positive=["1"])
+        u=1
         # obj = SVMobj()
         #
         # obj.storeEmbedding("Control", "./training/embeddings/")
