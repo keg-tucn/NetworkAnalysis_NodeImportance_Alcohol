@@ -32,12 +32,8 @@ class Reader:
                 m = re.search(env+"-(.+?).xml", file)
                 trial = m.group(1)
                 oldName="P02_SCAPearson-"+str(animalId)+"-"+env+"-"+str(trial)+"-ValAtTimeOffset.csv"#save it with the normal name for the code to work
-                #mat=nx.to_numpy_matrix(G,nodelist=range(0,84))
                 mat = nx.adjacency_matrix(G)
-                row=mat[1,:]
-                t=np.array(row)
-                row=list(row)
-                copied=np.zeros((self.N,self.dimensions))
+                copied=np.zeros((self.N,self.N))
                 for i in range(0,copied.shape[0]):
                     for j in range(0, copied.shape[1]):
                         try:
@@ -45,10 +41,6 @@ class Reader:
                         except:
                             raise ValueError("Not found an edge")
                 dictionary[oldName]=copied
-
-
-
-                # np.savetxt("Testule",copied)
                 print("Loaded "+oldName)
         self.readings=dictionary
     def readAll3(self,srcDir,environments):

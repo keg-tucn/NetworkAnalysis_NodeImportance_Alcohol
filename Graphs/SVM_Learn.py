@@ -208,7 +208,7 @@ class SVMobj:
         f, ax = plt.subplots(figsize=(20, 20))
         plt.figtext(x=0.13, y=0.90, s="Plot name : {}".format(path_to_save), fontsize=15,
                     fontname="sans-serif")
-        heatmap_state = sns.heatmap(cam, cmap="jet", xticklabels=nodes_indexes,yticklabels=nodes_indexes, ax=ax,)
+        heatmap_state = sns.heatmap(cam, cmap="jet", xticklabels=nodes_indexes,yticklabels=nodes_indexes, ax=ax)
         fig = heatmap_state.get_figure()
         fig.savefig(path_to_save)
         fig.clf()

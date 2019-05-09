@@ -11,6 +11,7 @@ import pickle
 from node2vec_main import *
 from gensim.models import Word2Vec
 from SVM_Learn import *
+import gc
 import matplotlib.pyplot as plt
 #mat=reader.getMatByName("P02_SCAPearson-1-Control-91-ValAtTimeOffset.csv")
 #np.savetxt("original.csv",mat,delimiter=' , ')
@@ -19,7 +20,7 @@ import matplotlib.pyplot as plt
 #np.savetxt("test.csv",mat,delimiter=' , ')
 #size=mat.shape;
 
-dimensions=30
+dimensions=35
 N=85
 class Mat2Graph():
     def __init__(self):
@@ -55,7 +56,7 @@ class Mat2Graph():
     def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
         index = 0
         print("Running trainModelsForConditions")
-
+        gc.collect()
         for condition in conditions:
             matsi = reader.getAllByCondition(condition)  # getall mats
             allWalks = []
@@ -69,11 +70,11 @@ class Mat2Graph():
                 np.savetxt(outFolder + trial, aux, fmt="%f", delimiter=',')  # just for testing
                 size = aux.shape
                 grafFileName = outFolder + "graf" + str(trial) + ".txt"
-                with open(grafFileName, 'w+') as file:  # save as adj lisr
-                    for i in range(0, size[0]):
-                        for j in range(i + 1, size[1]):
-                            if aux[i][j] is not 0:
-                                file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
+                # with open(grafFileName, 'w+') as file:  # save as adj lisr
+                #     for i in range(0, size[0]):
+                #         for j in range(i + 1, size[1]):
+                #             if aux[i][j] is not 0:
+                #                 file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
 
                 allWalks.append(
                     getGraphWalks(grafFileName, dimensions, directed=False, walk_length=walkLength, num_walks=nrWalks,
@@ -93,7 +94,7 @@ class Mat2Graph():
     def writeAdjMatrixForCondition(self,condition,outFolder,walkLength,nrWalks,windowSize):
         index=0
 
-
+        gc.collect()
         matsi = reader.getAllByCondition(condition)#getall mats
         allWalks=[]
         for [matu,fileName] in matsi:
@@ -351,10 +352,20 @@ def readLabels():
             line=line.split()
             nr=line[0]
             longName=' '.join(line[2:])
-            readu.append(   [nr,longName] )
+            readu.append(   longName)
 
     print(readu)
     return readu;
+def createProbabilityMatrix(model):
+    mat = np.zeros(shape=(N,N))
+    for node in range(0,N):
+        row=model.wv.most_similar(positive=[str(node)],topn=N)
+        normalize_constant=sum([elem for index,elem in row])
+        for index,val in row:
+            mat[node,int(index)]=val/float(normalize_constant)
+    return mat
+
+
 def test():
     # readLabels()
     wantClassify=True
@@ -364,8 +375,8 @@ def test():
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
         model = None
-        createEmbeddings(embedder.writeGlobalEmbedding, './training/', trainSource,
-                         ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
+        createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', trainSource,
+                         ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=40,
                          windowSize=7)
 
 
@@ -373,17 +384,25 @@ def test():
         read(testSorce, 2)
         model = None
         createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSorce,
-                         ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=30,
+                         ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=40,
                          windowSize=7)
     if(wantClassify):
         root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
-        embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training",30,50,7)
+        embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",10,10,5)
         control=embedder.models[0].wv.most_similar(positive=["1"])
         etoh = embedder.models[1].wv.most_similar(positive=["1"])
-        u=1
-        # obj = SVMobj()
+        # aux=embedder.models[1].wv.most_similar(positive=["1"],topn=N)
+
+        obj = SVMobj(N,dimensions)
+        controlMatrix=createProbabilityMatrix(embedder.models[0])
+        etohMatrix = createProbabilityMatrix(embedder.models[1])
+        obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels(), 2.0)
+        obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels(), 2.0)
+
+
+
         #
         # obj.storeEmbedding("Control", "./training/embeddings/")
         # obj.storeEmbedding("EtOH", "./training/embeddings/")
