@@ -1,5 +1,7 @@
 import time
 
+from sklearn.manifold import TSNE
+
 from MatProc import MatProc
 from Reader import Reader
 import shutil
@@ -24,7 +26,7 @@ dimensions=35
 N=85
 class Mat2Graph():
     def __init__(self):
-        self.models=[None,None,None,None]
+        self.models=[None,None,None,None,None]
         self.LabelDict={}
         self.LabelDict["Control"] = 0
         self.LabelDict["EtOH"] = 1
@@ -53,6 +55,14 @@ class Mat2Graph():
                 trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
                 trial) + ".txt")
             index = index + 1
+    def trainModel(self,modelIndex,windowSize,walks):
+        currentModel = self.models[modelIndex]
+        if (currentModel is None):
+            currentModel = Word2Vec(walks, size=dimensions, window=windowSize, min_count=0, sg=1, workers=6,
+                                    iter=1)
+        else:
+            currentModel.train(walks, total_examples=len(walks), epochs=10)
+        self.models[modelIndex] = currentModel
     def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
         index = 0
         print("Running trainModelsForConditions")
@@ -63,32 +73,19 @@ class Mat2Graph():
 
             for [matu, fileName] in matsi:
                 print("Processing file " + str(fileName))
-                # animalId = int(index / 5) + 1  # each animal has 5 readings for a state
                 m = re.search(condition + "-(.+?)-", fileName)
                 trial = m.group(1)
                 aux = matu
                 np.savetxt(outFolder + trial, aux, fmt="%f", delimiter=',')  # just for testing
-                size = aux.shape
                 grafFileName = outFolder + "graf" + str(trial) + ".txt"
-                # with open(grafFileName, 'w+') as file:  # save as adj lisr
-                #     for i in range(0, size[0]):
-                #         for j in range(i + 1, size[1]):
-                #             if aux[i][j] is not 0:
-                #                 file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
-
                 allWalks.append(
                     getGraphWalks(grafFileName, dimensions, directed=False, walk_length=walkLength, num_walks=nrWalks,
                                   weighted=True))
                 index = index + 1
             walks = [item for x in allWalks for item in x]
             walks = [map(str, walk) for walk in walks]
-            currentModel=self.models[self.LabelDict[condition]]
-            if (currentModel is None):
-                currentModel = Word2Vec(walks, size=dimensions, window=windowSize, min_count=0, sg=1, workers=6,
-                                 iter=1)
-            else:
-                currentModel.train(walks, total_examples=len(walks), epochs=10)
-            self.models[self.LabelDict[condition]]=currentModel
+            self.trainModel(self.LabelDict[condition],windowSize,walks)
+            self.trainModel(4, windowSize,walks)#train the last model because he is the bigger one
 
 
     def writeAdjMatrixForCondition(self,condition,outFolder,walkLength,nrWalks,windowSize):
@@ -366,12 +363,42 @@ def createProbabilityMatrix(model):
     return mat
 
 
+def display_closestwords_tsnescatterplot(model, word):
+    arr = np.empty((0, 300), dtype='f')
+    word_labels = [word]
+
+    # get close words
+    close_words = model.similar_by_word(word)
+
+    # add the vector for each of the closest words to the array
+    arr = np.append(arr, np.array([model[word]]), axis=0)
+    for wrd_score in close_words:
+        wrd_vector = model[wrd_score[0]]
+        word_labels.append(wrd_score[0])
+        arr = np.append(arr, np.array([wrd_vector]), axis=0)
+
+    # find tsne coords for 2 dimensions
+    tsne = TSNE(n_components=2, random_state=0)
+    np.set_printoptions(suppress=True)
+    Y = tsne.fit_transform(arr)
+
+    x_coords = Y[:, 0]
+    y_coords = Y[:, 1]
+    # display scatter plot
+    plt.scatter(x_coords, y_coords)
+
+    for label, x, y in zip(word_labels, x_coords, y_coords):
+        plt.annotate(label, xy=(x, y), xytext=(0, 0), textcoords='offset points')
+    plt.xlim(x_coords.min() + 0.00005, x_coords.max() + 0.00005)
+    plt.ylim(y_coords.min() + 0.00005, y_coords.max() + 0.00005)
+    plt.show()
 def test():
+    global model
     # readLabels()
     wantClassify=True
     wantNewData=False
     if(wantNewData):
-        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
+        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70_redus"
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
         model = None
@@ -387,19 +414,24 @@ def test():
                          ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=40,
                          windowSize=7)
     if(wantClassify):
-        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
+        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70_redus"
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
         embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",10,10,5)
-        control=embedder.models[0].wv.most_similar(positive=["1"])
-        etoh = embedder.models[1].wv.most_similar(positive=["1"])
-        # aux=embedder.models[1].wv.most_similar(positive=["1"],topn=N)
+        display_closestwords_tsnescatterplot(embedder.modelils[0],1)
+        # obj = SVMobj(N,dimensions)
+        # controlMatrix=createProbabilityMatrix(embedder.models[0])
+        # etohMatrix = createProbabilityMatrix(embedder.models[1])
+        # generalMatrix=createProbabilityMatrix(embedder.models[4])
+        # diff=controlMatrix-etohMatrix;
+        #
+        # obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels())
+        # obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels())
+        # obj.create_heatmap_cam_2d(diff,"COntrol-EtOH", readLabels())
+        #
+        # obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "C0ntrol-General", readLabels())
+        # obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH general", readLabels())
 
-        obj = SVMobj(N,dimensions)
-        controlMatrix=createProbabilityMatrix(embedder.models[0])
-        etohMatrix = createProbabilityMatrix(embedder.models[1])
-        obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels(), 2.0)
-        obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels(), 2.0)
 
 
 

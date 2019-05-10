@@ -204,7 +204,7 @@ class SVMobj:
         print("The acc is "+str(accuracy))
         return accuracy
 
-    def create_heatmap_cam_2d(self,cam, path_to_save, nodes_indexes, confidence_score):
+    def create_heatmap_cam_2d(self,cam, path_to_save, nodes_indexes):
         f, ax = plt.subplots(figsize=(20, 20))
         plt.figtext(x=0.13, y=0.90, s="Plot name : {}".format(path_to_save), fontsize=15,
                     fontname="sans-serif")
