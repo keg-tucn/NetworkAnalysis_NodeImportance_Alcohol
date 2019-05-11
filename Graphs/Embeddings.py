@@ -96,7 +96,6 @@ class Mat2Graph():
         allWalks=[]
         for [matu,fileName] in matsi:
             print("Processing file "+str(fileName))
-            #animalId = int(index / 5) + 1  # each animal has 5 readings for a state
             m=re.search("SCAPearson-(.+?)-",fileName)#get animal id and trial number
             animalId=m.group(1)
             m = re.search(condition+"-(.+?)-", fileName)
@@ -112,10 +111,6 @@ class Mat2Graph():
                              file.write(str(i) + " " + str(j) +" "+str(aux[i][j])+ "\n");
 
             output=outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(trial) + ".txt"
-            newMain(grafFileName,dimensions,output,condition,walkLength=walkLength,nrWalks=nrWalks,weighted=True,windowSize=windowSize)
-            # os.system("python ./node2vec_main.py" + " --input "+outFolder+"/graf" + str(
-            #     trial) + ".txt" + "  --dimensions 85 --num-walks 14 --weighted   --output "+outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(    #get the embedding
-            #     trial) + ".txt")
             index = index + 1
 
     def learn_embeddings(self,walks,dimensions,windowSize,nrWorkers,nrIterations):
@@ -392,13 +387,33 @@ def display_closestwords_tsnescatterplot(model, word):
     plt.xlim(x_coords.min() + 0.00005, x_coords.max() + 0.00005)
     plt.ylim(y_coords.min() + 0.00005, y_coords.max() + 0.00005)
     plt.show()
+def autolabel(ax,rects, xpos='center'):
+    """
+    Attach a text label above each bar in *rects*, displaying its height.
+
+    *xpos* indicates which side to place the text w.r.t. the center of
+    the bar. It can be one of the following {'center', 'right', 'left'}.
+    """
+
+    xpos = xpos.lower()  # normalize the case of the parameter
+    ha = {'center': 'center', 'right': 'left', 'left': 'right'}
+    offset = {'center': 0.5, 'right': 0.57, 'left': 0.43}  # x_txt = x + w*off
+
+    for rect in rects:
+        height = rect.get_height()
+        ax.text(rect.get_x() + rect.get_width()*offset[xpos], 1.01*height,
+                '{}'.format(height), ha=ha[xpos], va='bottom')
+def getNodesProbabilities(mat):
+    newMat=[sum(mat[:,col]) for col in range(0,mat.shape[1]) ]
+    return newMat
 def test():
     global model
+    root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70_redus"
+
     # readLabels()
     wantClassify=True
     wantNewData=False
     if(wantNewData):
-        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70_redus"
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
         model = None
@@ -414,11 +429,19 @@ def test():
                          ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=40,
                          windowSize=7)
     if(wantClassify):
-        root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70_redus"
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
         embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",10,10,5)
-        display_closestwords_tsnescatterplot(embedder.modelils[0],1)
+        controlMatrix=createProbabilityMatrix(embedder.models[0])
+        etohMatrix = createProbabilityMatrix(embedder.models[1])
+        controlProbs=getNodesProbabilities(controlMatrix)
+
+        ethohProbs=getNodesProbabilities(etohMatrix)
+
+
+        testPlot(controlProbs,ethohProbs,"Control-EtOH")
+        plotToTalProbabilitiesDiss(controlProbs,ethohProbs,"Control-EtOH_2bars")
+        display_closestwords_tsnescatterplot(embedder.models[0],str(1))
         # obj = SVMobj(N,dimensions)
         # controlMatrix=createProbabilityMatrix(embedder.models[0])
         # etohMatrix = createProbabilityMatrix(embedder.models[1])
@@ -442,8 +465,53 @@ def test():
         # # obj.train()
         # # obj.classify("./testing/embeddings/")
         # obj.computeParticulars(readLabels(), "./training/embeddings", "./testing/embeddings/")
+def plotToTalProbabilitiesDiss(F1,F2,output):
+    objects =readLabels()
+    fig, ax = plt.subplots(figsize=(16, 16))
+    y_pos = np.arange(len(objects))
+    F1=np.array(F1)
+    F2=np.array(F2)
+    performance = F1-F2
+
+    plt.bar(y_pos, performance, align='center', alpha=0.5)
+    plt.xticks(y_pos, objects,    rotation = 'vertical',fontsize=8)
+    plt.ylabel('Usage')
+    plt.title('Programming language usage')
+    plt.savefig( output, dpi=600)
+    plt.show()
 
 
+def testPlot(F1,F2,output):
+    n_groups = len(F1)
+
+
+    # create plot
+    fig, ax = plt.subplots(figsize=(16,16))
+    index = np.arange(n_groups)
+    bar_width = 0.55
+    opacity = 0.8
+
+    rects1 = plt.bar(index, F1, bar_width,
+                     alpha=opacity,
+                     color='b',
+                     label='Frank')
+
+    rects2 = plt.bar(index + bar_width, F2, bar_width,
+                     alpha=opacity,
+                     color='r',
+                     label='Guido')
+
+    plt.xlabel('Node')
+    plt.ylabel('Total Probabilities')
+    plt.title('Scores of total probabilities')
+
+    plt.xticks(index + bar_width, readLabels(),    rotation = 'vertical')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.savefig( output, dpi=600)
+
+    plt.show()
 proc=MatProc()
 reader = Reader(N,dimensions)
 model=None
@@ -460,6 +528,7 @@ walksSet=[20,30,40,50]
 walkLengthSet=[10,15,20,25]
 windowSizeSet=[5,7]
 #
+# testPlot()
 test()
 sys.exit(2)
 #Read pickled data
