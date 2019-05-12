@@ -87,13 +87,18 @@ class Mat2Graph():
             self.trainModel(self.LabelDict[condition],windowSize,walks)
             self.trainModel(4, windowSize,walks)#train the last model because he is the bigger one
 
+    def writeEdgeListFile(self,mat,filename):
+        size = mat.shape
+        with open(filename, 'w+') as file:  # save as adj lisr
+            for i in range(0, size[0]):
+                for j in range(i + 1, size[1]):
+                    if mat[i][j] is not 0:
+                        file.write(str(i) + " " + str(j) + " " + str(mat[i][j]) + "\n");
 
     def writeAdjMatrixForCondition(self,condition,outFolder,walkLength,nrWalks,windowSize):
-        index=0
 
         gc.collect()
         matsi = reader.getAllByCondition(condition)#getall mats
-        allWalks=[]
         for [matu,fileName] in matsi:
             print("Processing file "+str(fileName))
             m=re.search("SCAPearson-(.+?)-",fileName)#get animal id and trial number
@@ -102,17 +107,11 @@ class Mat2Graph():
             trial = m.group(1)
             aux = matu
             np.savetxt(outFolder+trial,aux,fmt="%f",delimiter=',')#just for testing
-            size = aux.shape
+
             grafFileName = outFolder + "graf" + str(trial) + ".txt"
-            with open(grafFileName, 'w+') as file: #save as adj lisr
-                for i in range(0, size[0]):
-                    for j in range(i + 1, size[1]):
-                        if aux[i][j] is not 0:
-                             file.write(str(i) + " " + str(j) +" "+str(aux[i][j])+ "\n");
-
             output=outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(trial) + ".txt"
-            index = index + 1
-
+            self.writeEdgeListFile(aux,grafFileName)
+            newMain(grafFileName,dimensions,output,condition,walkLength=walkLength,nrWalks=nrWalks,weighted=True,windowSize=windowSize)
     def learn_embeddings(self,walks,dimensions,windowSize,nrWorkers,nrIterations):
         '''
         Learn embeddings by optimizing the Skipgram objective using SGD.
@@ -129,11 +128,6 @@ class Mat2Graph():
 
         return
     def writeConditionEmbedding(self,condition,outFolder,walkLength,nrWalks,windowSize):
-        index = 0
-
-
-
-
         matsi = reader.getAllByCondition(condition)  # getall mats
         allWalks=[]
         output = outFolder + "embeddings/EMBD_" + condition +"_777_777.txt"
@@ -145,17 +139,11 @@ class Mat2Graph():
             trial = m.group(1)
             aux = matu
             np.savetxt(outFolder + trial, aux, fmt="%f", delimiter=',')  # just for testing
-            size = aux.shape
             grafFileName=outFolder + "graf" + str(trial) + ".txt"
-            with open(grafFileName, 'w+') as file:  # save as adj lisr
-                for i in range(0, size[0]):
-                    for j in range(i + 1, size[1]):
-                        if aux[i][j] is not 0:
-                            file.write(str(i) + " " + str(j) + " " + str(aux[i][j]) + "\n");
-
+            self.writeEdgeListFile(aux,grafFileName)
 
             allWalks.append(getGraphWalks(grafFileName,dimensions,directed=False,walk_length=walkLength,num_walks=nrWalks,weighted=True))
-            index = index + 1
+
             self.learn_embeddings(allWalks,dimensions,windowSize=windowSize,nrWorkers=16,nrIterations=1)
         try:
             model.wv.save_word2vec_format(output)
@@ -253,6 +241,7 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
 
         for j,walkLength in enumerate(walkLengthSet):
             for k,windowSize in enumerate(windowSizeSet):
+                gc.collect()
                 if readings is None:
 
                     readings=np.zeros((nrClassifiers,len(walksSet),len(walkLengthSet),len(windowSizeSet)))
@@ -287,6 +276,7 @@ def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,wi
     for i, nrWalks in enumerate(walksSet):
         for j, walkLength in enumerate(walkLengthSet):
             for k, windowSize in enumerate(windowSizeSet):
+                gc.collect()
                 if readings is None:
                     readings = np.zeros((nrClassifiers, len(walksSet), len(walkLengthSet), len(windowSizeSet)))
                 print("Starting new execution", i, j, k)
@@ -408,7 +398,7 @@ def getNodesProbabilities(mat):
     return newMat
 def test():
     global model
-    root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70_redus"
+    root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
 
     # readLabels()
     wantClassify=True
@@ -438,22 +428,21 @@ def test():
 
         ethohProbs=getNodesProbabilities(etohMatrix)
 
+        plotSideBySide(controlProbs,ethohProbs,"Control-EtOH")
+        plotToTalProbabilitiesDiff(controlProbs,ethohProbs,"Control-EtOH_2bars")
+        # display_closestwords_tsnescatterplot(embedder.models[0],str(1))
+        obj = SVMobj(N,dimensions)
+        controlMatrix=createProbabilityMatrix(embedder.models[0])
+        etohMatrix = createProbabilityMatrix(embedder.models[1])
+        generalMatrix=createProbabilityMatrix(embedder.models[4])
+        diff=controlMatrix-etohMatrix;
 
-        testPlot(controlProbs,ethohProbs,"Control-EtOH")
-        plotToTalProbabilitiesDiss(controlProbs,ethohProbs,"Control-EtOH_2bars")
-        display_closestwords_tsnescatterplot(embedder.models[0],str(1))
-        # obj = SVMobj(N,dimensions)
-        # controlMatrix=createProbabilityMatrix(embedder.models[0])
-        # etohMatrix = createProbabilityMatrix(embedder.models[1])
-        # generalMatrix=createProbabilityMatrix(embedder.models[4])
-        # diff=controlMatrix-etohMatrix;
-        #
-        # obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels())
-        # obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels())
-        # obj.create_heatmap_cam_2d(diff,"COntrol-EtOH", readLabels())
-        #
-        # obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "C0ntrol-General", readLabels())
-        # obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH general", readLabels())
+        obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels())
+        obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels())
+        obj.create_heatmap_cam_2d(diff,"COntrol-EtOH", readLabels())
+
+        obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "C0ntrol-General", readLabels())
+        obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH general", readLabels())
 
 
 
@@ -465,7 +454,7 @@ def test():
         # # obj.train()
         # # obj.classify("./testing/embeddings/")
         # obj.computeParticulars(readLabels(), "./training/embeddings", "./testing/embeddings/")
-def plotToTalProbabilitiesDiss(F1,F2,output):
+def plotToTalProbabilitiesDiff(F1,F2,output):
     objects =readLabels()
     fig, ax = plt.subplots(figsize=(16, 16))
     y_pos = np.arange(len(objects))
@@ -481,7 +470,7 @@ def plotToTalProbabilitiesDiss(F1,F2,output):
     plt.show()
 
 
-def testPlot(F1,F2,output):
+def plotSideBySide(F1,F2,output):
     n_groups = len(F1)
 
 
