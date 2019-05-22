@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns;
 import array
 import pandas as pd
-
+from statistics import mean
 class Classifs:
     def __init__(self,label,score):
         self.label=label
@@ -203,14 +203,23 @@ class SVMobj:
         accuracy=overallScore/float(len(allFiles))
         print("The acc is "+str(accuracy))
         return accuracy
-
-    def create_heatmap_cam_2d(self,cam, path_to_save, nodes_indexes):
+    def meanOfMat(self,input):
+        suma=0
+        for i in range(input.shape[0]):
+            for j in range(input.shape[1]):
+                suma+=input[i][j]
+        return float(suma/float(input.shape[0]*input.shape[1]))
+    def create_heatmap_cam_2d(self,cam, path_to_save, nodes_indexes,outFolder):
         f, ax = plt.subplots(figsize=(20, 20))
         plt.figtext(x=0.13, y=0.90, s="Plot name : {}".format(path_to_save), fontsize=15,
                     fontname="sans-serif")
+
+        cam[range(cam.shape[0]),range(cam.shape[1])]=self.meanOfMat(cam)
+
         heatmap_state = sns.heatmap(cam, cmap="jet", xticklabels=nodes_indexes,yticklabels=nodes_indexes, ax=ax)
+        # heatmap_state.set_xticklabels(heatmap_state.get_xticklabels(),rotation=30)
         fig = heatmap_state.get_figure()
-        fig.savefig(path_to_save)
+        fig.savefig(outFolder+path_to_save)
         fig.clf()
 
     def computeParticulars(self,zoneNames,testingdir,srcDir):

@@ -1,7 +1,7 @@
 import time
 
 from sklearn.manifold import TSNE
-
+import threading
 from MatProc import MatProc
 from Reader import Reader
 import shutil
@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 
 dimensions=35
 N=85
+
 class Mat2Graph():
     def __init__(self):
         self.models=[None,None,None,None,None]
@@ -227,7 +228,9 @@ def read(srcFolder, option):
         reader.readAll2(srcFolder, allConditions)#separate conditions in folders
     if (option is 3):
         reader.readAll3(srcFolder, allConditions)#all conditions in one folder
-
+def startGarbageCollector():
+    threading.Timer(3,startGarbageCollector).start()
+    gc.collect()
 
 
 def runDataMining(trainSource,testSource,nrClassifiers,walksSet,walkLengthSet,windowSizeSet):
@@ -398,11 +401,11 @@ def getNodesProbabilities(mat):
     return newMat
 def test():
     global model
-    root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
+    root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70_redus"
 
     # readLabels()
-    wantClassify=True
     wantNewData=False
+    wantClassify=True
     if(wantNewData):
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
@@ -419,35 +422,41 @@ def test():
                          ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=40,
                          windowSize=7)
     if(wantClassify):
-        trainSource = os.path.join(root, 'train')
-        read(trainSource, 2)
-        embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",10,10,5)
-        controlMatrix=createProbabilityMatrix(embedder.models[0])
-        etohMatrix = createProbabilityMatrix(embedder.models[1])
-        abstinenceMatrix = createProbabilityMatrix(embedder.models[2])
+        for nrWalks in [10,15,20]:
+            for walkLength in [3,7,11]:
+                saveDIrectory="./OutData/Out_"+str(nrWalks)+"_Walks_"+str(walkLength)+"_WalkLength/"
+                setupFolder(saveDIrectory)
+                trainSource = os.path.join(root, 'train')
+                read(trainSource, 2)
+                #     def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
 
-        controlProbs=getNodesProbabilities(controlMatrix)
-        ethohProbs=getNodesProbabilities(etohMatrix)
-        abstinenceProbs = getNodesProbabilities(etohMatrix)
+                embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",walkLength,nrWalks,4)
+                controlMatrix=createProbabilityMatrix(embedder.models[0])
+                etohMatrix = createProbabilityMatrix(embedder.models[1])
+                abstinenceMatrix = createProbabilityMatrix(embedder.models[2])
+                generalMatrix=createProbabilityMatrix(embedder.models[4])
 
-        plotSideBySide(controlProbs,ethohProbs,"Control-EtOH_sideBySide")
-        plotToTalProbabilitiesDiff(controlProbs,ethohProbs,"Control-EtOH_2bars")
-        plotSideBySide(controlProbs, abstinenceProbs, "Control-Abstinence")
-        plotToTalProbabilitiesDiff(controlProbs, abstinenceProbs, "Control-Abstinence_2bars")
-        # display_closestwords_tsnescatterplot(embedder.models[0],str(1))
-        obj = SVMobj(N,dimensions)
-        controlMatrix=createProbabilityMatrix(embedder.models[0])
-        etohMatrix = createProbabilityMatrix(embedder.models[1])
-        generalMatrix=createProbabilityMatrix(embedder.models[4])
+                controlProbs=getNodesProbabilities(controlMatrix)
+                ethohProbs=getNodesProbabilities(etohMatrix)
+                abstinenceProbs = getNodesProbabilities(abstinenceMatrix)
 
-        obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels())
-        obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels())
-        obj.create_heatmap_cam_2d(abstinenceMatrix,"Abstinence", readLabels())
-        obj.create_heatmap_cam_2d(controlMatrix-etohMatrix,"Control-EtOH", readLabels())
-        obj.create_heatmap_cam_2d(controlMatrix-abstinenceMatrix,"Control-Abstinence", readLabels())
+                plotSideBySide(controlProbs,ethohProbs,"Control-EtOH_sideBySide",saveDIrectory)
+                plotSideBySide(controlProbs, abstinenceProbs, "Control-Abstinence_sideBySide",saveDIrectory)
+                plotSideBySide(ethohProbs, abstinenceProbs, "EtOH-Abstinence_sideBySide",saveDIrectory)
 
-        obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "Control-General", readLabels())
-        obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH-General", readLabels())
+                plotToTalProbabilitiesDiff(controlProbs,ethohProbs,"Control-EtOH_2bars",saveDIrectory)
+                plotToTalProbabilitiesDiff(controlProbs, abstinenceProbs, "Control-Abstinence_2bars",saveDIrectory)
+                # display_closestwords_tsnescatterplot(embedder.models[0],str(1))
+                obj = SVMobj(N,dimensions)
+
+                obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(abstinenceMatrix,"Abstinence", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(controlMatrix-etohMatrix,"Control-EtOH", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(controlMatrix-abstinenceMatrix,"Control-Abstinence", readLabels(),saveDIrectory)
+
+                obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "Control-General", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH-General", readLabels(),saveDIrectory)
 
 
 
@@ -459,7 +468,15 @@ def test():
         # # obj.train()
         # # obj.classify("./testing/embeddings/")
         # obj.computeParticulars(readLabels(), "./training/embeddings", "./testing/embeddings/")
-def plotToTalProbabilitiesDiff(F1,F2,output):
+def setupFolder(folder):
+    shutil.rmtree(folder, ignore_errors=True)
+    try:
+        os.mkdir(folder)
+    except OSError:
+        print ("Creation of the directory %s failed" % folder)
+    else:
+        print ("Successfully created the directory %s " % folder)
+def plotToTalProbabilitiesDiff(F1,F2,output,outFolder):
     objects =readLabels()
     fig, ax = plt.subplots(figsize=(16, 16))
     y_pos = np.arange(len(objects))
@@ -470,12 +487,13 @@ def plotToTalProbabilitiesDiff(F1,F2,output):
     plt.bar(y_pos, performance, align='center', alpha=0.5)
     plt.xticks(y_pos, objects,    rotation = 'vertical',fontsize=8)
     plt.ylabel('Usage')
-    plt.title('Programming language usage')
-    plt.savefig( output, dpi=600)
+    plt.title('Collpased collumns')
+    ax.grid(which='major', axis='x', linestyle='-')
+    plt.savefig(outFolder+ output, dpi=600)
     plt.show()
 
 
-def plotSideBySide(F1,F2,output):
+def plotSideBySide(F1,F2,output,outFolder):
     n_groups = len(F1)
 
 
@@ -503,10 +521,11 @@ def plotSideBySide(F1,F2,output):
     plt.legend()
 
     plt.tight_layout()
-    plt.savefig( output, dpi=600)
+    plt.savefig( outFolder+output, dpi=600)
 
     plt.show()
 proc=MatProc()
+startGarbageCollector()
 reader = Reader(N,dimensions)
 model=None
 embedder = Mat2Graph()
