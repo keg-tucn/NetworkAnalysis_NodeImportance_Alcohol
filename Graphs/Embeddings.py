@@ -401,7 +401,7 @@ def getNodesProbabilities(mat):
     return newMat
 def test():
     global model
-    root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70_redus"
+    root = "./Dataset_without_time/sum_weight_high_edge_values/sum_weight_70"
 
     # readLabels()
     wantNewData=False
@@ -430,7 +430,7 @@ def test():
                 read(trainSource, 2)
                 #     def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
 
-                embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",walkLength,nrWalks,4)
+                embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",walkLength,nrWalks,2)
                 controlMatrix=createProbabilityMatrix(embedder.models[0])
                 etohMatrix = createProbabilityMatrix(embedder.models[1])
                 abstinenceMatrix = createProbabilityMatrix(embedder.models[2])
