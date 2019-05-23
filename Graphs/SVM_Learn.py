@@ -53,6 +53,22 @@ class SVMobj:
                     r[m]=s
                 self.data.append(r)
                 self.index = self.index + 1;
+    def storeEmbedding4Probabilities(self,condition,srcDir):#load embeddings in memory for training
+
+        files = os.listdir(srcDir)
+
+        controlFiles = [x for x in files if re.match(r"EMBD_" + condition + "_[0-9]+_[0-9]+.txt", x) is not None]
+        nrSamples = len(controlFiles)
+
+
+
+        for i in range(0, nrSamples):
+            self.labels.insert(self.index, self.LabelDict[condition])
+            filePathName=os.path.join(srcDir, controlFiles[i])
+
+            self.index = self.index + 1;
+            self.data.append(self.readEmbedding(filePathName))
+
     def distance(self,sample, train):
         return 0
     def vectorDistance(self,a,b):#euclidean distance
@@ -183,23 +199,18 @@ class SVMobj:
         overallScore=0
         allFiles=os.listdir(srcDir)
         for filename in allFiles :
-            with open (os.path.join(srcDir,filename)) as file:
-                m = re.search("EMBD_(.+?)_", filename)
-                condition = m.group(1)
-                w, h = [int(x) for x in next(file).split()]
-                print("KNN:Predicting for file " + filename);
-                sample={}
-                for j in range(0, w):  # loop through all clasifiers
-                    s = [float(x) for x in
-                         next(file).split()]  # get line by line embedding and use the appropiat classifier
-                    m = int(s.pop(0))
-                    sample[m]=s
-                classifiedLabel=self.compareWithTraining(sample,nrNeighbors)
-                print(classifiedLabel)
-                isOk=classifiedLabel is self.LabelDict[condition]
-                if isOk:
-                    overallScore=overallScore+1
-                print("The prediction is "+str(isOk))
+
+            m = re.search("EMBD_(.+?)_", filename)
+            condition = m.group(1)
+            s=self.readEmbedding(os.path.join(srcDir,filename))
+            print("KNN:Predicting for file " + filename);
+
+            classifiedLabel=self.compareWithTraining(s,nrNeighbors)
+            print(classifiedLabel)
+            isOk=classifiedLabel is self.LabelDict[condition]
+            if isOk:
+                overallScore=overallScore+1
+            print("The prediction is "+str(isOk))
         accuracy=overallScore/float(len(allFiles))
         print("The acc is "+str(accuracy))
         return accuracy
@@ -213,8 +224,8 @@ class SVMobj:
         f, ax = plt.subplots(figsize=(20, 20))
         plt.figtext(x=0.13, y=0.90, s="Plot name : {}".format(path_to_save), fontsize=15,
                     fontname="sans-serif")
-
-        cam[range(cam.shape[0]),range(cam.shape[1])]=self.meanOfMat(cam)
+        meanValue=self.meanOfMat(cam)
+        cam[np.diag_indices_from(cam)]=meanValue
 
         heatmap_state = sns.heatmap(cam, cmap="jet", xticklabels=nodes_indexes,yticklabels=nodes_indexes, ax=ax)
         # heatmap_state.set_xticklabels(heatmap_state.get_xticklabels(),rotation=30)
@@ -280,56 +291,46 @@ class SVMobj:
         diff = etoh - abstinence
         self.create_heatmap_cam_2d(diff, "EtOH_Abstinence_V2", pureLabels, 2.0)
 
-
+    def readEmbedding(self,filePath):
+        mat = np.loadtxt(filePath, dtype=float)
+        return mat
     def classify(self,srcDir):
-
-
-
         allfiles=os.listdir(srcDir)
-
-        #allfiles = [x for x in files if re.match(r"EMBD_" + condition + "_[0-9]+_[0-9]+.txt", x) is not None]
         nrOfFiles = len(allfiles)
         meanAcc=0
         scores=np.zeros(len(self.classifiers))
-        weight=np.ones(len(self.classifiers))/len(self.classifiers);
         for i in range(0, nrOfFiles):#load testing files
-            with open(os.path.join(srcDir, allfiles[i])) as file:
-                m=re.search("EMBD_(.+?)_",allfiles[i])
-                condition=m.group(1)
-                w, h = [int(x) for x in next(file).split()]
-                print("Predicting for file "+allfiles[i]);
-                self.nrRows = w
-                self.depth = h
 
-                good=0
-                bad=0
-                fileScore=0;
-                label = self.LabelDict[condition]
-                votes=np.zeros(len(self.LabelDict))
-                for j in range(0, w):#loop through all clasifiers
-                    s = [float(x) for x in next(file).split()] #get line by line embedding and use the appropiat classifier
-                    m = int(s.pop(0))
-                    s=[s]
-                    prediction=self.classifiers[m].predict(s)[0];
-                    votes[prediction]+=1
-                    # fileScore+=weight[m]*prediction;#use weights for classifiers
-                    if prediction == label:
-                        scores[m]=scores[m]+1
-                        good=good+1
-                        weight[m]+= len(self.classifiers)#increase classifier weight
-                    else:
-                        bad=bad+1
-                predictedLabel=votes.argmax()
+            m=re.search("EMBD_(.+?)_",allfiles[i])
+            condition=m.group(1)
+
+            print("Predicting for file "+allfiles[i]);
+
+            good=0
+            bad=0
+            fileScore=0;
+            label = self.LabelDict[condition]
+            votes=np.zeros(len(self.LabelDict))
+            fileFullPath=os.path.join(srcDir,allfiles[i])
+            s=self.readEmbedding(fileFullPath)
+            for j in range(0, s.shape[0]):#loop through all clasifiers
+                prediction=self.classifiers[j].predict(s)[0];
+                votes[prediction]+=1
+                if prediction == label:
+                    scores[j]=scores[j]+1
+                    good=good+1
+                else:
+                    bad=bad+1
+            predictedLabel=votes.argmax()
 
 
-                weight/=sum(abs(weight))#normalize weight vector
-                if(predictedLabel==label):
-                    meanAcc=meanAcc+1
+            if(predictedLabel==label):
+                meanAcc=meanAcc+1
 
-                print "The correct label is "+str(self.LabelDict[condition])
-                # print 'I have {}'.format(int(round(fileScore)))
-                print 'My predicted value is {} with a number of votes: {}'.format(predictedLabel,votes[predictedLabel])
-                print "The classifiers acc is"+'{:0.16f}\n'.format((good/float(good+bad)))
+            print "The correct label is "+str(self.LabelDict[condition])
+            # print 'I have {}'.format(int(round(fileScore)))
+            print 'My predicted value is {} with a number of votes: {}'.format(predictedLabel,votes[predictedLabel])
+            print "The classifiers acc is"+'{:0.16f}\n'.format((good/float(good+bad)))
             # print("The good is "+str(good)+" and bad:"+str(bad));
         accuracy=meanAcc/float(nrOfFiles)
         print("I had a number of images:"+str(nrOfFiles))
@@ -346,10 +347,10 @@ class SVMobj:
             m=self.data[0]
             n=m[0]
 
-            X=[X[i] for X in self.data if np.sum(abs(X[i])) is not 0]#take every i-th line from every embedding and toss out the 0 valued
+            X=[X[i] for X in self.data ]#take every i-th line from every embedding and toss out the 0 valued
             #X=[x for y in X for x in y]# reduce an unnecessary dimension
 
-            Y=[self.labels[x] for x in range(0,len(self.labels))  ] #            Y=[self.labels[i] for i in range(0,len(self.labels))  ] #
+            Y=self.labels#            Y=[self.labels[i] for i in range(0,len(self.labels))  ] #
 
             xarray=np.array(X)
             yarray=np.array(Y)

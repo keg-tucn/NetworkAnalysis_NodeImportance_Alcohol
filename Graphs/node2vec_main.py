@@ -89,7 +89,7 @@ def learn_embeddings(walks):
 	model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
 	# model = Word2Vec(walks, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
 
-	model.wv.save_word2vec_format(args.output)
+	# model.wv.save_word2vec_format(args.output)
 
 	return model
 
@@ -103,7 +103,7 @@ def newMain(input,dimensions,  output,condition,walkLength,nrWalks,weighted,wind
 	args.dimensions=dimensions
 	args.num_walks=nrWalks
 	args.window_size=windowSize
-	main(args)
+	return main(args)
 def getGraphWalks(inputFile,dimensions,directed,num_walks,walk_length,weighted):
 	args.input=inputFile
 	args.dimensions=dimensions
@@ -124,7 +124,8 @@ def main(args):
 	#mat=nx.to_numpy_matrix(G)
 	G.preprocess_transition_probs()
 	walks = G.simulate_walks(args.num_walks, args.walk_length)
-	learn_embeddings(walks)
+	return learn_embeddings(walks)
+
 
 
 args = parse_args()

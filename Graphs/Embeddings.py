@@ -112,7 +112,10 @@ class Mat2Graph():
             grafFileName = outFolder + "graf" + str(trial) + ".txt"
             output=outFolder+"embeddings/EMBD_" + condition +"_"+str(animalId)+"_"+ str(trial) + ".txt"
             self.writeEdgeListFile(aux,grafFileName)
-            newMain(grafFileName,dimensions,output,condition,walkLength=walkLength,nrWalks=nrWalks,weighted=True,windowSize=windowSize)
+            model=newMain(grafFileName,dimensions,output,condition,walkLength=walkLength,nrWalks=nrWalks,weighted=True,windowSize=windowSize)
+            modelMatrix=self.createProbabilityMatrix(model)
+            np.savetxt(output, modelMatrix, delimiter=" ", fmt="%s")
+            print("")
     def learn_embeddings(self,walks,dimensions,windowSize,nrWorkers,nrIterations):
         '''
         Learn embeddings by optimizing the Skipgram objective using SGD.
@@ -135,19 +138,18 @@ class Mat2Graph():
 
         for [matu, fileName] in matsi:
             print("Processing file " + str(fileName))
-            # animalId = int(index / 5) + 1  # each animal has 5 readings for a state
             m = re.search(condition + "-(.+?)-", fileName)
             trial = m.group(1)
             aux = matu
             np.savetxt(outFolder + trial, aux, fmt="%f", delimiter=',')  # just for testing
             grafFileName=outFolder + "graf" + str(trial) + ".txt"
             self.writeEdgeListFile(aux,grafFileName)
-
             allWalks.append(getGraphWalks(grafFileName,dimensions,directed=False,walk_length=walkLength,num_walks=nrWalks,weighted=True))
-
             self.learn_embeddings(allWalks,dimensions,windowSize=windowSize,nrWorkers=16,nrIterations=1)
         try:
-            model.wv.save_word2vec_format(output)
+            # model.wv.save_word2vec_format(output)
+            modelMatrix=self.createProbabilityMatrix(model)
+            np.savetxt(output,modelMatrix,format="%s", delimiter=" ")
         except:
             print("Something is not good with your trained model or it doesn't exist")
 
@@ -190,6 +192,15 @@ class Mat2Graph():
             model.wv.save_word2vec_format(output)
         except:
             print("Something is not good with your trained model or it doesn't exist")
+
+    def createProbabilityMatrix(self,model):
+        mat = np.zeros(shape=(N, N))
+        for node in range(0, N):
+            row = model.wv.most_similar(positive=[str(node)], topn=N)
+            normalize_constant = sum([elem for index, elem in row])
+            for index, val in row:
+                mat[node, int(index)] = val / float(normalize_constant)
+        return mat
 
 
 def createEmbeddings(function,outFolder,readingsFolder,conditions,walkLength,nrWalks,windowSize):
@@ -341,14 +352,6 @@ def readLabels():
 
     print(readu)
     return readu;
-def createProbabilityMatrix(model):
-    mat = np.zeros(shape=(N,N))
-    for node in range(0,N):
-        row=model.wv.most_similar(positive=[str(node)],topn=N)
-        normalize_constant=sum([elem for index,elem in row])
-        for index,val in row:
-            mat[node,int(index)]=val/float(normalize_constant)
-    return mat
 
 
 def display_closestwords_tsnescatterplot(model, word):
@@ -406,68 +409,74 @@ def test():
     # readLabels()
     wantNewData=False
     wantClassify=True
+    defaultWalkLength=15
+    defaultNrWalks=40
+    defaultWindowSize=7
     if(wantNewData):
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
         model = None
         createEmbeddings(embedder.writeAdjMatrixForCondition, './training/', trainSource,
-                         ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=40,
-                         windowSize=7)
+                         ["Control", "EtOH", "Abstinence"], walkLength=defaultWalkLength, nrWalks=defaultNrWalks,
+                         windowSize=defaultWindowSize)
 
 
         testSorce = os.path.join(root, 'test')
         read(testSorce, 2)
         model = None
         createEmbeddings(embedder.writeAdjMatrixForCondition, './testing/', testSorce,
-                         ["Control", "EtOH", "Abstinence"], walkLength=15, nrWalks=40,
-                         windowSize=7)
+                         ["Control", "EtOH", "Abstinence"], walkLength=defaultWalkLength, nrWalks=defaultNrWalks,
+                         windowSize=defaultWindowSize)
     if(wantClassify):
-        for nrWalks in [10,15,20]:
-            for walkLength in [3,7,11]:
-                saveDIrectory="./OutData/Out_"+str(nrWalks)+"_Walks_"+str(walkLength)+"_WalkLength/"
-                setupFolder(saveDIrectory)
-                trainSource = os.path.join(root, 'train')
-                read(trainSource, 2)
-                #     def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
+        # for nrWalks in [10,15,20]:
+        #     for walkLength in [3,7,11,25]:
+                # saveDIrectory="./OutData/Out_"+str(nrWalks)+"_Walks_"+str(walkLength)+"_WalkLength/"
+                # setupFolder(saveDIrectory)
+                # trainSource = os.path.join(root, 'train')
+                # read(trainSource, 2)
+                # #     def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
+                #
+                # embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",walkLength,nrWalks,2)
+                # controlMatrix=embedder.createProbabilityMatrix(embedder.models[0])
+                # etohMatrix = embedder.createProbabilityMatrix(embedder.models[1])
+                # abstinenceMatrix = embedder.createProbabilityMatrix(embedder.models[2])
+                # generalMatrix=embedder.createProbabilityMatrix(embedder.models[4])
+                #
+                # controlProbs=getNodesProbabilities(controlMatrix)
+                # ethohProbs=getNodesProbabilities(etohMatrix)
+                # abstinenceProbs = getNodesProbabilities(abstinenceMatrix)
+                #
+                # # plotSideBySide(controlProbs,ethohProbs,"Control-EtOH_sideBySide",saveDIrectory)
+                # # plotSideBySide(controlProbs, abstinenceProbs, "Control-Abstinence_sideBySide",saveDIrectory)
+                # # plotSideBySide(ethohProbs, abstinenceProbs, "EtOH-Abstinence_sideBySide",saveDIrectory)
+                #
+                # plotToTalProbabilitiesDiff(controlProbs,ethohProbs,"Control-EtOH_2bars",saveDIrectory)
+                # plotToTalProbabilitiesDiff(controlProbs, abstinenceProbs, "Control-Abstinence_2bars",saveDIrectory)
+                # plotToTalProbabilitiesDiff(controlProbs, ethohProbs, "Control-EtOH_2bars", saveDIrectory)
+                # plotToTalProbabilitiesDiff(ethohProbs, abstinenceProbs, "EtOH-Abstinence_2bars", saveDIrectory)
+                # # display_closestwords_tsnescatterplot(embedder.models[0],str(1))
+                # obj = SVMobj(N,dimensions)
+                #
+                # obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels(),saveDIrectory)
+                # obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels(),saveDIrectory)
+                # obj.create_heatmap_cam_2d(abstinenceMatrix,"Abstinence", readLabels(),saveDIrectory)
+                # obj.create_heatmap_cam_2d(controlMatrix-etohMatrix,"Control-EtOH", readLabels(),saveDIrectory)
+                # obj.create_heatmap_cam_2d(controlMatrix-abstinenceMatrix,"Control-Abstinence", readLabels(),saveDIrectory)
+                #
+                # obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "Control-General", readLabels(),saveDIrectory)
+                # obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH-General", readLabels(),saveDIrectory)
 
-                embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",walkLength,nrWalks,2)
-                controlMatrix=createProbabilityMatrix(embedder.models[0])
-                etohMatrix = createProbabilityMatrix(embedder.models[1])
-                abstinenceMatrix = createProbabilityMatrix(embedder.models[2])
-                generalMatrix=createProbabilityMatrix(embedder.models[4])
+        obj = SVMobj(N,dimensions)
+        obj.storeEmbedding4Probabilities("Control", "./training/embeddings/")
+        obj.storeEmbedding4Probabilities("EtOH", "./training/embeddings/")
+        obj.storeEmbedding4Probabilities("Abstinence", "./training/embeddings/")
+        obj.train()
+        obj.classify("./testing/embeddings/")
 
-                controlProbs=getNodesProbabilities(controlMatrix)
-                ethohProbs=getNodesProbabilities(etohMatrix)
-                abstinenceProbs = getNodesProbabilities(abstinenceMatrix)
-
-                plotSideBySide(controlProbs,ethohProbs,"Control-EtOH_sideBySide",saveDIrectory)
-                plotSideBySide(controlProbs, abstinenceProbs, "Control-Abstinence_sideBySide",saveDIrectory)
-                plotSideBySide(ethohProbs, abstinenceProbs, "EtOH-Abstinence_sideBySide",saveDIrectory)
-
-                plotToTalProbabilitiesDiff(controlProbs,ethohProbs,"Control-EtOH_2bars",saveDIrectory)
-                plotToTalProbabilitiesDiff(controlProbs, abstinenceProbs, "Control-Abstinence_2bars",saveDIrectory)
-                # display_closestwords_tsnescatterplot(embedder.models[0],str(1))
-                obj = SVMobj(N,dimensions)
-
-                obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels(),saveDIrectory)
-                obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels(),saveDIrectory)
-                obj.create_heatmap_cam_2d(abstinenceMatrix,"Abstinence", readLabels(),saveDIrectory)
-                obj.create_heatmap_cam_2d(controlMatrix-etohMatrix,"Control-EtOH", readLabels(),saveDIrectory)
-                obj.create_heatmap_cam_2d(controlMatrix-abstinenceMatrix,"Control-Abstinence", readLabels(),saveDIrectory)
-
-                obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "Control-General", readLabels(),saveDIrectory)
-                obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH-General", readLabels(),saveDIrectory)
+        obj.KNN("./testing/embeddings", 8)
+        obj.classifyByClosestNeighbor("./testing/embeddings/")
 
 
-
-
-        #
-        # obj.storeEmbedding("Control", "./training/embeddings/")
-        # obj.storeEmbedding("EtOH", "./training/embeddings/")
-        # obj.storeEmbedding("Abstinence", "./training/embeddings/")
-        # # obj.train()
-        # # obj.classify("./testing/embeddings/")
-        # obj.computeParticulars(readLabels(), "./training/embeddings", "./testing/embeddings/")
 def setupFolder(folder):
     shutil.rmtree(folder, ignore_errors=True)
     try:
