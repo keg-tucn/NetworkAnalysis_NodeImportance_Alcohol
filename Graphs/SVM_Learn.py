@@ -314,7 +314,7 @@ class SVMobj:
             fileFullPath=os.path.join(srcDir,allfiles[i])
             s=self.readEmbedding(fileFullPath)
             for j in range(0, s.shape[0]):#loop through all clasifiers
-                prediction=self.classifiers[j].predict(s)[0];
+                prediction=self.classifiers[j].predict([s[j]])[0];   #take only a row at a time
                 votes[prediction]+=1
                 if prediction == label:
                     scores[j]=scores[j]+1

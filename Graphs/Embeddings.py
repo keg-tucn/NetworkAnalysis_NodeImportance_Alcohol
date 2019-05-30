@@ -409,9 +409,9 @@ def test():
     # readLabels()
     wantNewData=False
     wantClassify=True
-    defaultWalkLength=15
+    defaultWalkLength=20
     defaultNrWalks=40
-    defaultWindowSize=7
+    defaultWindowSize=5
     if(wantNewData):
         trainSource = os.path.join(root, 'train')
         read(trainSource, 2)
@@ -428,43 +428,43 @@ def test():
                          ["Control", "EtOH", "Abstinence"], walkLength=defaultWalkLength, nrWalks=defaultNrWalks,
                          windowSize=defaultWindowSize)
     if(wantClassify):
-        # for nrWalks in [10,15,20]:
-        #     for walkLength in [3,7,11,25]:
-                # saveDIrectory="./OutData/Out_"+str(nrWalks)+"_Walks_"+str(walkLength)+"_WalkLength/"
-                # setupFolder(saveDIrectory)
-                # trainSource = os.path.join(root, 'train')
-                # read(trainSource, 2)
-                # #     def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
-                #
-                # embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",walkLength,nrWalks,2)
-                # controlMatrix=embedder.createProbabilityMatrix(embedder.models[0])
-                # etohMatrix = embedder.createProbabilityMatrix(embedder.models[1])
-                # abstinenceMatrix = embedder.createProbabilityMatrix(embedder.models[2])
-                # generalMatrix=embedder.createProbabilityMatrix(embedder.models[4])
-                #
-                # controlProbs=getNodesProbabilities(controlMatrix)
-                # ethohProbs=getNodesProbabilities(etohMatrix)
-                # abstinenceProbs = getNodesProbabilities(abstinenceMatrix)
-                #
-                # # plotSideBySide(controlProbs,ethohProbs,"Control-EtOH_sideBySide",saveDIrectory)
-                # # plotSideBySide(controlProbs, abstinenceProbs, "Control-Abstinence_sideBySide",saveDIrectory)
-                # # plotSideBySide(ethohProbs, abstinenceProbs, "EtOH-Abstinence_sideBySide",saveDIrectory)
-                #
-                # plotToTalProbabilitiesDiff(controlProbs,ethohProbs,"Control-EtOH_2bars",saveDIrectory)
-                # plotToTalProbabilitiesDiff(controlProbs, abstinenceProbs, "Control-Abstinence_2bars",saveDIrectory)
-                # plotToTalProbabilitiesDiff(controlProbs, ethohProbs, "Control-EtOH_2bars", saveDIrectory)
-                # plotToTalProbabilitiesDiff(ethohProbs, abstinenceProbs, "EtOH-Abstinence_2bars", saveDIrectory)
-                # # display_closestwords_tsnescatterplot(embedder.models[0],str(1))
-                # obj = SVMobj(N,dimensions)
-                #
-                # obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels(),saveDIrectory)
-                # obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels(),saveDIrectory)
-                # obj.create_heatmap_cam_2d(abstinenceMatrix,"Abstinence", readLabels(),saveDIrectory)
-                # obj.create_heatmap_cam_2d(controlMatrix-etohMatrix,"Control-EtOH", readLabels(),saveDIrectory)
-                # obj.create_heatmap_cam_2d(controlMatrix-abstinenceMatrix,"Control-Abstinence", readLabels(),saveDIrectory)
-                #
-                # obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "Control-General", readLabels(),saveDIrectory)
-                # obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH-General", readLabels(),saveDIrectory)
+        for nrWalks in [10,15,20]:
+            for walkLength in [3,7,11,25]:
+                saveDIrectory="./OutData/Out_"+str(nrWalks)+"_Walks_"+str(walkLength)+"_WalkLength/"
+                setupFolder(saveDIrectory)
+                trainSource = os.path.join(root, 'train')
+                read(trainSource, 2)
+                #     def trainModelsForConditions(self,conditions,outFolder,walkLength,nrWalks,windowSize):
+
+                embedder.trainModelsForConditions(["Control","EtOH","Abstinence"],"./training/",walkLength,nrWalks,5)
+                controlMatrix=embedder.createProbabilityMatrix(embedder.models[0])
+                etohMatrix = embedder.createProbabilityMatrix(embedder.models[1])
+                abstinenceMatrix = embedder.createProbabilityMatrix(embedder.models[2])
+                generalMatrix=embedder.createProbabilityMatrix(embedder.models[4])
+
+                controlProbs=getNodesProbabilities(controlMatrix)
+                ethohProbs=getNodesProbabilities(etohMatrix)
+                abstinenceProbs = getNodesProbabilities(abstinenceMatrix)
+
+                # plotSideBySide(controlProbs,ethohProbs,"Control-EtOH_sideBySide",saveDIrectory)
+                # plotSideBySide(controlProbs, abstinenceProbs, "Control-Abstinence_sideBySide",saveDIrectory)
+                # plotSideBySide(ethohProbs, abstinenceProbs, "EtOH-Abstinence_sideBySide",saveDIrectory)
+
+                plotToTalProbabilitiesDiff(controlProbs,ethohProbs,"Control-EtOH_2bars",saveDIrectory)
+                plotToTalProbabilitiesDiff(controlProbs, abstinenceProbs, "Control-Abstinence_2bars",saveDIrectory)
+                plotToTalProbabilitiesDiff(controlProbs, ethohProbs, "Control-EtOH_2bars", saveDIrectory)
+                plotToTalProbabilitiesDiff(ethohProbs, abstinenceProbs, "EtOH-Abstinence_2bars", saveDIrectory)
+                # display_closestwords_tsnescatterplot(embedder.models[0],str(1))
+                obj = SVMobj(N,dimensions)
+
+                obj.create_heatmap_cam_2d(controlMatrix,"Control", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(etohMatrix,"EtOH", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(abstinenceMatrix,"Abstinence", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(controlMatrix-etohMatrix,"Control-EtOH", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(controlMatrix-abstinenceMatrix,"Control-Abstinence", readLabels(),saveDIrectory)
+
+                obj.create_heatmap_cam_2d(controlMatrix-generalMatrix, "Control-General", readLabels(),saveDIrectory)
+                obj.create_heatmap_cam_2d(etohMatrix-generalMatrix, "EtOH-General", readLabels(),saveDIrectory)
 
         obj = SVMobj(N,dimensions)
         obj.storeEmbedding4Probabilities("Control", "./training/embeddings/")
