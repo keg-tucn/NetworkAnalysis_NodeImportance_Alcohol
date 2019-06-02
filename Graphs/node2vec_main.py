@@ -47,10 +47,10 @@ def parse_args():
 	parser.add_argument('--workers', type=int, default=6,
 	                    help='Number of parallel workers. Default is 8.')
 
-	parser.add_argument('--p', type=float, default=1,
+	parser.add_argument('--p', type=float, default=0.25,
 	                    help='Return hyperparameter. Default is 1.')
 
-	parser.add_argument('--q', type=float, default=1,
+	parser.add_argument('--q', type=float, default=0.25,
 	                    help='Inout hyperparameter. Default is 1.')
 
 	parser.add_argument('--weighted', dest='weighted', action='store_true',
