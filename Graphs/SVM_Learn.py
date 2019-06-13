@@ -162,14 +162,15 @@ class SVMobj:
             with open(os.path.join(srcDir, filename)) as file:
                 m = re.search("EMBD_(.+?)_", filename)
                 condition = m.group(1)
-                w, h = [int(x) for x in next(file).split()]
+                # w, h = [int(x) for x in next(file).split()]
+                
                 print("CLOSEST:Predicting for file " + filename);
                 sample = {}
-                for j in range(0, w):  # read embedding
+                for j in range(0,  self.N):  # read embedding
                     s = [float(x) for x in
                          next(file).split()]  # get line by line embedding and use the appropiat classifier
-                    m = int(s.pop(0))
-                    sample[m] = s
+
+                    sample[j] = s
                 classifiedLabel = self.closestNeighboor(sample)
                 print("The found label is"+str(classifiedLabel))
                 isOk = classifiedLabel is self.LabelDict[condition]
@@ -343,7 +344,7 @@ class SVMobj:
         nrOfNodes=len(self.data[0]);
         classifiers=[]
         for i in range(0,nrOfNodes):
-            clf=svm.SVC(kernel='linear')
+            clf=svm.SVC(kernel='linear',gamma='scale')
             m=self.data[0]
             n=m[0]
 

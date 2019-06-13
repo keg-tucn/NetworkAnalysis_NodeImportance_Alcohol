@@ -47,7 +47,7 @@ def parse_args():
 	parser.add_argument('--workers', type=int, default=6,
 	                    help='Number of parallel workers. Default is 8.')
 
-	parser.add_argument('--p', type=float, default=0.25,
+	parser.add_argument('--p', type=float, default=1,
 	                    help='Return hyperparameter. Default is 1.')
 
 	parser.add_argument('--q', type=float, default=0.25,
@@ -86,7 +86,7 @@ def learn_embeddings(walks):
 	Learn embeddings by optimizing the Skipgram objective using SGD.
 	'''
 	walks = [map(str, walk) for walk in walks]
-	model = Word2Vec(walks, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
+	model = Word2Vec(walks,negative=15, size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
 	# model = Word2Vec(walks, window=args.window_size, min_count=0, sg=1, workers=args.workers, iter=args.iter)
 
 	# model.wv.save_word2vec_format(args.output)
